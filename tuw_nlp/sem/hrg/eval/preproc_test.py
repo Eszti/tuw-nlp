@@ -11,6 +11,13 @@ from tuw_nlp.sem.hrg.common.utils import get_ud_graph, parse_doc, save_bolinas_s
 from tuw_nlp.text.utils import gen_tsv_sens
 
 
+def save_conll(sen, fn):
+    with open(fn, 'w') as f:
+        for line in sen:
+            f.write("\t".join(line))
+            f.write("\n")
+
+
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-f", "--first", type=int)
@@ -34,10 +41,12 @@ def main(first=None, last=None, out_dir="out"):
         sen_dir = create_sen_dir(out_dir, sen_idx)
         print(f"processing sentence {sen_idx}, writing to {sen_dir}/sen{sen_idx}.log")
         log = open(f"{sen_dir}/sen{sen_idx}.log", "w")
+        
+        save_conll(sen, f"{sen_dir}/sen{sen_idx}.conll")
+        parsed_doc = parse_doc(nlp, sen, sen_idx, sen_dir, log)
+        continue
 
         args, pred, node_to_label = get_pred_and_args(sen, sen_idx, log)
-
-        parsed_doc = parse_doc(nlp, sen, sen_idx, sen_dir, log)
 
         ud_graph = get_ud_graph(parsed_doc, node_to_label)
 
