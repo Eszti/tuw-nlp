@@ -4,7 +4,7 @@ import logging
 import os
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.utils import add_oie_data_to_nodes
+from tuw_nlp.sem.hrg.common.utils import add_oie_data_to_nodes, add_labels_to_nodes
 
 
 def get_args():
@@ -40,6 +40,8 @@ def main(in_dir, first, last):
         assert len(pa_graph_file) == 1
         matches_file = [file for file in files if file.endswith("_matches.graph")]
         assert len(matches_file) == 1
+        labels_file = [file for file in files if file.endswith("_predicted_labels.txt")]
+        assert len(labels_file) == 1
         node_to_label_file = [file for file in files if file.endswith("node_to_label.json")]
         assert len(node_to_label_file) == 1
 
@@ -51,9 +53,7 @@ def main(in_dir, first, last):
         graph = Graph.from_bolinas(graph_str)
 
         with open(os.path.join(in_dir, sen_dir, node_to_label_file[0])) as f:
-            node_to_label = json.load(f)
-
-        add_oie_data_to_nodes(graph, node_to_label, node_prefix="n")
+            gold_labels = json.load(f)
 
         with open(os.path.join(in_dir, sen_dir, pa_graph_file[0])) as f:
             lines = f.readlines()
@@ -63,14 +63,21 @@ def main(in_dir, first, last):
         pa_graph = Graph.from_bolinas(pa_graph_str)
 
         with open(os.path.join(in_dir, sen_dir, matches_file[0])) as f:
-            matches = f.readlines()
+            matches_lines = f.readlines()
+        with open(os.path.join(in_dir, sen_dir, labels_file[0])) as f:
+            labels_lines = f.readlines()
         state = None
         i = 0
-        for match_str in matches:
+        for (match_str, labels_str) in zip(matches_lines, labels_lines):
             if match_str.strip() in ["max", "prec", "rec"]:
+                assert match_str.strip() == labels_str.strip()
                 state = match_str.strip()
                 i = 0
                 continue
+
+            pred_labels = json.loads(labels_str)
+
+            add_labels_to_nodes(graph, gold_labels, pred_labels, node_prefix="n")
 
             match_graph = Graph.from_bolinas(match_str)
 

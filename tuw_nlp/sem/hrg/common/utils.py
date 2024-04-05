@@ -16,7 +16,7 @@ def create_sen_dir(out_dir, sen_id):
 
 def parse_doc(nlp, sen, sen_idx, out_dir, log):
     parsed_doc = nlp(" ".join(t[1] for t in sen))
-    fn = f"{out_dir}/sen{sen_idx}.conll"
+    fn = f"{out_dir}/sen{sen_idx}_parsed.conll"
     CoNLL.write_doc2conll(parsed_doc, fn)
     log.write(f"wrote parse to {fn}\n")
     return parsed_doc
@@ -92,3 +92,17 @@ def add_oie_data_to_nodes(graph, node_to_label, node_prefix=""):
                 new_name += "\n"
             new_name += f"{node_to_label[key]}"
             graph.G.nodes[n]["name"] = new_name
+
+
+def add_labels_to_nodes(graph, gold_labels, pred_labels, node_prefix=""):
+    for n in graph.G.nodes:
+        gold, pred = "O", "O"
+        key = n
+        if node_prefix:
+            key = n.split(node_prefix)[1]
+        if int(key) < 1000:
+            if key in gold_labels:
+                gold = gold_labels[key]
+            if key in pred_labels:
+                pred = pred_labels[key]
+            graph.G.nodes[n]["name"] = f"{gold}\n{pred}"
