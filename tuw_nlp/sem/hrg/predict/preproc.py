@@ -14,6 +14,7 @@ from tuw_nlp.text.utils import gen_tsv_sens
 def save_conll(sen, fn):
     with open(fn, 'w') as f:
         for line in sen:
+            line[0] = str(int(line[0]) + 1)
             f.write("\t".join(line))
             f.write("\n")
 
@@ -44,11 +45,10 @@ def main(first=None, last=None, out_dir="out"):
         
         save_conll(sen, f"{sen_dir}/sen{sen_idx}.conll")
         parsed_doc = parse_doc(nlp, sen, sen_idx, sen_dir, log)
-        continue
 
         args, pred, node_to_label = get_pred_and_args(sen, sen_idx, log)
 
-        ud_graph = get_ud_graph(parsed_doc, node_to_label)
+        ud_graph = get_ud_graph(parsed_doc)
 
         bolinas_graph = ud_graph.pos_edge_graph(vocab)
         save_as_dot(f"{sen_dir}/sen{sen_idx}_graph.dot", bolinas_graph, log)

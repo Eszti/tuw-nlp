@@ -22,7 +22,7 @@ def parse_doc(nlp, sen, sen_idx, out_dir, log):
     return parsed_doc
 
 
-def get_ud_graph(parsed_doc, node_to_label=None):
+def get_ud_graph(parsed_doc):
     parsed_sen = parsed_doc.sentences[0]
     return UDGraph(parsed_sen)
 
