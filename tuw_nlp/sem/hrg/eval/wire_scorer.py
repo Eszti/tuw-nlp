@@ -241,6 +241,7 @@ def check_keys(gold, extracted):
         else:
             found += 1
             common.add(s)
+    print("Keys from gold")
     print(f"found: {found}")
     print(f"not found: {not_found}")
     found = 0
@@ -250,6 +251,7 @@ def check_keys(gold, extracted):
             not_found += 1
         else:
             found += 1
+    print("Keys from extracted")
     print(f"found: {found}")
     print(f"not found: {not_found}")
     return common

@@ -1,7 +1,9 @@
 import argparse
+import os
 import sys
 
 import stanza
+from stanza.utils.conll import CoNLL
 
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.sem.hrg.common.utils import get_ud_graph
@@ -24,10 +26,21 @@ def main(out_dir):
         print(f"Processing sen {sen_idx}")
         sen = line.strip()
         parsed_doc = nlp(sen)
+
+        parsed_dir = os.path.join(out_dir, "parsed")
+        if not os.path.exists(parsed_dir):
+            os.makedirs(parsed_dir)
+        fn = f"{parsed_dir}/{sen_idx}.conll"
+        CoNLL.write_doc2conll(parsed_doc, fn)
+
         ud_graph = get_ud_graph(parsed_doc)
         pos_edge_graph = ud_graph.pos_edge_graph(vocab)
         bolinas_graph = pos_edge_graph.to_bolinas()
-        fn = f"{out_dir}/{sen_idx}.graph"
+
+        graphs_dir = os.path.join(out_dir, "graphs")
+        if not os.path.exists(graphs_dir):
+            os.makedirs(graphs_dir)
+        fn = f"{graphs_dir}/{sen_idx}.graph"
         with open(fn, "w") as f:
             f.write(f"{bolinas_graph}\n")
 
