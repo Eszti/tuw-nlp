@@ -4,7 +4,8 @@ import logging
 import os
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.utils import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx
+from tuw_nlp.sem.hrg.common.utils import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx, \
+    get_wire_extraction, get_sen_from_conll
 
 
 def get_args():
@@ -73,6 +74,7 @@ def main(in_dir, first, last):
 
         log = open(f"{predict_dir}/sen{sen_dir}_pred.log", "w")
         extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted.conll"
+        wire_json = f"{predict_dir}/sen{sen_dir}_wire.json"
 
         with open(os.path.join(in_dir, sen_dir, graph_file)) as f:
             lines = f.readlines()
@@ -126,6 +128,10 @@ def main(in_dir, first, last):
             pa_graph_nodes = set([n for n in pa_graph.G.nodes])
             pa_graph_edges = set([(u, v, d["color"]) for (u, v, d) in pa_graph.G.edges(data=True)])
             save_predicted_conll(orig_conll, extracted_labels, extracted_conll)
+            sen = get_sen_from_conll(orig_conll)
+            if state == "max":
+                with open(wire_json, "w") as f:
+                    json.dump({sen: [get_wire_extraction(extracted_labels, sen)]}, f, indent=4)
 
             print(f"Match {state} {i}")
             print(f"Node matches: {len(match_graph_nodes & pa_graph_nodes)}/{len(pa_graph_nodes)}")

@@ -5,34 +5,28 @@ import os
 from collections import defaultdict
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.utils import resolve_pred, get_pos_tags, add_arg_idx
+from tuw_nlp.sem.hrg.common.utils import resolve_pred, get_pos_tags, add_arg_idx, get_wire_extraction
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-i", "--in-dir", type=str)
     parser.add_argument("-s", "--sens-file", type=str)
+    parser.add_argument("-f", "--first", type=int)
+    parser.add_argument("-l", "--last", type=int)
     return parser.parse_args()
 
 
-def get_wire_extraction(extracted_labels, sen):
-    words = sen.split(" ")
-    labels = defaultdict(list)
-    for i, word in enumerate(words):
-        word_id = i + 1
-        if extracted_labels[str(word_id)] != "O":
-            labels[extracted_labels[str(word_id)]].append(word)
-    arg2_keys = sorted([k for k in labels.keys() if not (k == "P" or k == "O" or k == "A0")])
-    return {
-        "arg1": " ".join(labels["A0"]),
-        "rel": " ".join(labels["P"]),
-        "arg2+": [" ".join(labels[key]) for key in arg2_keys],
-        "score": "1.0",
-        "extractor": "PoC",
-    }
+def get_range(in_dir, first, last):
+    sen_dirs = sorted([int(fn.split(".")[0]) for fn in os.listdir(in_dir)])
+    if first is None or first < sen_dirs[0]:
+        first = sen_dirs[0]
+    if last is None or last > sen_dirs[-1]:
+        last = sen_dirs[-1]
+    return range(first,  last + 1)
 
 
-def main(in_dir, sens_fn):
+def main(in_dir, sens_fn, first, last):
     with open(sens_fn) as f:
         sens = f.readlines()
     sens = [sen.strip() for sen in sens]
@@ -44,9 +38,11 @@ def main(in_dir, sens_fn):
     extracted = defaultdict(list)
     out_fn = os.path.join(in_dir, "extracted_wire.json")
 
-    for fn in sorted(os.listdir(bolinas_dir)):
-        print(f"\nProcessing sentence {fn}")
-        sen_id = int(fn.split(".")[0])
+    for sen_id in get_range(bolinas_dir, first, last):
+        print(f"\nProcessing sentence {sen_id}")
+        fn = os.path.join(bolinas_dir, f"{sen_id}.txt")
+        if not os.path.exists(fn):
+            continue
         sen = sens[sen_id]
 
         graph_file = f"{graphs_dir}/{sen_id}.graph"
@@ -80,4 +76,4 @@ if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
 
     args = get_args()
-    main(args.in_dir, args.sens_file)
+    main(args.in_dir, args.sens_file, args.first, args.last)
