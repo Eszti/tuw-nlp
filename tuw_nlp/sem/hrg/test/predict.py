@@ -5,7 +5,7 @@ import os
 from collections import defaultdict
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.utils import resolve_pred, get_pos_tags, add_arg_idx, get_wire_extraction
+from tuw_nlp.sem.hrg.common.utils import resolve_pred, get_pos_tags, add_arg_idx, get_wire_extraction, get_range
 
 
 def get_args():
@@ -15,15 +15,6 @@ def get_args():
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
     return parser.parse_args()
-
-
-def get_range(in_dir, first, last):
-    sen_dirs = sorted([int(fn.split(".")[0]) for fn in os.listdir(in_dir)])
-    if first is None or first < sen_dirs[0]:
-        first = sen_dirs[0]
-    if last is None or last > sen_dirs[-1]:
-        last = sen_dirs[-1]
-    return range(first,  last + 1)
 
 
 def main(in_dir, sens_fn, first, last):
@@ -77,3 +68,4 @@ if __name__ == "__main__":
 
     args = get_args()
     main(args.in_dir, args.sens_file, args.first, args.last)
+    

@@ -5,7 +5,7 @@ import os
 
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.utils import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx, \
-    get_wire_extraction, get_sen_from_conll
+    get_wire_extraction, get_sen_from_conll, get_range
 
 
 def get_args():
@@ -14,15 +14,6 @@ def get_args():
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
     return parser.parse_args()
-
-
-def get_range(in_dir, first, last):
-    sen_dirs = sorted([int(d) for d in os.listdir(in_dir)])
-    if first is None or first < sen_dirs[0]:
-        first = sen_dirs[0]
-    if last is None or last > sen_dirs[-1]:
-        last = sen_dirs[-1]
-    return range(first,  last + 1)
 
 
 def save_predicted_conll(orig_conll, extracted_labels, extracted_conll):
@@ -71,6 +62,8 @@ def main(in_dir, first, last):
 
         matches_file = f"{bolinas_dir}/sen{sen_dir}_matches.graph"
         labels_file = f"{bolinas_dir}/sen{sen_dir}_predicted_labels.txt"
+        if not os.path.exists(matches_file):
+            continue
 
         log = open(f"{predict_dir}/sen{sen_dir}_pred.log", "w")
         extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted.conll"

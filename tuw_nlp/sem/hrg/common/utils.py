@@ -1,3 +1,4 @@
+import os
 import os.path
 from collections import defaultdict
 
@@ -211,3 +212,12 @@ def get_sen_from_conll(conll):
     with open(conll) as f:
         lines = f.readlines()
     return " ".join([line.strip().split("\t")[1] for line in lines])
+
+
+def get_range(in_dir, first, last):
+    sen_dirs = sorted([int(fn.split(".")[0]) for fn in os.listdir(in_dir)])
+    if first is None or first < sen_dirs[0]:
+        first = sen_dirs[0]
+    if last is None or last > sen_dirs[-1]:
+        last = sen_dirs[-1]
+    return range(first,  last + 1)
