@@ -4,8 +4,10 @@ import logging
 import os
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.utils import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx, \
-    get_wire_extraction, get_sen_from_conll, get_range
+from tuw_nlp.sem.hrg.common.predict import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx, \
+    get_sen_from_conll
+from tuw_nlp.sem.hrg.common.io import get_range
+from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 
 
 def get_args():

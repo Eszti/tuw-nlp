@@ -2,7 +2,8 @@ from collections import defaultdict
 
 import networkx as nx
 
-from tuw_nlp.sem.hrg.common.utils import get_pred_arg_subgraph, save_bolinas_str, save_as_dot
+from tuw_nlp.sem.hrg.common.preproc import get_pred_arg_subgraph
+from tuw_nlp.sem.hrg.common.io import save_bolinas_str, save_as_dot
 
 
 def get_next_edges(G, root_word, pred, arg_words, log):

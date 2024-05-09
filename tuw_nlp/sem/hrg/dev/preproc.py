@@ -7,8 +7,8 @@ import stanza
 
 from tuw_nlp.common.vocabulary import Vocabulary
 
-from tuw_nlp.sem.hrg.common.utils import get_ud_graph, parse_doc, save_bolinas_str, get_pred_and_args, \
-    get_pred_arg_subgraph, create_sen_dir, save_as_dot, add_oie_data_to_nodes
+from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, get_pred_arg_subgraph, add_oie_data_to_nodes
+from tuw_nlp.sem.hrg.common.io import create_sen_dir, parse_doc, save_bolinas_str, save_as_dot
 from tuw_nlp.text.utils import gen_tsv_sens
 
 

@@ -3,7 +3,7 @@ import json
 import os
 from collections import defaultdict
 
-from tuw_nlp.sem.hrg.common.utils import get_range
+from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.wire_extraction import WiReEx
 
 

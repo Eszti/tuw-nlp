@@ -3,7 +3,8 @@ import re
 import networkx as nx
 import penman as pn
 
-from tuw_nlp.sem.hrg.common.utils import save_bolinas_str, get_pred_arg_subgraph, save_as_dot
+from tuw_nlp.sem.hrg.common.preproc import get_pred_arg_subgraph
+from tuw_nlp.sem.hrg.common.io import save_bolinas_str, save_as_dot
 
 
 def get_pred_graph(ud_graph, pred, args, log):

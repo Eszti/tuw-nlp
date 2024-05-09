@@ -6,7 +6,7 @@ import stanza
 from stanza.utils.conll import CoNLL
 
 from tuw_nlp.common.vocabulary import Vocabulary
-from tuw_nlp.sem.hrg.common.utils import get_ud_graph
+from tuw_nlp.sem.hrg.common.preproc import get_ud_graph
 
 
 def get_args():
