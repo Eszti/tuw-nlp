@@ -27,6 +27,15 @@ class WiReEx:
         }
 
 
+def wire_from_dict(labels):
+    arg2_keys = sorted([k for k in labels.keys() if not (k == "P" or k == "O" or k == "A0")])
+    return {
+        "arg1": " ".join(labels["A0"]),
+        "rel": " ".join(labels["P"]),
+        "arg2+": [" ".join(labels[key]) for key in arg2_keys],
+    }
+
+
 def get_wire_extraction(extracted_labels, sen):
     words = sen.split(" ")
     labels = defaultdict(list)
@@ -34,11 +43,17 @@ def get_wire_extraction(extracted_labels, sen):
         word_id = i + 1
         if extracted_labels[str(word_id)] != "O":
             labels[extracted_labels[str(word_id)]].append(word)
-    arg2_keys = sorted([k for k in labels.keys() if not (k == "P" or k == "O" or k == "A0")])
-    return {
-        "arg1": " ".join(labels["A0"]),
-        "rel": " ".join(labels["P"]),
-        "arg2+": [" ".join(labels[key]) for key in arg2_keys],
-        "score": "1.0",
-        "extractor": "PoC",
-    }
+    ret = wire_from_dict(labels)
+    ret["score"] = "1.0"
+    ret["extractor"] = "PoC"
+    return ret
+
+
+def get_wire_extraction_from_conll(sen):
+    labels = defaultdict(list)
+    for i, fields in enumerate(sen):
+        word = fields[1]
+        label = fields[-1].split("-")[0]
+        if label != "O":
+            labels[label].append(word)
+    return wire_from_dict(labels)

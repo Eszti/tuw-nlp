@@ -232,6 +232,8 @@ def check_all_predictions(extracted, gold_keys):
 
 
 def check_keys(gold, extracted):
+    print(f"Keys in gold: {len(gold)}")
+    print(f"Keys in extracted: {len(extracted)}")
     found = 0
     not_found = 0
     common = set()
