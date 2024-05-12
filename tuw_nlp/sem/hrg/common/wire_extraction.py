@@ -1,39 +1,30 @@
 from collections import defaultdict
 
 
-class WiReEx:
+class WiReEx(dict):
 
     def __init__(self, extraction):
-        self.rel = extraction["rel"]
-        self.arg1 = extraction["arg1"]
-        self.arg2_plus = extraction["arg2+"]
-        self.score = extraction["score"]
-        self.extractor = extraction["extractor"]
-
-    def __eq__(self, other):
-        return self.rel == other.rel and self.arg1 == other.arg1 and self.arg2_plus == other.arg2_plus
+        dict.__init__(self,
+                      rel=extraction["rel"],
+                      arg1=extraction["arg1"],
+                      arg2_plus=extraction["arg2+"])
+        if "score" in extraction:
+            self["score"] = extraction["score"]
+        if "extractor" in extraction:
+            self["extractor"] = extraction["extractor"]
 
     def __hash__(self):
-        a2 = sum([hash((a, i)) for i, a in enumerate(self.arg2_plus)])
-        return hash((self.rel, self.arg1, a2))
-
-    def to_json(self):
-        return {
-            "arg1": self.arg1,
-            "rel": self.rel,
-            "arg2+": self.arg2_plus,
-            "score": self.score,
-            "extractor": self.extractor,
-        }
+        a2 = sum([hash((a, i)) for i, a in enumerate(self["arg2_plus"])])
+        return hash((self["rel"], self["arg1"], a2))
 
 
 def wire_from_dict(labels):
     arg2_keys = sorted([k for k in labels.keys() if not (k == "P" or k == "O" or k == "A0")])
-    return {
+    return WiReEx({
         "arg1": " ".join(labels["A0"]),
         "rel": " ".join(labels["P"]),
         "arg2+": [" ".join(labels[key]) for key in arg2_keys],
-    }
+    })
 
 
 def get_wire_extraction(extracted_labels, sen):
@@ -49,7 +40,7 @@ def get_wire_extraction(extracted_labels, sen):
     return ret
 
 
-def get_wire_extraction_from_conll(sen):
+def wire_from_conll(sen):
     labels = defaultdict(list)
     for i, fields in enumerate(sen):
         word = fields[1]

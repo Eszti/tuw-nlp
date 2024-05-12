@@ -38,9 +38,10 @@ def main(in_dir, first, last):
 
     all_ex_list = {}
     for sen, items in all_ex_set.items():
-        all_ex_list[sen] = [i.to_json() for i in items]
+        all_ex_list[sen] = list(items)
     with open(out_fn, "w") as f:
         json.dump(all_ex_list, f, indent=4)
+    print(f"Output saved to {out_fn}")
 
 
 if __name__ == "__main__":
