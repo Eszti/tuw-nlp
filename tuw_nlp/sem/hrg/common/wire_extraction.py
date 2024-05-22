@@ -27,7 +27,7 @@ def wire_from_dict(labels):
     })
 
 
-def get_wire_extraction(extracted_labels, sen):
+def get_wire_extraction(extracted_labels, sen, extractor="PoC"):
     words = sen.split(" ")
     labels = defaultdict(list)
     for i, word in enumerate(words):
@@ -36,7 +36,7 @@ def get_wire_extraction(extracted_labels, sen):
             labels[extracted_labels[str(word_id)]].append(word)
     ret = wire_from_dict(labels)
     ret["score"] = "1.0"
-    ret["extractor"] = "PoC"
+    ret["extractor"] = extractor
     return ret
 
 

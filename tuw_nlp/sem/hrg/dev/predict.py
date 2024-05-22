@@ -4,8 +4,8 @@ import logging
 import os
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.predict import add_labels_to_nodes, resolve_pred, get_pos_tags, add_arg_idx, \
-    get_sen_from_conll
+from tuw_nlp.sem.hrg.common.predict import add_labels_to_nodes, resolve_pred, add_arg_idx
+from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_from_conll_file
 from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 
@@ -123,7 +123,7 @@ def main(in_dir, first, last):
             pa_graph_nodes = set([n for n in pa_graph.G.nodes])
             pa_graph_edges = set([(u, v, d["color"]) for (u, v, d) in pa_graph.G.edges(data=True)])
             save_predicted_conll(orig_conll, extracted_labels, extracted_conll)
-            sen = get_sen_from_conll(orig_conll)
+            sen = get_sen_from_conll_file(orig_conll)
             if state == "max":
                 with open(wire_json, "w") as f:
                     json.dump({sen: [get_wire_extraction(extracted_labels, sen)]}, f, indent=4)

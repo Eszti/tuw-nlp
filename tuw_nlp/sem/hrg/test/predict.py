@@ -5,7 +5,8 @@ import os
 from collections import defaultdict
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.predict import resolve_pred, get_pos_tags, add_arg_idx
+from tuw_nlp.sem.hrg.common.predict import resolve_pred, add_arg_idx
+from tuw_nlp.sem.hrg.common.conll import get_pos_tags
 from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 

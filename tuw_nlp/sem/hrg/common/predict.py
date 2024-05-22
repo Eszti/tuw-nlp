@@ -70,18 +70,6 @@ def resolve_pred(G, pred_labels, pos_tags, log=None):
     return
 
 
-def get_pos_tags(fn):
-    with open(fn) as f:
-        lines = f.readlines()
-    ret = {}
-    for line in lines:
-        line = line.strip()
-        fields = line.split('\t')
-        if len(fields) > 1:
-            ret[fields[0]] = fields[3]
-    return ret
-
-
 def add_arg_idx(extracted_labels, len):
     prev = "O"
     idx = -1
@@ -94,9 +82,3 @@ def add_arg_idx(extracted_labels, len):
                     idx += 1
                 extracted_labels[str(i)] = "A" + str(idx)
         prev = extracted_labels[str(i)]
-
-
-def get_sen_from_conll(conll):
-    with open(conll) as f:
-        lines = f.readlines()
-    return " ".join([line.strip().split("\t")[1] for line in lines])
