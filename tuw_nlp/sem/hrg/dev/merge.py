@@ -17,7 +17,7 @@ def get_args():
 
 def main(in_dir, first, last):
     all_ex_set = defaultdict(set)
-    out_fn = os.path.join("../data/extracted_dev_wire.json")
+    out_fn = "../data/extracted_poc_dev.json"
 
     for sen_dir in get_range(in_dir, first, last):
         print(f"\nProcessing sentence {sen_dir}")

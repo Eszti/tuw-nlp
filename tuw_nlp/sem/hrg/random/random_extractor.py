@@ -3,6 +3,8 @@ import json
 import random
 from collections import defaultdict
 
+import stanza
+
 from tuw_nlp.sem.hrg.common.predict import add_arg_idx
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.text.utils import gen_tsv_sens
@@ -17,7 +19,7 @@ def get_args():
     return parser.parse_args()
 
 
-def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True):
+def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
     with open(train_seq_dist) as f:
         seq_stat = json.load(f)
     with open(train_nr_ex) as f:
@@ -33,9 +35,17 @@ def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True):
     extracted = defaultdict(list)
     random.seed(10)
     last_sen_txt = ""
+    if verb_pred:
+        nlp = stanza.Pipeline(
+            lang="en",
+            processors="tokenize,pos",
+            tokenize_pretokenized=True,
+        )
 
     with open(dev_fn) as f:
         for sen_idx, sen in enumerate(gen_tsv_sens(f)):
+            # if sen_idx < 104:
+            #     continue
             print(f"Processing sen {sen_idx}")
             sen_txt = " ".join([line[1] for line in sen])
             if with_nr_ex_stat and sen_txt == last_sen_txt:
@@ -50,8 +60,19 @@ def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True):
                 rnd_idx = random.randrange(nr_seq)
                 pred_seq = seq_stat[sen_len][rnd_idx]
                 extracted_labels = {str(i+1): l for i, l in enumerate(pred_seq)}
+                if verb_pred:
+                    parsed_doc = nlp(sen_txt)
+                    pos_tags = [w.pos for w in parsed_doc.sentences[0].words]
+                    p_idx_l = [i for i, label in extracted_labels.items() if label == "P"]
+                    verbs = [str((i+1)) for i, t in enumerate(pos_tags) if t == "VERB"]
+                    if verbs:
+                        for p_idx in p_idx_l:
+                            if pos_tags[int(p_idx)-1] != "VERB":
+                                new_p_idx = verbs[random.randrange(0, len(verbs))]
+                                extracted_labels[new_p_idx] = "P"
+                                extracted_labels[p_idx] = "O"
                 add_arg_idx(extracted_labels, len(pred_seq))
-                extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, extractor="rnd_complete_seq"))
+                extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, extractor="random"))
             last_sen_txt = sen_txt
 
     with open(out_fn,"w") as f:
