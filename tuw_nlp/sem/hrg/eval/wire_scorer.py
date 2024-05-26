@@ -1,6 +1,5 @@
 import argparse
 import json
-from collections import defaultdict
 
 
 def get_args():
@@ -13,11 +12,7 @@ def get_args():
 def main(gold_path, pred_path):
     gold = json.load(open(gold_path))
     all_predictions = json.load(open(pred_path))
-    # check_all_predictions(all_predictions, gold.keys())
-    common = check_keys(gold.keys(), all_predictions.keys())
-    keep_only_common(gold, common)
-    keep_only_common(all_predictions, common)
-    
+
     predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
     models = predictions_by_model.keys()
 
@@ -197,73 +192,14 @@ def split_tuples_by_extractor(gold, tuples):
     systems = sorted(list(set(t['extractor'] for st in tuples.values() for t in st)))
     predictions_by_model = {e: {} for e in systems}
     for s in gold:
-        for t in tuples[s]:
-            if s in predictions_by_model[t['extractor']]:
-                predictions_by_model[t['extractor']][s].append(t)
-            else:
-                predictions_by_model[t['extractor']][s] = [t]
+        if s in tuples:
+            for t in tuples[s]:
+                if s in predictions_by_model[t['extractor']]:
+                    predictions_by_model[t['extractor']][s].append(t)
+                else:
+                    predictions_by_model[t['extractor']][s] = [t]
     return predictions_by_model
 
-
-def check_all_predictions(extracted, gold_keys):
-    extracted_by_model = defaultdict(set)
-    for k, v in extracted.items():
-        for t in v:
-            extracted_by_model[t["extractor"]].add(k)
-    common = None
-    for model, keys in extracted_by_model.items():
-        if common is None:
-            common = set(keys)
-        else:
-            common &= keys
-    diff = set()
-    for model, keys in extracted_by_model.items():
-        print(model)
-        print(len(keys))
-        print('\n'.join(keys - common))
-        print("\n")
-        diff |= (keys - common)
-    print("diff")
-    print('\n'.join(diff))
-    print("\ndiff - gold")
-    print('\n'.join(diff - gold_keys))
-    exit()
-    pass
-
-
-def check_keys(gold, extracted):
-    print(f"Keys in gold: {len(gold)}")
-    print(f"Keys in extracted: {len(extracted)}")
-    found = 0
-    not_found = 0
-    common = set()
-    for s in gold:
-        if s not in extracted:
-            not_found += 1
-        else:
-            found += 1
-            common.add(s)
-    print("Keys from gold")
-    print(f"found: {found}")
-    print(f"not found: {not_found}")
-    found = 0
-    not_found = 0
-    for s in extracted:
-        if s not in gold:
-            not_found += 1
-        else:
-            found += 1
-    print("Keys from extracted")
-    print(f"found: {found}")
-    print(f"not found: {not_found}")
-    return common
-
-
-def keep_only_common(tuples, common):
-    diff = tuples.keys() - common
-    for k in diff:
-        del tuples[k]
-        
 
 if __name__ == "__main__":
     args = get_args()
