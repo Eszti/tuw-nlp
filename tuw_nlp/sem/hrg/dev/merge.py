@@ -10,14 +10,14 @@ from tuw_nlp.sem.hrg.common.wire_extraction import WiReEx
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-i", "--in-dir", type=str)
+    parser.add_argument("-o", "--out-file", type=str)
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
     return parser.parse_args()
 
 
-def main(in_dir, first, last):
+def main(in_dir, out_fn, first, last):
     all_ex_set = defaultdict(set)
-    out_fn = "../data/extracted_poc_dev.json"
 
     for sen_dir in get_range(in_dir, first, last):
         print(f"\nProcessing sentence {sen_dir}")
@@ -46,4 +46,4 @@ def main(in_dir, first, last):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.in_dir, args.first, args.last)
+    main(args.in_dir, args.out_file, args.first, args.last)

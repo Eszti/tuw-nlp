@@ -6,10 +6,11 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold")
     parser.add_argument("-p", "--predicted")
+    parser.add_argument("-r", "--raw-scores", action="store_true")
     return parser.parse_args()
 
 
-def main(gold_path, pred_path):
+def main(gold_path, pred_path, raw_scores):
     gold = json.load(open(gold_path))
     all_predictions = json.load(open(pred_path))
 
@@ -20,10 +21,11 @@ def main(gold_path, pred_path):
     for m in models:
         report = ""
         metrics, raw_match_scores = eval_system(gold, predictions_by_model[m])
-        with open("raw_scores/" + m + "_prec_scores.dat", "w") as f:
-            f.write(str(raw_match_scores[0]))
-        with open("raw_scores/" + m + "_rec_scores.dat", "w") as f:
-            f.write(str(raw_match_scores[1]))
+        if raw_scores:
+            with open("raw_scores/" + m + "_prec_scores.dat", "w") as f:
+                f.write(str(raw_match_scores[0]))
+            with open("raw_scores/" + m + "_rec_scores.dat", "w") as f:
+                f.write(str(raw_match_scores[1]))
         prec, rec = metrics['precision'], metrics['recall']
         f1_score = f1(prec, rec)
         exactmatch_prec = metrics['exactmatches_precision'][0] / metrics['exactmatches_precision'][1]
@@ -203,5 +205,5 @@ def split_tuples_by_extractor(gold, tuples):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold, args.predicted)
+    main(args.gold, args.predicted, args.raw_scores)
 

@@ -6,15 +6,15 @@ class WiReEx(dict):
     def __init__(self, extraction):
         dict.__init__(self,
                       rel=extraction["rel"],
-                      arg1=extraction["arg1"],
-                      arg2_plus=extraction["arg2+"])
+                      arg1=extraction["arg1"])
+        self["arg2+"] = extraction["arg2+"]
         if "score" in extraction:
             self["score"] = extraction["score"]
         if "extractor" in extraction:
             self["extractor"] = extraction["extractor"]
 
     def __hash__(self):
-        a2 = sum([hash((a, i)) for i, a in enumerate(self["arg2_plus"])])
+        a2 = sum([hash((a, i)) for i, a in enumerate(self["arg2+"])])
         return hash((self["rel"], self["arg1"], a2))
 
 
