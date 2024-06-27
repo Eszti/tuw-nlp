@@ -6,13 +6,19 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold")
     parser.add_argument("-p", "--predicted")
+    parser.add_argument("-c", "--only-common", action="store_true")
     parser.add_argument("-r", "--raw-scores", action="store_true")
     return parser.parse_args()
 
 
-def main(gold_path, pred_path, raw_scores):
+def main(gold_path, pred_path, only_common, raw_scores):
     gold = json.load(open(gold_path))
     all_predictions = json.load(open(pred_path))
+
+    if only_common:
+        common = check_keys(gold.keys(), all_predictions.keys())
+        keep_only_common(gold, common)
+        keep_only_common(all_predictions, common)
 
     predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
     models = predictions_by_model.keys()
@@ -203,7 +209,41 @@ def split_tuples_by_extractor(gold, tuples):
     return predictions_by_model
 
 
+def check_keys(gold, extracted):
+    print(f"Keys in gold: {len(gold)}")
+    print(f"Keys in extracted: {len(extracted)}")
+    found = 0
+    not_found = 0
+    common = set()
+    for s in gold:
+        if s not in extracted:
+            not_found += 1
+        else:
+            found += 1
+            common.add(s)
+    print("Keys from gold")
+    print(f"found: {found}")
+    print(f"not found: {not_found}")
+    found = 0
+    not_found = 0
+    for s in extracted:
+        if s not in gold:
+            not_found += 1
+        else:
+            found += 1
+    print("Keys from extracted")
+    print(f"found: {found}")
+    print(f"not found: {not_found}")
+    return common
+
+
+def keep_only_common(tuples, common):
+    diff = tuples.keys() - common
+    for k in diff:
+        del tuples[k]
+
+
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold, args.predicted, args.raw_scores)
+    main(args.gold, args.predicted, args.only_common, args.raw_scores)
 
