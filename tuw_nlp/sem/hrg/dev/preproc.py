@@ -6,6 +6,7 @@ import sys
 import stanza
 
 from tuw_nlp.common.vocabulary import Vocabulary
+from tuw_nlp.sem.hrg.common.conll import get_sen_from_conll_sen
 
 from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, get_pred_arg_subgraph, add_oie_data_to_nodes
 from tuw_nlp.sem.hrg.common.io import create_sen_dir, parse_doc, save_bolinas_str, save_as_dot
@@ -35,11 +36,16 @@ def main(first=None, last=None, out_dir="out"):
         tokenize_pretokenized=True,
     )
     vocab = Vocabulary(first_id=1000)
+    last_sen = ""
     for sen_idx, sen in enumerate(gen_tsv_sens(sys.stdin)):
         if first is not None and sen_idx < first:
             continue
         if last is not None and last < sen_idx:
             break
+        sen_txt = get_sen_from_conll_sen(sen)
+        if sen_txt == last_sen:
+            continue
+        last_sen = sen_txt
         sen_dir = create_sen_dir(out_dir, sen_idx)
         preproc_dir = os.path.join(sen_dir, "preproc")
         if not os.path.exists(preproc_dir):

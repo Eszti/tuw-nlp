@@ -18,6 +18,10 @@ def get_pos_tags(fn):
     return ret
 
 
+def get_sen_from_conll_sen(sen):
+    return " ".join([line[1] for line in sen])
+
+
 def get_sen_from_conll_file(conll):
     with open(conll) as f:
         lines = f.readlines()
