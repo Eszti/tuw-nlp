@@ -1,7 +1,7 @@
 import argparse
 import json
 import os
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.wire_extraction import WiReEx
@@ -19,6 +19,8 @@ def get_args():
 def main(in_dir, out_fn, first, last):
     all_ex_set = defaultdict(set)
 
+    ex_stat = Counter()
+    i = 0
     for sen_dir in get_range(in_dir, first, last):
         print(f"\nProcessing sentence {sen_dir}")
 
@@ -26,21 +28,27 @@ def main(in_dir, out_fn, first, last):
         predict_dir = os.path.join(in_dir, sen_dir, "predict")
         wire_json = f"{predict_dir}/sen{sen_dir}_wire.json"
         if not os.path.exists(wire_json):
+            ex_stat[0] += 1
             continue
         with open(wire_json) as f:
             extractions = json.load(f)
         assert len(extractions.keys()) == 1
         sen = list(extractions.keys())[0]
-        assert len(extractions[sen]) == 1
         for ex in extractions[sen]:
             wire_ex = WiReEx(ex)
             all_ex_set[sen].add(wire_ex)
+        ex_stat[len(extractions[sen])] += 1
 
     all_ex_list = {}
     for sen, items in all_ex_set.items():
         all_ex_list[sen] = list(items)
     with open(out_fn, "w") as f:
         json.dump(all_ex_list, f, indent=4)
+    sum = 0
+    for k, v in ex_stat.items():
+        print(f"{k} extraction(s): {v} sen")
+        sum += v
+    print(f"Sum {sum} sens")
     print(f"Output saved to {out_fn}")
 
 

@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import os
+from collections import defaultdict
 
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.predict import add_labels_to_nodes, resolve_pred, add_arg_idx
@@ -68,7 +69,6 @@ def main(in_dir, first, last):
             continue
 
         log = open(f"{predict_dir}/sen{sen_dir}_pred.log", "w")
-        extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted.conll"
         wire_json = f"{predict_dir}/sen{sen_dir}_wire.json"
 
         with open(os.path.join(in_dir, sen_dir, graph_file)) as f:
@@ -93,6 +93,9 @@ def main(in_dir, first, last):
         with open(os.path.join(in_dir, sen_dir, labels_file)) as f:
             labels_lines = f.readlines()
         state = None
+
+        sen = get_sen_from_conll_file(orig_conll)
+        wire_extractions = defaultdict(list)
         i = 0
         for (match_str, labels_str) in zip(matches_lines, labels_lines):
             if match_str.strip() in ["max", "prec", "rec"]:
@@ -122,11 +125,10 @@ def main(in_dir, first, last):
             match_graph_edges = set([(u, v, d["color"]) for (u, v, d) in match_graph.G.edges(data=True)])
             pa_graph_nodes = set([n for n in pa_graph.G.nodes])
             pa_graph_edges = set([(u, v, d["color"]) for (u, v, d) in pa_graph.G.edges(data=True)])
+            extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted_k{i}.conll"
             save_predicted_conll(orig_conll, extracted_labels, extracted_conll)
-            sen = get_sen_from_conll_file(orig_conll)
             if state == "max":
-                with open(wire_json, "w") as f:
-                    json.dump({sen: [get_wire_extraction(extracted_labels, sen)]}, f, indent=4)
+                wire_extractions[sen].append(get_wire_extraction(extracted_labels, sen))
 
             print(f"Match {state} {i}")
             print(f"Node matches: {len(match_graph_nodes & pa_graph_nodes)}/{len(pa_graph_nodes)}")
@@ -136,6 +138,8 @@ def main(in_dir, first, last):
                 f.write(graph.to_dot(marked_nodes=match_graph_nodes))
 
             i += 1
+        with open(wire_json, "w") as f:
+            json.dump(wire_extractions, f, indent=4)
 
 
 if __name__ == "__main__":

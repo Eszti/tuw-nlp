@@ -37,4 +37,4 @@ def get_range(in_dir, first, last):
         first = sen_dirs[0]
     if last is None or last > sen_dirs[-1]:
         last = sen_dirs[-1]
-    return range(first,  last + 1)
+    return [n for n in sen_dirs if first <= n <= last]
