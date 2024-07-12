@@ -14,54 +14,72 @@ def get_args():
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
     parser.add_argument("-k", type=int)
+    parser.add_argument("-a", "--all", action="store_true")
     return parser.parse_args()
 
 
-def main(in_dir, out_fn, first, last, k):
-    all_ex_set = defaultdict(set)
+def main(in_dir, out_fn, first, last, k, all_k):
+    k_min, k_max = 10, 10
+    if k:
+        k_min = k_max = k
+    if all_k:
+        k_min = 1
+    k_list = range(k_min, k_max+1)
 
-    ex_stat = Counter()
-    i = 0
+    all_ex_set = defaultdict(lambda: defaultdict(set))
+    ex_stat = defaultdict(lambda: Counter())
+
     for sen_dir in get_range(in_dir, first, last):
         print(f"\nProcessing sentence {sen_dir}")
 
         sen_dir = str(sen_dir)
         predict_dir = os.path.join(in_dir, sen_dir, "predict")
         wire_json = f"{predict_dir}/sen{sen_dir}_wire.json"
+
         if not os.path.exists(wire_json):
-            ex_stat[0] += 1
+            for ki in k_list:
+                ex_stat[ki][0] += 1
             continue
         with open(wire_json) as f:
             extractions = json.load(f)
         assert len(extractions.keys()) == 1
         sen = list(extractions.keys())[0]
-        top_k = extractions[sen]
-        if k:
-            top_k = top_k[:k]
-        for ex in top_k:
+        all_extractions = extractions[sen]
+
+        top_k_extractions = all_extractions[:k_max]
+        for i, ex in enumerate(top_k_extractions):
             wire_ex = WiReEx(ex)
-            all_ex_set[sen].add(wire_ex)
-        ex_stat[len(top_k)] += 1
+            for j in range(i+1, k_max+1):
+                if j >= k_min:
+                    all_ex_set[j][sen].add(wire_ex)
+        for ki in k_list:
+            ex_stat[ki][len(all_ex_set[ki][sen])] += 1
 
-    all_ex_list = {}
-    for sen, items in all_ex_set.items():
-        all_ex_list[sen] = list(items)
-    with open(out_fn, "w") as f:
-        json.dump(all_ex_list, f, indent=4)
+    for ki, d in all_ex_set.items():
+        all_ex_list = {}
+        for sen, items in d.items():
+            all_ex_list[sen] = list(items)
 
-    if k:
-        print(f"\nKeeping top {k} extractions.")
-    else:
-        print(f"\nKeeping all extractions.")
-    sum = 0
-    for k, v in ex_stat.items():
-        print(f"{k} extraction(s): {v} sen")
-        sum += v
-    print(f"Sum {sum} sens\n")
+        if all_k or k:
+            out_fn_k = f"{out_fn.split('.')[0]}_k{ki}.json"
+        else:
+            out_fn_k = f"{out_fn.split('.')[0]}_all.json"
+        with open(out_fn_k, "w") as f:
+            json.dump(all_ex_list, f, indent=4)
 
-    print(f"Output saved to {out_fn}")
+        if not k and not all_k:
+            print(f"\nKeeping all extractions.")
+        else:
+            print(f"\nKeeping top {ki} extractions.")
+        sum = 0
+        ex_stat_i = {key: v for key, v in sorted(ex_stat[ki].items())}
+        for j, v in ex_stat_i.items():
+            print(f"{j} extraction(s): {v} sen")
+            sum += v
+        print(f"Sum {sum} sens")
+        print(f"Output saved to {out_fn_k}\n")
 
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.in_dir, args.out_file, args.first, args.last, args.k)
+    main(args.in_dir, args.out_file, args.first, args.last, args.k, args.all)
