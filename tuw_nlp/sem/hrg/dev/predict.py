@@ -131,7 +131,13 @@ def main(in_dir, first, last):
             extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted_k{i}.conll"
             save_predicted_conll(orig_conll, extracted_labels, extracted_conll)
             if state == "max":
-                wire_extractions[sen].append(get_wire_extraction(extracted_labels, sen, k=i+1, score=score))
+                wire_extractions[sen].append(get_wire_extraction(
+                    extracted_labels,
+                    sen,
+                    sen_id=sen_dir,
+                    k=i+1,
+                    score=score
+                ))
 
             print(f"Match {state} {i}")
             print(f"Node matches: {len(match_graph_nodes & pa_graph_nodes)}/{len(pa_graph_nodes)}")

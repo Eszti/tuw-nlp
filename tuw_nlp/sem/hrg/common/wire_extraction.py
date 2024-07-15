@@ -12,6 +12,8 @@ class WiReEx(dict):
             self["score"] = extraction["score"]
         if "k" in extraction:
             self["k"] = extraction["k"]
+        if "sen_id" in extraction:
+            self["sen_id"] = extraction["sen_id"]
         if "extractor" in extraction:
             self["extractor"] = extraction["extractor"]
 
@@ -29,8 +31,8 @@ def wire_from_dict(labels):
     })
 
 
-def get_wire_extraction(extracted_labels, sen, k, score="1.0", extractor="PoC"):
-    words = sen.split(" ")
+def get_wire_extraction(extracted_labels, sen_txt, k, sen_id, score="1.0", extractor="PoC"):
+    words = sen_txt.split(" ")
     labels = defaultdict(list)
     for i, word in enumerate(words):
         word_id = i + 1
@@ -39,6 +41,7 @@ def get_wire_extraction(extracted_labels, sen, k, score="1.0", extractor="PoC"):
     ret = wire_from_dict(labels)
     ret["score"] = score
     ret["k"] = k
+    ret["sen_id"] = sen_id
     ret["extractor"] = extractor
     return ret
 

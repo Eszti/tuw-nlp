@@ -46,9 +46,12 @@ def main(in_dir, out_fn, first, last, k, all_k):
         sen = list(extractions.keys())[0]
         all_extractions = extractions[sen]
 
+        all_extractions.sort(key=lambda x: x["k"])
         top_k_extractions = all_extractions[:k_max]
+
         for i, ex in enumerate(top_k_extractions):
             wire_ex = WiReEx(ex)
+            assert i+1 == wire_ex["k"]
             for j in range(i+1, k_max+1):
                 if j >= k_min:
                     all_ex_set[j][sen].add(wire_ex)
