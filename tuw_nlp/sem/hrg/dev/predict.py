@@ -97,14 +97,17 @@ def main(in_dir, first, last):
         sen = get_sen_from_conll_file(orig_conll)
         wire_extractions = defaultdict(list)
         i = 0
-        for (match_str, labels_str) in zip(matches_lines, labels_lines):
-            if match_str.strip() in ["max", "prec", "rec"]:
-                assert match_str.strip() == labels_str.strip()
-                state = match_str.strip()
+        for (match_line, labels_str) in zip(matches_lines, labels_lines):
+            if match_line.strip() in ["max", "prec", "rec"]:
+                assert match_line.strip() == labels_str.strip()
+                state = match_line.strip()
                 i = 0
                 log.write(f"{state}\n")
                 continue
             log.write(f"k={i}\n")
+
+            match_str = match_line.split(';')[0]
+            score = match_line.split(';')[1].strip()
 
             extracted_labels = json.loads(labels_str)
             pos_tags = get_pos_tags(os.path.join(in_dir, sen_dir, parsed_doc_file))
@@ -128,7 +131,7 @@ def main(in_dir, first, last):
             extracted_conll = f"{predict_dir}/sen{sen_dir}_extracted_k{i}.conll"
             save_predicted_conll(orig_conll, extracted_labels, extracted_conll)
             if state == "max":
-                wire_extractions[sen].append(get_wire_extraction(extracted_labels, sen))
+                wire_extractions[sen].append(get_wire_extraction(extracted_labels, sen, k=i+1, score=score))
 
             print(f"Match {state} {i}")
             print(f"Node matches: {len(match_graph_nodes & pa_graph_nodes)}/{len(pa_graph_nodes)}")
