@@ -1,53 +1,66 @@
 import argparse
 import json
+import os.path
+
+from tuw_nlp.sem.hrg.common.io import make_markdown_table
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold")
-    parser.add_argument("-p", "--predicted")
+    parser.add_argument("-i", "--in-dir")
+    parser.add_argument("-o", "--out-fn", default="../reports/eval.md")
+    parser.add_argument("-f", "--k-from", type=int)
+    parser.add_argument("-t", "--k-to", type=int)
+    parser.add_argument("-gr", "--grammars", nargs='+')
+    parser.add_argument("-d", "--datasets", nargs='+')
     parser.add_argument("-c", "--only-common", action="store_true")
     parser.add_argument("-r", "--raw-scores", action="store_true")
     return parser.parse_args()
 
 
-def main(gold_path, pred_path, only_common, raw_scores):
+def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, out_fn):
     gold = json.load(open(gold_path))
-    all_predictions = json.load(open(pred_path))
+    report = "# Evaluation\n"
 
-    if only_common:
-        common = check_keys(gold.keys(), all_predictions.keys())
-        keep_only_common(gold, common)
-        keep_only_common(all_predictions, common)
+    for dataset in datasets:
+        report += f"## {dataset}\n"
+        for grammar in grammars:
+            report += f"### Grammar: {grammar}\n"
+            table = [["k", "predicted extractions", "gold extractions", "matches", "exact matches", "prec", "rec", "F1"]]
+            for k in range(k_from, k_to + 1):
+                pred_path = os.path.join(in_dir, f"{dataset}_gr{grammar}_k{k}.json")
+                all_predictions = json.load(open(pred_path))
 
-    predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
-    models = predictions_by_model.keys()
+                if only_common:
+                    common = check_keys(gold.keys(), all_predictions.keys())
+                    keep_only_common(gold, common)
+                    keep_only_common(all_predictions, common)
 
-    reports = {}
-    for m in models:
-        report = ""
-        metrics, raw_match_scores = eval_system(gold, predictions_by_model[m])
-        if raw_scores:
-            with open("raw_scores/" + m + "_prec_scores.dat", "w") as f:
-                f.write(str(raw_match_scores[0]))
-            with open("raw_scores/" + m + "_rec_scores.dat", "w") as f:
-                f.write(str(raw_match_scores[1]))
-        prec, rec = metrics['precision'], metrics['recall']
-        f1_score = f1(prec, rec)
-        exactmatch_prec = metrics['exactmatches_precision'][0] / metrics['exactmatches_precision'][1]
-        exactmatch_rec = metrics['exactmatches_recall'][0] / metrics['exactmatches_recall'][1]
-        report += ("System {} prec/rec/f1: {:.1%} {:.1%} {:.3f}"
-                   .format(m, prec, rec, f1_score))
-        report += ("\nSystem {} prec/rec of matches only (non-matches): {:.0%} {:.0%} ({})"
-                   .format(m, metrics['precision_of_matches'], metrics['recall_of_matches'], metrics['matches']))
-        report += ("\n{} were exactly correct, out of {} predicted / the reference {}."
-                   .format(metrics['exactmatches_precision'][0],
-                           metrics['exactmatches_precision'][1], metrics['exactmatches_recall'][1]))
-        report += ("\nExact-match prec/rec/f1: {:.1%} {:.1%} {:.3f}"
-                   .format(exactmatch_prec, exactmatch_rec, f1(exactmatch_prec, exactmatch_rec)))
-        reports[f1_score] = report
-    sorted_reports = [a[1] for a in sorted(reports.items(), reverse=True)]
-    print("\n" + "\n\n".join(sorted_reports))
+                predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
+                models = predictions_by_model.keys()
+                assert len(models) == 1 and next(iter(models)) == "PoC"
+
+                m = next(iter(models))
+                metrics, raw_match_scores = eval_system(gold, predictions_by_model[m])
+
+                if raw_scores:
+                    with open("raw_scores/" + m + "_prec_scores.dat", "w") as f:
+                        f.write(str(raw_match_scores[0]))
+                    with open("raw_scores/" + m + "_rec_scores.dat", "w") as f:
+                        f.write(str(raw_match_scores[1]))
+
+                prec, rec = metrics['precision'], metrics['recall']
+                f1_score = f1(prec, rec)
+                pred_extractions = metrics['exactmatches_precision'][1]
+                matches = metrics['matches']
+                exact_matches = metrics['exactmatches_precision'][0]
+                gold_extractions = metrics['exactmatches_recall'][1]
+                table.append([k, pred_extractions, gold_extractions, matches, exact_matches, prec, rec, f1_score])
+            report += make_markdown_table(table)
+            report += "\n"
+    with open(out_fn, "w") as f:
+        f.writelines(report)
 
 
 def eval_system(gold, predictions):
@@ -245,5 +258,13 @@ def keep_only_common(tuples, common):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold, args.predicted, args.only_common, args.raw_scores)
+    main(args.gold,
+         args.in_dir,
+         args.k_from,
+         args.k_to,
+         args.grammars,
+         args.datasets,
+         args.only_common,
+         args.raw_scores,
+         args.out_fn)
 
