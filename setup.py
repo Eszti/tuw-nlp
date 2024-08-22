@@ -49,6 +49,8 @@ setup(
         "unidecode",
         "conllu",
         "tabulate",
+        "scikit-learn",
+        "matplotlib",
         #"ucca @ git+https://github.com/adaamko/ucca.git#egg=ucca",
     ],
     packages=find_packages(),

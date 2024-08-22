@@ -2,14 +2,14 @@ import argparse
 import json
 import os.path
 
-from tuw_nlp.sem.hrg.common.md import make_markdown_table, find_best_in_column
+from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold")
     parser.add_argument("-i", "--in-dir")
-    parser.add_argument("-o", "--out-fn", default="../reports/eval.md")
+    parser.add_argument("-o", "--out-dir")
     parser.add_argument("-f", "--k-from", type=int)
     parser.add_argument("-t", "--k-to", type=int)
     parser.add_argument("-gr", "--grammars", nargs='+')
@@ -19,13 +19,15 @@ def get_args():
     return parser.parse_args()
 
 
-def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, out_fn):
+def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, out_dir):
     gold = json.load(open(gold_path))
     report = "# Evaluation\n"
 
     for dataset in datasets:
         report += f"## {dataset}\n"
+        p_list, r_list = [], []
         for grammar in grammars:
+            p, r = [], []
             report += f"### Grammar: {grammar}\n"
             table = [["k", "predicted extractions", "gold extractions", "matches", "exact matches", "prec", "rec", "F1"]]
             for k in range(k_from, k_to + 1):
@@ -53,6 +55,8 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 prec, rec = metrics['precision'], metrics['recall']
                 f1_score = round(f1(prec, rec), 4)
                 prec, rec = round(prec, 4), round(rec, 4)
+                p.append(prec)
+                r.append(rec)
                 pred_extractions = metrics['exactmatches_precision'][1]
                 matches = metrics['matches']
                 exact_matches = metrics['exactmatches_precision'][0]
@@ -61,7 +65,11 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
             bold = find_best_in_column(table, ["prec", "rec", "F1"])
             report += make_markdown_table(table, bold)
             report += "\n"
-    with open(out_fn, "w") as f:
+            p_list.append(p)
+            r_list.append(r)
+        save_pr_curve(p_list, r_list, [f"gr_{grammar}" for grammar in grammars], f"{out_dir}/pr_{dataset}.png")
+        report += f"## P-R curve\n![](pr_{dataset}.png)"
+    with open(f"{out_dir}/eval.md", "w") as f:
         f.writelines(report)
 
 
@@ -268,5 +276,5 @@ if __name__ == "__main__":
          args.datasets,
          args.only_common,
          args.raw_scores,
-         args.out_fn)
+         args.out_dir)
 

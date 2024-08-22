@@ -1,6 +1,13 @@
 from cmath import isclose
 
+import pandas as pd
+import matplotlib
+
+from matplotlib import pyplot as plt
 from numpy import dtype
+from sklearn import metrics
+
+matplotlib.use('Agg')
 
 
 def make_markdown_table(array, bold=None):
@@ -50,3 +57,22 @@ def find_best_in_column(table, headers):
         ret += [(i, j) for i in best_i]
     return ret
 
+
+def save_pr_curve(p_list, r_list, labels, out_fn):
+    for p, r, label in zip(p_list, r_list, labels):
+        df = pd.DataFrame.from_dict({'r': list(r), 'p': list(p)})
+        df['f1'] = 2 * (df['r'] * df['p']) / (df['r'] + df['p'])
+        print('max f1 is ' + str(round(df['f1'].max(), 4)))
+        df = df[df['r'] > 0]
+        r = tuple(list(df['r']))
+        p = tuple(list(df['p']))
+        auc = metrics.auc(df['r'].values, df['p'].values)
+        print('auc is ' + str(round(auc, 4)))
+        plt.plot(r, p, label=label)
+
+    plt.ylim([0.0, 1.0])
+    plt.xlim([0.0, 1.0])
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.legend(loc="lower right")
+    plt.savefig(out_fn)
