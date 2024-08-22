@@ -96,12 +96,12 @@ def main(in_dir, first, last):
 
         sen = get_sen_from_conll_file(orig_conll)
         wire_extractions = defaultdict(list)
-        i = 0
+        i = 1
         for (match_line, labels_str) in zip(matches_lines, labels_lines):
             if match_line.strip() in ["max", "prec", "rec"]:
                 assert match_line.strip() == labels_str.strip()
                 state = match_line.strip()
-                i = 0
+                i = 1
                 log.write(f"{state}\n")
                 continue
             log.write(f"k={i}\n")
@@ -135,7 +135,7 @@ def main(in_dir, first, last):
                     extracted_labels,
                     sen,
                     sen_id=sen_dir,
-                    k=i+1,
+                    k=i,
                     score=score
                 ))
 
