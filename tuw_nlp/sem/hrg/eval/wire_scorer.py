@@ -2,7 +2,7 @@ import argparse
 import json
 import os.path
 
-from tuw_nlp.sem.hrg.common.io import make_markdown_table
+from tuw_nlp.sem.hrg.common.md import make_markdown_table, find_best_in_column
 
 
 def get_args():
@@ -51,13 +51,15 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                         f.write(str(raw_match_scores[1]))
 
                 prec, rec = metrics['precision'], metrics['recall']
-                f1_score = f1(prec, rec)
+                f1_score = round(f1(prec, rec), 4)
+                prec, rec = round(prec, 4), round(rec, 4)
                 pred_extractions = metrics['exactmatches_precision'][1]
                 matches = metrics['matches']
                 exact_matches = metrics['exactmatches_precision'][0]
                 gold_extractions = metrics['exactmatches_recall'][1]
                 table.append([k, pred_extractions, gold_extractions, matches, exact_matches, prec, rec, f1_score])
-            report += make_markdown_table(table)
+            bold = find_best_in_column(table, ["prec", "rec", "F1"])
+            report += make_markdown_table(table, bold)
             report += "\n"
     with open(out_fn, "w") as f:
         f.writelines(report)
