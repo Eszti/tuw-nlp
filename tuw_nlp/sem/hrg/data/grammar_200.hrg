@@ -1,0 +1,200 @@
+S -> (. :A$ :A$ :VERB .);	0.26
+S -> (. :A$ :VERB .);	0.12
+S -> (. :A$ :P$ :VERB .);	0.1
+S -> (. :A$ :A$ :A$ :VERB .);	0.08
+S -> (. :A$ :X$ :VERB .);	0.07
+S -> (. :A$ :P$ :NOUN .);	0.04
+S -> (. :A$ :A$ :P$ :VERB .);	0.03
+S -> (. :P$ :NOUN .);	0.03
+S -> (. :A$ :A$ :P$ :NOUN .);	0.02
+S -> (. :X$ :X$ :VERB .);	0.02
+S -> (. :P$ :A$ :NOUN .);	0.01
+S -> (. :X$ :A$ :VERB .);	0.01
+S -> (. :A$ :A$ :X$ :VERB .);	0.01
+S -> (. :X$ :P$ :VERB .);	0.01
+S -> (. :A$ :A$ :A$ :A$ :VERB .);	0.01
+S -> (. :A$ :A$ :NOUN .);	0.01
+S -> (. :A$ :X$ :NOUN .);	0.01
+S -> (. :P$ :A$ :VERB .);	0.01
+S -> (. :A$ :A$ :A$ :P$ :NOUN .);	0.01
+S -> (. :A$ :P$ :ADJ .);	0.01
+S -> (. :A$ :NOUN .);	0.01
+S -> (. :A$ :A$ :A$ :P$ :VERB .);	0.01
+S -> (. :X$ :VERB .);	0.01
+S -> (. :A$ :A$ :A$ :NOUN .);	0.01
+S -> (. :P$ :A$ :A$ :NOUN .);	0.01
+A -> (. :det (. :DET .));	0.1
+A -> (. :case (. :ADP .));	0.08
+A -> (. :amod (. :ADJ .));	0.07
+A -> (. :compound (. :NOUN .));	0.03
+A -> (. :cc (. :CCONJ .));	0.03
+A -> (. :obj (. :A$ :NOUN .));	0.03
+A -> (. :obj (. :A$ :A$ :NOUN .));	0.02
+A -> (. :obl (. :A$ :A$ :NOUN .));	0.02
+A -> (. :nmod (. :A$ :A$ :NOUN .));	0.02
+A -> (. :compound (. :PROPN .));	0.02
+A -> (. :advmod (. :ADV .));	0.02
+A -> (. :nsubj (. :A$ :NOUN .));	0.02
+A -> (. :punct (. :PUNCT .));	0.02
+A -> (. :obl (. :A$ :A$ :A$ :NOUN .));	0.02
+A -> (. :flat (. :PROPN .));	0.02
+A -> (. :nmod_poss (. :PRON .));	0.01
+A -> (. :nsubj (. :PROPN .));	0.01
+A -> (. :mark (. :PART .));	0.01
+A -> (. :nummod (. :NUM .));	0.01
+A -> (. :nmod (. :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :nsubj (. :A$ :A$ :NOUN .));	0.01
+A -> (. :mark (. :SCONJ .));	0.01
+A -> (. :case (. :PART .));	0.01
+A -> (. :nmod (. :A$ :NOUN .));	0.01
+A -> (. :obl (. :A$ :NOUN .));	0.01
+A -> (. :nsubj (. :PRON .));	0.01
+A -> (. :nmod (. :A$ :PROPN .));	0.01
+A -> (. :conj (. :A$ :NOUN .));	0.01
+A -> (. :obj (. :NOUN .));	0.01
+A -> (. :nsubj_pass (. :A$ :NOUN .));	0.01
+A -> (. :obj (. :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :aux (. :AUX .));	0.01
+A -> (. :nsubj (. :A$ :PROPN .));	0.01
+A -> (. :obl (. :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :amod (. :VERB .));	0.01
+A -> (. :obl (. :A$ :PROPN .));	0.01
+A -> (. :nsubj (. :NOUN .));	0.01
+A -> (. :nsubj_pass (. :A$ :A$ :NOUN .));	0.01
+A -> (. :nmod (. :A$ :A$ :PROPN .));	0.01
+A -> (. :aux_pass (. :AUX .));	0.01
+A -> (. :xcomp (. :A$ :A$ :VERB .));	0.01
+A -> (. :conj (. :A$ :A$ :NOUN .));	0.01
+A -> (. :obl (. :A$ :A$ :PROPN .));	0.01
+A -> (. :cop (. :AUX .));	0.01
+A -> (. :nmod_poss (. :A$ :PROPN .));	0.01
+A -> (. :acl (. :A$ :VERB .));	0.01
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :amod (. :A$ :ADJ .));	0.01
+A -> (. :obl (. :A$ :NUM .));	0.01
+A -> (. :advcl (. :A$ :A$ :VERB .));	0.01
+A -> (. :nmod (. :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :nsubj (. :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :conj (. :A$ :PROPN .));	0.01
+A -> (. :advcl (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :compound (. :A$ :PROPN .));	0.01
+A -> (. :conj (. :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :compound (. :A$ :NOUN .));	0.01
+A -> (. :nsubj (. :A$ :A$ :PROPN .));	0.01
+A -> (. :obl (. :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :fixed (. :ADP .));	0.01
+A -> (. :nummod (. :A$ :NUM .));	0.01
+A -> (. :acl (. :A$ :A$ :VERB .));	0.01
+A -> (. :xcomp (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :appos (. :A$ :PROPN .));	0.01
+A -> (. :obj (. :PROPN .));	0.01
+A -> (. :nmod_poss (. :A$ :A$ :NOUN .));	0.01
+A -> (. :conj (. :A$ :A$ :PROPN .));	0.01
+A -> (. :conj (. :A$ :ADJ .));	0.01
+A -> (. :xcomp (. :A$ :VERB .));	0.01
+A -> (. :obj (. :PRON .));	0.01
+A -> (. :acl_relcl (. :A$ :A$ :VERB .));	0.01
+A -> (. :nsubj_pass (. :PROPN .));	0.01
+A -> (. :nsubj_pass (. :NOUN .));	0.01
+A -> (. :obj (. :A$ :PROPN .));	0.01
+A -> (. :acl_relcl (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :nsubj_pass (. :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :conj (. :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :ccomp (. :A$ :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :ccomp (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :obj (. :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :obl (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :advmod (. :A$ :ADV .));	0.01
+A -> (. :appos (. :PROPN .));	0.01
+A -> (. :appos (. :A$ :A$ :PROPN .));	0.01
+A -> (. :nmod (. :A$ :NUM .));	0.01
+A -> (. :nsubj (. :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :advcl (. :A$ :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :obl (. :NOUN .));	0.01
+A -> (. :nsubj_pass (. :PRON .));	0.01
+A -> (. :compound_prt (. :ADP .));	0.01
+A -> (. :advmod (. :PART .));	0.01
+A -> (. :obl_tmod (. :A$ :NOUN .));	0.01
+A -> (. :obl (. :PROPN .));	0.01
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :nmod_poss (. :A$ :A$ :PROPN .));	0.01
+A -> (. :obl (. :A$ :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :obj (. :A$ :A$ :PROPN .));	0.01
+A -> (. :advcl (. :A$ :VERB .));	0.01
+A -> (. :case (. :VERB .));	0.01
+A -> (. :acl (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :flat (. :A$ :PROPN .));	0.01
+A -> (. :case (. :A$ :ADJ .));	0.01
+A -> (. :conj (. :A$ :A$ :A$ :PROPN .));	0.01
+A -> (. :ccomp (. :A$ :A$ :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :nsubj_pass (. :A$ :PROPN .));	0.01
+A -> (. :obl (. :A$ :PRON .));	0.01
+A -> (. :compound (. :NUM .));	0.01
+A -> (. :conj (. :A$ :A$ :VERB .));	0.01
+A -> (. :nsubj (. :A$ :A$ :A$ :A$ :NOUN .));	0.01
+A -> (. :acl_relcl (. :A$ :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :obl_tmod (. :NOUN .));	0.01
+A -> (. :case (. :A$ :ADP .));	0.01
+A -> (. :xcomp (. :ADJ .));	0.01
+A -> (. :xcomp (. :A$ :ADJ .));	0.01
+A -> (. :conj (. :A$ :A$ :A$ :VERB .));	0.01
+A -> (. :ccomp (. :A$ :A$ :VERB .));	0.01
+P -> (. :acl (. :A$ :VERB .));	0.13
+P -> (. :advcl (. :A$ :VERB .));	0.12
+P -> (. :acl_relcl (. :A$ :VERB .));	0.08
+P -> (. :conj (. :A$ :VERB .));	0.08
+P -> (. :amod (. :VERB .));	0.08
+P -> (. :xcomp (. :A$ :VERB .));	0.07
+P -> (. :case (. :VERB .));	0.05
+P -> (. :aux (. :AUX .));	0.04
+P -> (. :acl (. :VERB .));	0.03
+P -> (. :conj (. :VERB .));	0.03
+P -> (. :advcl (. :VERB .));	0.03
+P -> (. :xcomp (. :VERB .));	0.02
+P -> (. :advcl (. :A$ :A$ :VERB .));	0.02
+P -> (. :acl_relcl (. :VERB .));	0.02
+P -> (. :xcomp (. :A$ :A$ :VERB .));	0.02
+P -> (. :conj (. :A$ :A$ :VERB .));	0.02
+X -> (. :advcl (. :X$ :VERB .));	0.04
+X -> (. :conj (. :X$ :VERB .));	0.04
+X -> (. :obl (. :X$ :NOUN .));	0.03
+X -> (. :obj (. :X$ :NOUN .));	0.03
+X -> (. :advcl (. :A$ :VERB .));	0.03
+X -> (. :obl (. :A$ :NOUN .));	0.03
+X -> (. :advcl (. :P$ :VERB .));	0.03
+X -> (. :obj (. :A$ :NOUN .));	0.03
+X -> (. :conj (. :P$ :VERB .));	0.03
+X -> (. :conj (. :A$ :VERB .));	0.03
+X -> (. :nsubj (. :A$ :NOUN .));	0.03
+X -> (. :obl (. :P$ :NOUN .));	0.03
+X -> (. :acl_relcl (. :P$ :VERB .));	0.03
+X -> (. :acl (. :A$ :VERB .));	0.02
+X -> (. :xcomp (. :P$ :VERB .));	0.02
+X -> (. :obj (. :P$ :NOUN .));	0.02
+X -> (. :acl_relcl (. :X$ :VERB .));	0.02
+X -> (. :xcomp (. :X$ :VERB .));	0.02
+X -> (. :acl (. :P$ :VERB .));	0.02
+X -> (. :nmod (. :A$ :NOUN .));	0.02
+X -> (. :acl_relcl (. :A$ :VERB .));	0.02
+X -> (. :acl (. :X$ :VERB .));	0.02
+X -> (. :nmod (. :X$ :NOUN .));	0.02
+X -> (. :nmod (. :P$ :NOUN .));	0.02
+X -> (. :nsubj (. :X$ :NOUN .));	0.02
+X -> (. :ccomp (. :X$ :VERB .));	0.01
+X -> (. :xcomp (. :A$ :VERB .));	0.01
+X -> (. :ccomp (. :P$ :VERB .));	0.01
+X -> (. :ccomp (. :A$ :VERB .));	0.01
+X -> (. :parataxis (. :X$ :VERB .));	0.01
+X -> (. :conj (. :X$ :NOUN .));	0.01
+X -> (. :nsubj (. :P$ :NOUN .));	0.01
+X -> (. :conj (. :P$ :NOUN .));	0.01
+X -> (. :nsubj (. :A$ :PROPN .));	0.01
+X -> (. :nsubj_pass (. :A$ :NOUN .));	0.01
+X -> (. :appos (. :X$ :NOUN .));	0.01
+X -> (. :conj (. :A$ :NOUN .));	0.01
+X -> (. :nmod (. :A$ :PROPN .));	0.01
+X -> (. :obl (. :A$ :PROPN .));	0.01
+X -> (. :parataxis (. :P$ :VERB .));	0.01
+X -> (. :appos (. :P$ :NOUN .));	0.01
+X -> (. :advcl (. :A$ :P$ :VERB .));	0.01

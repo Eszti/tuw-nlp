@@ -1,0 +1,2369 @@
+{
+    "On Friday , Clark posted to Facebook to explain his decision saying , `` I usually do n't post political items , but today is different .": [
+        {
+            "rel": "posted",
+            "arg1": "On Friday ,",
+            "arg2+": [
+                "to Facebook to explain his decision"
+            ],
+            "score": "3.072e-17",
+            "k": 1,
+            "sen_id": "0",
+            "extractor": "PoC"
+        }
+    ],
+    "I received this notification today , ` As a mark of respect for the memory of Nelson Mandela , the President orders that the flag of the United States be flown at half-staff effective immediately until sunset , December 9 , 2013 ' '' .": [
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "the",
+                "''"
+            ],
+            "score": "6.656e-13",
+            "k": 7,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "` As a mark of respect",
+            "arg2+": [
+                "'"
+            ],
+            "score": "1.3312e-13",
+            "k": 3,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "the",
+                "that"
+            ],
+            "score": "3.328e-13",
+            "k": 2,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "the",
+                "'"
+            ],
+            "score": "6.656e-13",
+            "k": 8,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "at half-staff"
+            ],
+            "score": "5.3248e-13",
+            "k": 10,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                ",",
+                "''"
+            ],
+            "score": "1.3312e-13",
+            "k": 5,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "the flag"
+            ],
+            "score": "6.656e-13",
+            "k": 6,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "the",
+                "be"
+            ],
+            "score": "3.328e-13",
+            "k": 4,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "As a mark of respect",
+            "arg2+": [
+                "President",
+                "''"
+            ],
+            "score": "1.3312e-13",
+            "k": 1,
+            "sen_id": "4",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "flown",
+            "arg1": "` As a mark of respect",
+            "arg2+": [
+                "''"
+            ],
+            "score": "1.3312e-13",
+            "k": 9,
+            "sen_id": "4",
+            "extractor": "PoC"
+        }
+    ],
+    "He went on to say in the same post , `` Nelson Mandela did great things for his country and was a brave man but he was not an AMERICAN !!!": [
+        {
+            "rel": "went",
+            "arg1": "Nelson Mandela",
+            "arg2+": [
+                "for his country",
+                "was a brave man"
+            ],
+            "score": "1.792e-16",
+            "k": 8,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "great things for his country and was",
+            "arg2+": [
+                "brave man"
+            ],
+            "score": "5.6448e-16",
+            "k": 2,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "Nelson Mandela",
+            "arg2+": [
+                "for his country and",
+                "a brave man"
+            ],
+            "score": "5.376e-16",
+            "k": 1,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "Nelson Mandela",
+            "arg2+": [
+                "for his country and was",
+                "brave man"
+            ],
+            "score": "5.376e-17",
+            "k": 3,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "great things for his country and",
+            "arg2+": [
+                "a brave man"
+            ],
+            "score": "5.6448e-15",
+            "k": 6,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "great things for his country and was a",
+            "arg2+": [
+                "man"
+            ],
+            "score": "8.064e-16",
+            "k": 5,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "great things for his country",
+            "arg2+": [
+                "was a brave man"
+            ],
+            "score": "1.8816e-15",
+            "k": 7,
+            "sen_id": "6",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "went",
+            "arg1": "Nelson Mandela",
+            "arg2+": [
+                "for his country and was a",
+                "man"
+            ],
+            "score": "7.68e-17",
+            "k": 4,
+            "sen_id": "6",
+            "extractor": "PoC"
+        }
+    ],
+    "The flag should be lowered at our Embassy in S. Africa , but not here .": [
+        {
+            "rel": "lowered",
+            "arg1": "The flag",
+            "arg2+": [
+                "be",
+                "at",
+                "Embassy in S. Africa"
+            ],
+            "score": "1.024e-14",
+            "k": 6,
+            "sen_id": "7",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "The flag",
+            "arg2+": [
+                "our Embassy in S. Africa",
+                "."
+            ],
+            "score": "2.56e-15",
+            "k": 3,
+            "sen_id": "7",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "The flag",
+            "arg2+": [
+                "at",
+                "Embassy in S. Africa",
+                "."
+            ],
+            "score": "2.048e-14",
+            "k": 2,
+            "sen_id": "7",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "should",
+            "arg1": "The flag",
+            "arg2+": [
+                "at",
+                "Embassy in S. Africa"
+            ],
+            "score": "1.536e-14",
+            "k": 1,
+            "sen_id": "7",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "The flag",
+            "arg2+": [
+                "be",
+                "our Embassy in S. Africa"
+            ],
+            "score": "1.28e-15",
+            "k": 4,
+            "sen_id": "7",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "should",
+            "arg1": "The flag",
+            "arg2+": [
+                "our Embassy in S. Africa"
+            ],
+            "score": "1.92e-15",
+            "k": 5,
+            "sen_id": "7",
+            "extractor": "PoC"
+        }
+    ],
+    "Our flag is at half staff today for a Deputy in the low country who died going to help his fellow Deputy .": [
+        {
+            "rel": "help",
+            "arg1": "who",
+            "arg2+": [
+                "to",
+                "going"
+            ],
+            "score": "9.8e-09",
+            "k": 1,
+            "sen_id": "8",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "died",
+            "arg1": "in",
+            "arg2+": [
+                "low",
+                "who"
+            ],
+            "score": "8.96e-08",
+            "k": 3,
+            "sen_id": "8",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "died",
+            "arg1": "in the",
+            "arg2+": [
+                "who"
+            ],
+            "score": "1.28e-07",
+            "k": 2,
+            "sen_id": "8",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "died",
+            "arg1": "the low",
+            "arg2+": [
+                "who"
+            ],
+            "score": "1.12e-07",
+            "k": 4,
+            "sen_id": "8",
+            "extractor": "PoC"
+        }
+    ],
+    "I have ordered that the flag here at my office back up after tomorrow 's mourning of Pearl Harbor Day ! ''": [
+        {
+            "rel": "have",
+            "arg1": "! ''",
+            "arg2+": [],
+            "score": "4.8e-07",
+            "k": 3,
+            "sen_id": "11",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "I",
+            "arg2+": [
+                "! ''"
+            ],
+            "score": "3.2e-07",
+            "k": 1,
+            "sen_id": "11",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "I",
+            "arg2+": [
+                "''"
+            ],
+            "score": "2.4e-07",
+            "k": 2,
+            "sen_id": "11",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "I",
+            "arg2+": [
+                "!"
+            ],
+            "score": "2.4e-07",
+            "k": 4,
+            "sen_id": "11",
+            "extractor": "PoC"
+        }
+    ],
+    "CNN affiliate WHNS quoted Clark as saying , `` It 's just my simple opinion that the flag should only be lowered to half-staff for Americans who sacrificed for their country .": [
+        {
+            "rel": "lowered",
+            "arg1": "my simple",
+            "arg2+": [
+                "to half-staff for Americans"
+            ],
+            "score": "2.3296e-12",
+            "k": 8,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "``",
+            "arg2+": [
+                "simple",
+                "to half-staff for Americans"
+            ],
+            "score": "4.6592e-12",
+            "k": 5,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "quoted",
+            "arg1": "the flag",
+            "arg2+": [
+                "only",
+                "to half-staff for Americans"
+            ],
+            "score": "2.048e-12",
+            "k": 7,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "just",
+            "arg2+": [
+                "simple",
+                "to half-staff for Americans"
+            ],
+            "score": "4.6592e-12",
+            "k": 4,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "'s",
+            "arg2+": [
+                "simple",
+                "to half-staff for Americans"
+            ],
+            "score": "2.3296e-12",
+            "k": 6,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": ",",
+            "arg2+": [
+                "simple",
+                "to half-staff for Americans"
+            ],
+            "score": "4.6592e-12",
+            "k": 1,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": ",",
+            "arg2+": [
+                "just",
+                "to half-staff for Americans"
+            ],
+            "score": "1.3312e-12",
+            "k": 2,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": ", ``",
+            "arg2+": [
+                "to half-staff for Americans"
+            ],
+            "score": "1.3312e-12",
+            "k": 9,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "should",
+            "arg1": "the flag",
+            "arg2+": [
+                "to half-staff for Americans"
+            ],
+            "score": "1.536e-12",
+            "k": 3,
+            "sen_id": "12",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowered",
+            "arg1": "It",
+            "arg2+": [
+                "simple",
+                "to half-staff for Americans"
+            ],
+            "score": "2.3296e-12",
+            "k": 10,
+            "sen_id": "12",
+            "extractor": "PoC"
+        }
+    ],
+    "It should be the people who have sacrificed for our country . ''": [
+        {
+            "rel": "sacrificed",
+            "arg1": "should",
+            "arg2+": [
+                "for our country",
+                "''"
+            ],
+            "score": "5.12e-12",
+            "k": 10,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "It",
+            "arg2+": [
+                "the",
+                "for our country"
+            ],
+            "score": "2.56e-11",
+            "k": 1,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "be",
+            "arg2+": [
+                "for our country ."
+            ],
+            "score": "5.12e-12",
+            "k": 4,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "the",
+            "arg2+": [
+                "for our country ."
+            ],
+            "score": "5.12e-11",
+            "k": 5,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "It",
+            "arg2+": [
+                "for our country",
+                "''"
+            ],
+            "score": "5.12e-12",
+            "k": 7,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "be",
+            "arg2+": [
+                "for our country",
+                "''"
+            ],
+            "score": "5.12e-12",
+            "k": 9,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "the",
+            "arg2+": [
+                "for our country",
+                "''"
+            ],
+            "score": "5.12e-11",
+            "k": 8,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "be the",
+            "arg2+": [
+                "for our country"
+            ],
+            "score": "2.56e-11",
+            "k": 2,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "for our country . ''",
+            "arg2+": [],
+            "score": "1.024e-11",
+            "k": 3,
+            "sen_id": "16",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "sacrificed",
+            "arg1": "should",
+            "arg2+": [
+                "the",
+                "for our country"
+            ],
+            "score": "2.56e-11",
+            "k": 6,
+            "sen_id": "16",
+            "extractor": "PoC"
+        }
+    ],
+    "According to Fox News , the US President can not require US flag lowering at the local level .": [
+        {
+            "rel": "lowering",
+            "arg1": "Fox News",
+            "arg2+": [
+                "the US President",
+                "at the local level"
+            ],
+            "score": "9.408e-17",
+            "k": 2,
+            "sen_id": "17",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "lowering",
+            "arg1": "the US President",
+            "arg2+": [
+                "US flag",
+                "at the local level"
+            ],
+            "score": "2.8224e-16",
+            "k": 1,
+            "sen_id": "17",
+            "extractor": "PoC"
+        }
+    ],
+    "According to CNN in an article published yesterday , presidents generally restrict requests for lowering the flag to major national figures , US governors , and foreign dignitaries .": [
+        {
+            "rel": "restrict",
+            "arg1": "for",
+            "arg2+": [
+                "the flag to",
+                "national figures , US governors",
+                "and",
+                "dignitaries"
+            ],
+            "score": "1.6128e-19",
+            "k": 3,
+            "sen_id": "20",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "restrict",
+            "arg1": "for",
+            "arg2+": [
+                "the flag",
+                "major national figures , US governors",
+                "foreign dignitaries"
+            ],
+            "score": "3.2928e-19",
+            "k": 2,
+            "sen_id": "20",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "restrict",
+            "arg1": "for",
+            "arg2+": [
+                "the flag to",
+                "national figures , US governors",
+                "foreign dignitaries"
+            ],
+            "score": "3.7632e-19",
+            "k": 1,
+            "sen_id": "20",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "restrict",
+            "arg1": "for",
+            "arg2+": [
+                "the flag to major",
+                "figures , US governors",
+                "foreign dignitaries"
+            ],
+            "score": "3.7632e-19",
+            "k": 4,
+            "sen_id": "20",
+            "extractor": "PoC"
+        }
+    ],
+    "Presidents of the United States have previously ordered the flag lowered in honor of non-Americans including Pope John Paul II who died in 2005 , King Hussein of Jordan who died in 1999 , Israeli Prime Minister Yitzhak Rabin who died in 1995 , Egyptian President Anwar Sadat who died in 1981 , British Prime Minister Winston Churchill who died in 1965 , and United Nations Secretary-General Dag Hammarskjold who died in 1961 .": [
+        {
+            "rel": "ordered",
+            "arg1": "Presidents of the",
+            "arg2+": [
+                "States",
+                "previously",
+                "the flag"
+            ],
+            "score": "3.84e-12",
+            "k": 7,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "Presidents",
+            "arg2+": [
+                "the United States",
+                "previously",
+                "the flag"
+            ],
+            "score": "3.36e-12",
+            "k": 6,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "Presidents of",
+            "arg2+": [
+                "United States",
+                "previously",
+                "the flag"
+            ],
+            "score": "2.688e-12",
+            "k": 4,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Presidents of the",
+            "arg2+": [
+                "States",
+                "the flag"
+            ],
+            "score": "2.88e-12",
+            "k": 3,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Presidents of",
+            "arg2+": [
+                "United States",
+                "the flag"
+            ],
+            "score": "2.016e-12",
+            "k": 9,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "Presidents of the",
+            "arg2+": [
+                "States",
+                "the flag",
+                "."
+            ],
+            "score": "3.84e-12",
+            "k": 10,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "Presidents of",
+            "arg2+": [
+                "United States",
+                "the flag",
+                "."
+            ],
+            "score": "2.688e-12",
+            "k": 5,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "in honor of non-Americans",
+            "arg2+": [
+                "Pope John Paul"
+            ],
+            "score": "6.144e-13",
+            "k": 1,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "ordered",
+            "arg1": "Presidents",
+            "arg2+": [
+                "the United States",
+                "the flag",
+                "."
+            ],
+            "score": "3.36e-12",
+            "k": 2,
+            "sen_id": "24",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Presidents",
+            "arg2+": [
+                "the United States",
+                "the flag"
+            ],
+            "score": "2.52e-12",
+            "k": 8,
+            "sen_id": "24",
+            "extractor": "PoC"
+        }
+    ],
+    "While President Obama expressed condolences regarding the death of Margaret Thatcher upon her death earlier this year , he did not issue an executive order that flags be lowered in her honour .": [
+        {
+            "rel": "issue",
+            "arg1": "While President Obama expressed",
+            "arg2+": [
+                "upon her death",
+                "he",
+                "an executive order"
+            ],
+            "score": "3.584e-20",
+            "k": 3,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "did",
+            "arg1": "While President Obama expressed",
+            "arg2+": [
+                "upon her death",
+                "an executive order"
+            ],
+            "score": "5.376e-20",
+            "k": 6,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "issue",
+            "arg1": "While President Obama expressed",
+            "arg2+": [
+                "upon her death",
+                ",",
+                "an executive order"
+            ],
+            "score": "7.168e-20",
+            "k": 4,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "issue",
+            "arg1": "President Obama expressed condolences",
+            "arg2+": [
+                "upon her death",
+                "he",
+                "an executive order"
+            ],
+            "score": "3.584e-20",
+            "k": 2,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "issue",
+            "arg1": "While President Obama expressed",
+            "arg2+": [
+                "upon her death",
+                "an executive order",
+                "."
+            ],
+            "score": "7.168e-20",
+            "k": 8,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "did",
+            "arg1": "President Obama expressed condolences",
+            "arg2+": [
+                "upon her death",
+                "an executive order"
+            ],
+            "score": "5.376e-20",
+            "k": 5,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "issue",
+            "arg1": "President Obama expressed condolences",
+            "arg2+": [
+                "upon her death",
+                ",",
+                "an executive order"
+            ],
+            "score": "7.168e-20",
+            "k": 1,
+            "sen_id": "33",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "issue",
+            "arg1": "President Obama expressed condolences",
+            "arg2+": [
+                "upon her death",
+                "an executive order",
+                "."
+            ],
+            "score": "7.168e-20",
+            "k": 7,
+            "sen_id": "33",
+            "extractor": "PoC"
+        }
+    ],
+    "A man and two children were found dead this morning in a home at Fort Hood , a US Army base in Texas .": [
+        {
+            "rel": "found",
+            "arg1": "A man and two children",
+            "arg2+": [
+                "in a home at Fort Hood",
+                "."
+            ],
+            "score": "1.2288e-20",
+            "k": 2,
+            "sen_id": "37",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A man and two children were",
+            "arg2+": [
+                "in a home at Fort Hood"
+            ],
+            "score": "6.144e-21",
+            "k": 1,
+            "sen_id": "37",
+            "extractor": "PoC"
+        }
+    ],
+    "Early reports indicate the deceased were military dependents .": [
+        {
+            "rel": "indicate",
+            "arg1": "Early reports",
+            "arg2+": [
+                "."
+            ],
+            "score": "7.28e-06",
+            "k": 1,
+            "sen_id": "38",
+            "extractor": "PoC"
+        }
+    ],
+    "The latest reports indicate cause of death to be unclear .": [
+        {
+            "rel": "indicate",
+            "arg1": "The latest reports",
+            "arg2+": [
+                "cause of death",
+                "."
+            ],
+            "score": "2.688e-12",
+            "k": 1,
+            "sen_id": "40",
+            "extractor": "PoC"
+        }
+    ],
+    "As of 1:00 pm local time -LRB- 0500 UTC -RRB- , military investigators had not released the names of the deceased .": [
+        {
+            "rel": "released",
+            "arg1": "As",
+            "arg2+": [
+                "1:00 pm local time",
+                "military investigators",
+                "the names"
+            ],
+            "score": "3.7632e-15",
+            "k": 1,
+            "sen_id": "41",
+            "extractor": "PoC"
+        }
+    ],
+    "Officials did note , however , that `` no further threat to the community '' exists .": [
+        {
+            "rel": "note",
+            "arg1": ", that",
+            "arg2+": [
+                "no further threat to the community"
+            ],
+            "score": "1.792e-13",
+            "k": 8,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however",
+            "arg2+": [
+                "that `` no",
+                "threat to the community"
+            ],
+            "score": "5.12e-14",
+            "k": 3,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": ", that `` no",
+            "arg2+": [
+                "threat to the community"
+            ],
+            "score": "5.12e-14",
+            "k": 1,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however ,",
+            "arg2+": [
+                "further threat to the community ''"
+            ],
+            "score": "7.168e-14",
+            "k": 2,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however ,",
+            "arg2+": [
+                "`` no",
+                "threat to the community"
+            ],
+            "score": "1.024e-13",
+            "k": 6,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however",
+            "arg2+": [
+                "that",
+                "no further threat to the community"
+            ],
+            "score": "1.792e-13",
+            "k": 5,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however ,",
+            "arg2+": [
+                "no further threat to the community"
+            ],
+            "score": "3.584e-13",
+            "k": 9,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however",
+            "arg2+": [
+                "that",
+                "no",
+                "threat to the community ''"
+            ],
+            "score": "5.12e-14",
+            "k": 10,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however ,",
+            "arg2+": [
+                "no",
+                "threat to the community ''"
+            ],
+            "score": "1.024e-13",
+            "k": 4,
+            "sen_id": "42",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "note",
+            "arg1": "however ,",
+            "arg2+": [
+                "``",
+                "further threat to the community"
+            ],
+            "score": "7.168e-14",
+            "k": 7,
+            "sen_id": "42",
+            "extractor": "PoC"
+        }
+    ],
+    "Officials have yet to confirm if foul play is suspected in the deaths .": [
+        {
+            "rel": "have",
+            "arg1": "yet to confirm if foul play",
+            "arg2+": [
+                "suspected in the deaths ."
+            ],
+            "score": "1.536e-20",
+            "k": 1,
+            "sen_id": "43",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "yet to confirm",
+            "arg2+": [
+                "foul play is suspected in the deaths ."
+            ],
+            "score": "1.536e-20",
+            "k": 6,
+            "sen_id": "43",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Officials",
+            "arg2+": [
+                "yet to confirm if foul play",
+                "suspected in the deaths"
+            ],
+            "score": "7.68e-21",
+            "k": 5,
+            "sen_id": "43",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Officials",
+            "arg2+": [
+                "to confirm",
+                "foul play is suspected in the deaths ."
+            ],
+            "score": "7.68e-21",
+            "k": 4,
+            "sen_id": "43",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Officials",
+            "arg2+": [
+                "to confirm if foul play",
+                "suspected in the deaths ."
+            ],
+            "score": "7.68e-21",
+            "k": 2,
+            "sen_id": "43",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Officials",
+            "arg2+": [
+                "yet to confirm",
+                "foul play is suspected in the deaths"
+            ],
+            "score": "7.68e-21",
+            "k": 3,
+            "sen_id": "43",
+            "extractor": "PoC"
+        }
+    ],
+    "Approximately 45,000 service members are currently assigned to the military base , located in central Texas .": [
+        {
+            "rel": "assigned",
+            "arg1": "45,000 service members",
+            "arg2+": [
+                "to the military base",
+                "located in central Texas ."
+            ],
+            "score": "1.50528e-20",
+            "k": 2,
+            "sen_id": "45",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "assigned",
+            "arg1": "45,000 service members",
+            "arg2+": [
+                "currently",
+                "to the military base",
+                "located in central Texas"
+            ],
+            "score": "1.50528e-20",
+            "k": 1,
+            "sen_id": "45",
+            "extractor": "PoC"
+        }
+    ],
+    "In 2009 , Major Nidal Hassan shot and killed 13 people and wounded 30 others at the base 's Readiness Processing Center .": [
+        {
+            "rel": "wounded",
+            "arg1": "In 2009",
+            "arg2+": [
+                "Major Nidal Hassan",
+                "at",
+                "Readiness Processing Center"
+            ],
+            "score": "4.3008e-18",
+            "k": 1,
+            "sen_id": "46",
+            "extractor": "PoC"
+        }
+    ],
+    "Officials in France have issued a pollution alert after an unladen freighter grounded on a breakwater at Anglet , Basque yesterday .": [
+        {
+            "rel": "issued",
+            "arg1": "Officials in France",
+            "arg2+": [
+                "a pollution alert after an unladen freighter grounded on",
+                "breakwater"
+            ],
+            "score": "3.44064e-21",
+            "k": 1,
+            "sen_id": "48",
+            "extractor": "PoC"
+        }
+    ],
+    "The vessel split in two and is leaking fuel oil .": [
+        {
+            "rel": "leaking",
+            "arg1": "The vessel",
+            "arg2+": [
+                "in two",
+                "fuel oil"
+            ],
+            "score": "3.456e-12",
+            "k": 1,
+            "sen_id": "50",
+            "extractor": "PoC"
+        }
+    ],
+    "The Luno had 120 -- 160 cubic metres of fuel aboard when it broke down and high winds and waves pushed it into the breakwater .": [
+        {
+            "rel": "pushed",
+            "arg1": "cubic metres of fuel aboard when it broke",
+            "arg2+": [
+                "into the breakwater"
+            ],
+            "score": "6.144e-22",
+            "k": 1,
+            "sen_id": "51",
+            "extractor": "PoC"
+        }
+    ],
+    "Helicopters rescued the twelve crewmembers and the only injury was a broken nose .": [
+        {
+            "rel": "rescued",
+            "arg1": "Helicopters",
+            "arg2+": [
+                "the twelve crewmembers and the only injury",
+                "a",
+                "nose"
+            ],
+            "score": "3.36e-17",
+            "k": 1,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "Helicopters",
+            "arg2+": [
+                "the twelve crewmembers",
+                "the only injury was a",
+                "nose"
+            ],
+            "score": "1.12e-17",
+            "k": 6,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "the twelve crewmembers",
+            "arg2+": [
+                "the only injury",
+                "a broken nose ."
+            ],
+            "score": "2.24e-17",
+            "k": 5,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "the twelve crewmembers and the only injury",
+            "arg2+": [
+                "broken nose ."
+            ],
+            "score": "6.72e-18",
+            "k": 8,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "the twelve crewmembers and the only injury",
+            "arg2+": [
+                "a",
+                "nose ."
+            ],
+            "score": "6.72e-17",
+            "k": 3,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "Helicopters",
+            "arg2+": [
+                "the twelve crewmembers",
+                "the only injury",
+                "a broken nose"
+            ],
+            "score": "1.12e-17",
+            "k": 4,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "the twelve crewmembers and the only injury was",
+            "arg2+": [
+                "nose ."
+            ],
+            "score": "6.72e-18",
+            "k": 2,
+            "sen_id": "52",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "rescued",
+            "arg1": "the twelve crewmembers",
+            "arg2+": [
+                "the only injury was a",
+                "nose ."
+            ],
+            "score": "2.24e-17",
+            "k": 7,
+            "sen_id": "52",
+            "extractor": "PoC"
+        }
+    ],
+    "The 100-metre ship was en route to pick up its usual fertiliser cargo and initially officials feared the vessel could spill a load .": [
+        {
+            "rel": "feared",
+            "arg1": "The 100-metre ship",
+            "arg2+": [
+                "pick",
+                "its usual fertiliser cargo",
+                "officials"
+            ],
+            "score": "2.352e-18",
+            "k": 1,
+            "sen_id": "53",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "feared",
+            "arg1": "The 100-metre ship",
+            "arg2+": [
+                "pick",
+                "its usual fertiliser cargo",
+                "initially"
+            ],
+            "score": "4.704e-18",
+            "k": 3,
+            "sen_id": "53",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "feared",
+            "arg1": "The 100-metre ship",
+            "arg2+": [
+                "pick",
+                "its usual fertiliser cargo and"
+            ],
+            "score": "7.056e-18",
+            "k": 2,
+            "sen_id": "53",
+            "extractor": "PoC"
+        }
+    ],
+    "The ship has split around the breakwater , one part remaining on the rocks at one side and the other pushed almost to the beach on the other .": [
+        {
+            "rel": "remaining",
+            "arg1": ", one",
+            "arg2+": [
+                "on the rocks at one side"
+            ],
+            "score": "1.3312e-15",
+            "k": 1,
+            "sen_id": "55",
+            "extractor": "PoC"
+        }
+    ],
+    "Junior transport , seas , and fishing minister Frederic Cuvillier is heading to Anglet .": [
+        {
+            "rel": "heading",
+            "arg1": "Junior transport , seas ,",
+            "arg2+": [
+                "fishing minister Frederic",
+                "to Anglet ."
+            ],
+            "score": "2.1504e-20",
+            "k": 5,
+            "sen_id": "57",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "is",
+            "arg1": "Junior transport , seas",
+            "arg2+": [
+                "and fishing minister Frederic",
+                "to Anglet"
+            ],
+            "score": "2.4192e-20",
+            "k": 2,
+            "sen_id": "57",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "heading",
+            "arg1": "Junior transport , seas , and",
+            "arg2+": [
+                "minister Frederic",
+                "to Anglet ."
+            ],
+            "score": "2.1504e-20",
+            "k": 4,
+            "sen_id": "57",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "is",
+            "arg1": "Junior transport , seas , and fishing minister",
+            "arg2+": [
+                "to Anglet"
+            ],
+            "score": "2.4192e-20",
+            "k": 6,
+            "sen_id": "57",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "heading",
+            "arg1": "Junior transport , seas , and fishing minister",
+            "arg2+": [
+                "to Anglet ."
+            ],
+            "score": "3.2256e-20",
+            "k": 3,
+            "sen_id": "57",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "heading",
+            "arg1": "Junior transport , seas",
+            "arg2+": [
+                "and fishing minister Frederic",
+                "to Anglet ."
+            ],
+            "score": "3.2256e-20",
+            "k": 1,
+            "sen_id": "57",
+            "extractor": "PoC"
+        }
+    ],
+    "Anglet is near the Spanish border , with the ship registered in Spain .": [
+        {
+            "rel": "registered",
+            "arg1": "with the",
+            "arg2+": [
+                "in Spain"
+            ],
+            "score": "1.664e-08",
+            "k": 1,
+            "sen_id": "58",
+            "extractor": "PoC"
+        }
+    ],
+    "One eyewitness , commenting to BBC News , called the rescuers `` brave considering the state of the sea '' .": [
+        {
+            "rel": "called",
+            "arg1": "One eyewitness",
+            "arg2+": [
+                "commenting to BBC News ,",
+                "the rescuers",
+                "."
+            ],
+            "score": "1.536e-18",
+            "k": 1,
+            "sen_id": "59",
+            "extractor": "PoC"
+        }
+    ],
+    "She said the ship had tried to anchor itself but broke away .": [
+        {
+            "rel": "anchor",
+            "arg1": "the ship had",
+            "arg2+": [
+                "to"
+            ],
+            "score": "4.2e-10",
+            "k": 1,
+            "sen_id": "62",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "broke",
+            "arg1": "the ship had",
+            "arg2+": [
+                "but"
+            ],
+            "score": "1.44e-09",
+            "k": 3,
+            "sen_id": "62",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "broke",
+            "arg1": "the ship had",
+            "arg2+": [
+                "away"
+            ],
+            "score": "9.6e-10",
+            "k": 2,
+            "sen_id": "62",
+            "extractor": "PoC"
+        }
+    ],
+    "A 43-year-old man was arrested on suspicion of murdering 7-year-old girl Nikki Allan in the UK 21 years ago , and released on bail , yesterday .": [
+        {
+            "rel": "arrested",
+            "arg1": "A 43-year-old man",
+            "arg2+": [
+                "on suspicion",
+                "murdering",
+                "in the UK",
+                "."
+            ],
+            "score": "1.4336e-16",
+            "k": 2,
+            "sen_id": "64",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "arrested",
+            "arg1": "A 43-year-old man was",
+            "arg2+": [
+                "on suspicion",
+                "murdering",
+                "in the UK"
+            ],
+            "score": "7.168e-17",
+            "k": 1,
+            "sen_id": "64",
+            "extractor": "PoC"
+        }
+    ],
+    "Her murder , in which she was hit in the head and stabbed dozens of times , has not resulted in anyone being convicted thus far .": [
+        {
+            "rel": "stabbed",
+            "arg1": "was",
+            "arg2+": [
+                "in the head",
+                "dozens of times"
+            ],
+            "score": "9.216e-14",
+            "k": 1,
+            "sen_id": "67",
+            "extractor": "PoC"
+        }
+    ],
+    "Nikki Allan disappeared after leaving her grandparents ' apartment in the city of Sunderland in the North East of England to walk back to her own , which was in the same block , on October 7 , 1992 .": [
+        {
+            "rel": "disappeared",
+            "arg1": "in the city of Sunderland",
+            "arg2+": [
+                "North East",
+                "to walk back"
+            ],
+            "score": "4.096e-18",
+            "k": 2,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland in the",
+            "arg2+": [
+                "East",
+                "back"
+            ],
+            "score": "7.3728e-16",
+            "k": 5,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland in the",
+            "arg2+": [
+                "East",
+                "to"
+            ],
+            "score": "3.6864e-16",
+            "k": 9,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland",
+            "arg2+": [
+                "the North East",
+                "back"
+            ],
+            "score": "1.8432e-16",
+            "k": 6,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland",
+            "arg2+": [
+                "the North East",
+                "to"
+            ],
+            "score": "9.216e-17",
+            "k": 7,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "disappeared",
+            "arg1": "in the city of Sunderland",
+            "arg2+": [
+                "the",
+                "East",
+                "to walk back"
+            ],
+            "score": "2.048e-17",
+            "k": 1,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "disappeared",
+            "arg1": "in the city of Sunderland in",
+            "arg2+": [
+                "East",
+                "to walk back"
+            ],
+            "score": "1.6384e-17",
+            "k": 3,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland in",
+            "arg2+": [
+                "North East",
+                "back"
+            ],
+            "score": "1.47456e-16",
+            "k": 4,
+            "sen_id": "69",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "walk",
+            "arg1": "in the city of Sunderland in",
+            "arg2+": [
+                "North East",
+                "to"
+            ],
+            "score": "7.3728e-17",
+            "k": 8,
+            "sen_id": "69",
+            "extractor": "PoC"
+        }
+    ],
+    "Until now , no individual has been convicted in connection with Allan 's death .": [
+        {
+            "rel": "convicted",
+            "arg1": ", no individual",
+            "arg2+": [
+                "in connection with Allan 's death"
+            ],
+            "score": "4.096e-16",
+            "k": 3,
+            "sen_id": "71",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "convicted",
+            "arg1": "no individual",
+            "arg2+": [
+                "been",
+                "in connection with Allan 's death"
+            ],
+            "score": "2.048e-16",
+            "k": 1,
+            "sen_id": "71",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "convicted",
+            "arg1": "no individual",
+            "arg2+": [
+                "in connection with Allan 's death ."
+            ],
+            "score": "4.096e-16",
+            "k": 2,
+            "sen_id": "71",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "has",
+            "arg1": "no individual",
+            "arg2+": [
+                "in connection with Allan 's death"
+            ],
+            "score": "3.072e-16",
+            "k": 4,
+            "sen_id": "71",
+            "extractor": "PoC"
+        }
+    ],
+    "A male neighbour previously charged with her murder was found not guilty in 1994 when a judge determined police had used `` oppressive methods '' in getting him to make a confession .": [
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "judge",
+                "had used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 8,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "when",
+                "judge",
+                "used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 10,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "was",
+                "when",
+                "judge",
+                "used",
+                "oppressive methods"
+            ],
+            "score": "1.176e-16",
+            "k": 2,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "police had used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 1,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "was",
+                "judge",
+                "police",
+                "used",
+                "oppressive methods"
+            ],
+            "score": "1.176e-16",
+            "k": 4,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "was",
+                "police had used",
+                "oppressive methods"
+            ],
+            "score": "1.176e-16",
+            "k": 7,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "when",
+                "had used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 3,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "when",
+                "police",
+                "used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 9,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "was",
+                "judge",
+                "had used",
+                "oppressive methods"
+            ],
+            "score": "1.176e-16",
+            "k": 6,
+            "sen_id": "72",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "found",
+            "arg1": "A male neighbour",
+            "arg2+": [
+                "judge",
+                "police",
+                "used",
+                "oppressive methods",
+                "."
+            ],
+            "score": "2.352e-16",
+            "k": 5,
+            "sen_id": "72",
+            "extractor": "PoC"
+        }
+    ],
+    "Northumbria Police collaborated last year with the BBC to reconstruct the last sightings of Nikki Allan in an appeal on a September 2013 edition of Crimewatch .": [
+        {
+            "rel": "collaborated",
+            "arg1": "Northumbria Police",
+            "arg2+": [
+                "with the BBC to reconstruct the",
+                "sightings",
+                "in an appeal"
+            ],
+            "score": "6.144e-20",
+            "k": 2,
+            "sen_id": "77",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "collaborated",
+            "arg1": "Northumbria Police",
+            "arg2+": [
+                "with the BBC to reconstruct the last sightings",
+                "in",
+                "appeal"
+            ],
+            "score": "1.4336e-20",
+            "k": 1,
+            "sen_id": "77",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "collaborated",
+            "arg1": "Northumbria Police",
+            "arg2+": [
+                "with the BBC to reconstruct the last sightings",
+                "an appeal"
+            ],
+            "score": "1.792e-20",
+            "k": 4,
+            "sen_id": "77",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "collaborated",
+            "arg1": "Northumbria Police",
+            "arg2+": [
+                "with the BBC to reconstruct",
+                "last sightings",
+                "in an appeal"
+            ],
+            "score": "4.3008e-20",
+            "k": 3,
+            "sen_id": "77",
+            "extractor": "PoC"
+        }
+    ],
+    "Nikki Allan 's mother Sharon Henderson held a vigil to mark the 21st anniversary of her daughter 's death in October last year .": [
+        {
+            "rel": "held",
+            "arg1": "Nikki",
+            "arg2+": [
+                "'s mother",
+                "a vigil",
+                "mark the 21st anniversary of",
+                "death in October"
+            ],
+            "score": "2.1504e-22",
+            "k": 2,
+            "sen_id": "81",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "held",
+            "arg1": "Nikki Allan",
+            "arg2+": [
+                "mother",
+                "a vigil",
+                "mark the 21st anniversary of",
+                "death in October"
+            ],
+            "score": "4.3008e-22",
+            "k": 1,
+            "sen_id": "81",
+            "extractor": "PoC"
+        }
+    ],
+    "Despite the intervention in parts of Crimea , Ukraine by forces connected to Russia in the past few days , the rail border between the countries remains open today .": [
+        {
+            "rel": "remains",
+            "arg1": "Despite the intervention in parts",
+            "arg2+": [
+                ", Ukraine by forces",
+                "the rail border"
+            ],
+            "score": "2.4576e-20",
+            "k": 1,
+            "sen_id": "84",
+            "extractor": "PoC"
+        }
+    ],
+    "Neither Ukrzaliznytsia , the Ukrainian national railway , nor Russian Railways have any announcements on their website regarding any changes in service .": [
+        {
+            "rel": "have",
+            "arg1": "Ukrzaliznytsia",
+            "arg2+": [
+                "the Ukrainian",
+                "railway",
+                "nor",
+                "Railways",
+                "any announcements on their website",
+                "any changes",
+                "."
+            ],
+            "score": "5.376e-24",
+            "k": 1,
+            "sen_id": "86",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Ukrzaliznytsia",
+            "arg2+": [
+                "the Ukrainian",
+                "railway",
+                "Russian Railways",
+                "any announcements on their website",
+                "any changes",
+                "."
+            ],
+            "score": "1.2544e-23",
+            "k": 4,
+            "sen_id": "86",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Ukrzaliznytsia",
+            "arg2+": [
+                "the",
+                "national railway",
+                "Russian Railways",
+                "any announcements on their website",
+                "any changes",
+                "."
+            ],
+            "score": "1.2544e-23",
+            "k": 5,
+            "sen_id": "86",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Ukrzaliznytsia",
+            "arg2+": [
+                "the",
+                "national railway",
+                "nor",
+                "Railways",
+                "any announcements on their website",
+                "any changes",
+                "."
+            ],
+            "score": "5.376e-24",
+            "k": 2,
+            "sen_id": "86",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "have",
+            "arg1": "Ukrzaliznytsia",
+            "arg2+": [
+                "Ukrainian national railway",
+                "Russian Railways",
+                "any announcements on their website",
+                "any changes",
+                "."
+            ],
+            "score": "8.7808e-24",
+            "k": 3,
+            "sen_id": "86",
+            "extractor": "PoC"
+        }
+    ],
+    "According to Ukrainian Independent Information Agency , people entering the Ukraine from Russia are receiving extra scrutiny at at the border .": [
+        {
+            "rel": "receiving",
+            "arg1": "Ukrainian Independent Information Agency",
+            "arg2+": [
+                "people entering",
+                "from Russia",
+                "at at the border"
+            ],
+            "score": "8.02816e-20",
+            "k": 1,
+            "sen_id": "87",
+            "extractor": "PoC"
+        }
+    ],
+    "At platform checkpoints for passport control , `` additional steps are being organized in relation to regional transport police to deal the possibility of localization of possible conflicts . ''": [
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation to",
+                "police",
+                "possibility"
+            ],
+            "score": "1.03219e-18",
+            "k": 1,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation",
+                "regional",
+                "police",
+                "possibility"
+            ],
+            "score": "9.03168e-19",
+            "k": 5,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation",
+                "transport police to"
+            ],
+            "score": "3.87072e-19",
+            "k": 10,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation to",
+                "police to"
+            ],
+            "score": "1.03219e-18",
+            "k": 7,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints",
+            "arg2+": [
+                "passport control",
+                "in relation to",
+                "police to"
+            ],
+            "score": "3.87072e-19",
+            "k": 8,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints",
+            "arg2+": [
+                "passport control",
+                "in relation",
+                "regional",
+                "police to"
+            ],
+            "score": "3.38688e-19",
+            "k": 3,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints",
+            "arg2+": [
+                "passport control",
+                "in relation to",
+                "police",
+                "possibility"
+            ],
+            "score": "3.87072e-19",
+            "k": 6,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation",
+                "transport police",
+                "possibility"
+            ],
+            "score": "3.87072e-19",
+            "k": 9,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints",
+            "arg2+": [
+                "passport control",
+                "in relation",
+                "regional",
+                "police",
+                "possibility"
+            ],
+            "score": "3.38688e-19",
+            "k": 4,
+            "sen_id": "90",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "deal",
+            "arg1": "At platform checkpoints for",
+            "arg2+": [
+                "control",
+                "in relation",
+                "regional",
+                "police to"
+            ],
+            "score": "9.03168e-19",
+            "k": 2,
+            "sen_id": "90",
+            "extractor": "PoC"
+        }
+    ],
+    "If the guards suspect people are entering for the purpose of destabilizing the country , the police reserve the right to deny them entry to the country .": [
+        {
+            "rel": "reserve",
+            "arg1": "If the guards suspect",
+            "arg2+": [
+                "the police",
+                "the right",
+                "deny",
+                "to the country"
+            ],
+            "score": "1.024e-19",
+            "k": 1,
+            "sen_id": "91",
+            "extractor": "PoC"
+        }
+    ],
+    "On Monday , Texas police identified Rodris Webster , 25 , as a person-of-interest in the recent disappearance of a 19 year-old woman .": [
+        {
+            "rel": "identified",
+            "arg1": "On Monday , Texas police",
+            "arg2+": [
+                ", as a person-of-interest",
+                "the recent disappearance"
+            ],
+            "score": "1.14688e-19",
+            "k": 1,
+            "sen_id": "94",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "identified",
+            "arg1": "On Monday , Texas police",
+            "arg2+": [
+                ", as a person-of-interest in the",
+                "disappearance"
+            ],
+            "score": "1.31072e-19",
+            "k": 2,
+            "sen_id": "94",
+            "extractor": "PoC"
+        }
+    ],
+    "The woman , Alicia Benefield , of DeBerry , Texas , was reported missing on Friday .": [
+        {
+            "rel": "missing",
+            "arg1": "The woman",
+            "arg2+": [
+                "of DeBerry ,",
+                "on Friday ."
+            ],
+            "score": "9.216e-16",
+            "k": 2,
+            "sen_id": "95",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "missing",
+            "arg1": "The woman",
+            "arg2+": [
+                "of DeBerry ,",
+                "was",
+                "on Friday"
+            ],
+            "score": "4.608e-16",
+            "k": 1,
+            "sen_id": "95",
+            "extractor": "PoC"
+        }
+    ],
+    "Webster is described as Benefield 's boyfriend .": [
+        {
+            "rel": "described",
+            "arg1": "is",
+            "arg2+": [
+                "as Benefield 's boyfriend ."
+            ],
+            "score": "2.56e-12",
+            "k": 1,
+            "sen_id": "98",
+            "extractor": "PoC"
+        }
+    ],
+    "He was arrested in January and charged with aggravated assault with a deadly weapon .": [
+        {
+            "rel": "charged",
+            "arg1": "was",
+            "arg2+": [
+                "in January",
+                "with aggravated assault with a deadly weapon"
+            ],
+            "score": "1.72032e-18",
+            "k": 2,
+            "sen_id": "99",
+            "extractor": "PoC"
+        },
+        {
+            "rel": "charged",
+            "arg1": "in January",
+            "arg2+": [
+                "with aggravated assault with a deadly weapon ."
+            ],
+            "score": "3.44064e-18",
+            "k": 1,
+            "sen_id": "99",
+            "extractor": "PoC"
+        }
+    ],
+    "Benefield was the complainant in that charge according to media reports .": [
+        {
+            "rel": "according",
+            "arg1": "media",
+            "arg2+": [],
+            "score": "6e-05",
+            "k": 1,
+            "sen_id": "100",
+            "extractor": "PoC"
+        }
+    ]
+}

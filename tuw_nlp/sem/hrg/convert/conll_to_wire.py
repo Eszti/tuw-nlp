@@ -18,7 +18,7 @@ def main(out_fn):
     for sen_idx, sen in enumerate(gen_tsv_sens(sys.stdin)):
         print(f"Processing sen {sen_idx}")
         sen_txt = " ".join([fields[1] for fields in sen])
-        wire_ex = wire_from_conll(sen)
+        wire_ex = wire_from_conll(sen, sen_idx)
         wire_all[sen_txt].append(wire_ex)
     with open(out_fn, "w") as f:
         json.dump(wire_all, f, indent=4)

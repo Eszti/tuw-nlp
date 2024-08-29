@@ -5,8 +5,8 @@ class WiReEx(dict):
 
     def __init__(self, extraction):
         dict.__init__(self,
-                      rel=extraction["rel"],
-                      arg1=extraction["arg1"])
+                      arg1=extraction["arg1"],
+                      rel=extraction["rel"])
         self["arg2+"] = extraction["arg2+"]
         if "score" in extraction:
             self["score"] = extraction["score"]
@@ -22,12 +22,13 @@ class WiReEx(dict):
         return hash((self["rel"], self["arg1"], a2))
 
 
-def wire_from_dict(labels):
+def wire_from_dict(labels, sen_id):
     arg2_keys = sorted([k for k in labels.keys() if not (k == "P" or k == "O" or k == "A0")])
     return WiReEx({
         "arg1": " ".join(labels["A0"]),
         "rel": " ".join(labels["P"]),
         "arg2+": [" ".join(labels[key]) for key in arg2_keys],
+        "sen_id": sen_id,
     })
 
 
@@ -46,11 +47,11 @@ def get_wire_extraction(extracted_labels, sen_txt, k, sen_id, score="1.0", extra
     return ret
 
 
-def wire_from_conll(sen):
+def wire_from_conll(sen, sen_id):
     labels = defaultdict(list)
     for i, fields in enumerate(sen):
         word = fields[1]
         label = fields[-1].split("-")[0]
         if label != "O":
             labels[label].append(word)
-    return wire_from_dict(labels)
+    return wire_from_dict(labels, sen_id)

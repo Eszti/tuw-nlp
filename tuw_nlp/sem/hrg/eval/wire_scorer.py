@@ -44,7 +44,7 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 assert len(models) == 1 and next(iter(models)) == "PoC"
 
                 m = next(iter(models))
-                metrics, raw_match_scores = eval_system(gold, predictions_by_model[m])
+                metrics, raw_match_scores, exact_matches, matches = eval_system(gold, predictions_by_model[m])
 
                 if raw_scores:
                     with open("raw_scores/" + m + "_prec_scores.dat", "w") as f:
@@ -58,10 +58,16 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 p.append(prec)
                 r.append(rec)
                 pred_extractions = metrics['exactmatches_precision'][1]
-                matches = metrics['matches']
-                exact_matches = metrics['exactmatches_precision'][0]
+                nr_matches = metrics['matches']
+                nr_exact_matches = metrics['exactmatches_precision'][0]
                 gold_extractions = metrics['exactmatches_recall'][1]
-                table.append([k, pred_extractions, gold_extractions, matches, exact_matches, prec, rec, f1_score])
+                table.append([k, pred_extractions, gold_extractions, nr_matches, nr_exact_matches, prec, rec, f1_score])
+                assert nr_exact_matches == len(exact_matches)
+                assert nr_matches == len(matches)
+                with open(f"{out_dir}/matches_gr{grammar}_k{k}.json", "w") as f:
+                    json.dump(matches, f, indent=4)
+                with open(f"{out_dir}/exact_matches_gr{grammar}_k{k}.json", "w") as f:
+                    json.dump(exact_matches, f, indent=4)
             bold = find_best_in_column(table, ["prec", "rec", "F1"])
             report += make_markdown_table(table, bold)
             report += "\n"
@@ -75,9 +81,11 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
 
 def eval_system(gold, predictions):
     results = {}
+    exact_matches = []
+    matches = []
     for s, reference_tuples in gold.items():
         predicted_tuples = predictions.get(s, [])
-        results[s] = sentence_match(reference_tuples, predicted_tuples)
+        results[s] = sentence_match(reference_tuples, predicted_tuples, exact_matches, matches)
 
     prec_num, prec_denom = 0, 0
     rec_num, rec_denom = 0, 0
@@ -98,17 +106,17 @@ def eval_system(gold, predictions):
     precision_scores = [v for s in results.values() for v in s['precision_of_matches']]
     recall_scores = [v for s in results.values() for v in s['recall_of_matches']]
     raw_match_scores = [precision_scores, recall_scores]
-    matches = len(precision_scores)
+    matches_len = len(precision_scores)
     metrics = {
         'precision': prec_num / prec_denom,
         'recall': rec_num / rec_denom,
-        'matches': matches,
-        'precision_of_matches': tot_prec_of_matches / matches,
-        'recall_of_matches': tot_rec_of_matches / matches,
+        'matches': matches_len,
+        'precision_of_matches': tot_prec_of_matches / matches_len,
+        'recall_of_matches': tot_rec_of_matches / matches_len,
         'exactmatches_precision': [exactmatches_precnum, exactmatches_precdenom],
         'exactmatches_recall': [exactmatches_recnum, exactmatches_recdenom]
     }
-    return metrics, raw_match_scores
+    return metrics, raw_match_scores, exact_matches, matches
 
 
 def f1(prec, rec):
@@ -118,14 +126,18 @@ def f1(prec, rec):
         return 0
 
 
-def sentence_match(gold, predicted):
+def sentence_match(gold, predicted, exact_matches, matches):
     exact_match_scores = [[None for _ in predicted] for __ in gold]
     scores = [[None for _ in predicted] for __ in gold]
     for i, gt in enumerate(gold):
         for j, pt in enumerate(predicted):
             exact_match_scores[i][j] = tuple_exact_match(pt, gt)
+            if exact_match_scores[i][j]:
+                exact_matches.append((pt, gt))
             scores[i][j] = tuple_match(pt, gt)
-    scoring_metrics = aggregate_scores_greedily(scores)
+    scoring_metrics, matches_ids = aggregate_scores_greedily(scores)
+    for (i, j) in matches_ids:
+        matches.append((gold[i], predicted[j]))
     exact_match_summary = aggregate_exact_matches(exact_match_scores)
     scoring_metrics['exact_match_precision'] = exact_match_summary['precision']
     scoring_metrics['exact_match_recall'] = exact_match_summary['recall']
@@ -159,7 +171,7 @@ def aggregate_scores_greedily(scores):
                        "precision_of_matches": prec_scores,
                        "recall_of_matches": rec_scores
                        }
-    return scoring_metrics
+    return scoring_metrics, matches
 
 
 def aggregate_exact_matches(match_matrix):
