@@ -134,7 +134,7 @@ def main(in_dir, first, last):
                 wire_extractions[sen].append(get_wire_extraction(
                     extracted_labels,
                     sen,
-                    sen_id=sen_dir,
+                    sen_id=int(sen_dir),
                     k=i,
                     score=score
                 ))

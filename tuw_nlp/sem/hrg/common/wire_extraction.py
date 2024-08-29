@@ -39,10 +39,9 @@ def get_wire_extraction(extracted_labels, sen_txt, k, sen_id, score="1.0", extra
         word_id = i + 1
         if extracted_labels[str(word_id)] != "O":
             labels[extracted_labels[str(word_id)]].append(word)
-    ret = wire_from_dict(labels)
+    ret = wire_from_dict(labels, sen_id)
     ret["score"] = score
     ret["k"] = k
-    ret["sen_id"] = sen_id
     ret["extractor"] = extractor
     return ret
 
