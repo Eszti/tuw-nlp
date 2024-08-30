@@ -64,6 +64,11 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 table.append([k, pred_extractions, gold_extractions, nr_matches, nr_exact_matches, prec, rec, f1_score])
                 assert nr_exact_matches == len(exact_matches)
                 assert nr_matches == len(matches)
+                prec_l = [m[2]["prec"] for m in matches]
+                rec_l = [m[2]["rec"] for m in matches]
+                print(f"gr: {grammar}, k: {k}")
+                print(f"avg prec: {sum(prec_l)/len(prec_l)}")
+                print(f"avg rec: {sum(rec_l)/len(rec_l)}\n")
                 with open(f"{out_dir}/matches_gr{grammar}_k{k}.json", "w") as f:
                     json.dump(matches, f, indent=4)
                 with open(f"{out_dir}/exact_matches_gr{grammar}_k{k}.json", "w") as f:
@@ -137,7 +142,7 @@ def sentence_match(gold, predicted, exact_matches, matches):
             scores[i][j] = tuple_match(pt, gt)
     scoring_metrics, matches_ids = aggregate_scores_greedily(scores)
     for (i, j) in matches_ids:
-        matches.append((gold[i], predicted[j]))
+        matches.append((gold[i], predicted[j], { "prec": scores[i][j][0], "rec": round(scores[i][j][1], 3)}))
     exact_match_summary = aggregate_exact_matches(exact_match_scores)
     scoring_metrics['exact_match_precision'] = exact_match_summary['precision']
     scoring_metrics['exact_match_recall'] = exact_match_summary['recall']
