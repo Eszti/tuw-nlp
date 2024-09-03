@@ -9,7 +9,8 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold")
     parser.add_argument("-i", "--in-dir")
-    parser.add_argument("-o", "--out-dir")
+    parser.add_argument("-rd", "--report-dir")
+    parser.add_argument("-td", "--temp-dir")
     parser.add_argument("-f", "--k-from", type=int)
     parser.add_argument("-t", "--k-to", type=int)
     parser.add_argument("-gr", "--grammars", nargs='+')
@@ -19,7 +20,7 @@ def get_args():
     return parser.parse_args()
 
 
-def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, out_dir):
+def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, report_dir, temp_dir):
     gold = json.load(open(gold_path))
     report = "# Evaluation\n"
 
@@ -69,18 +70,18 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 print(f"gr: {grammar}, k: {k}")
                 print(f"avg prec: {sum(prec_l)/len(prec_l)}")
                 print(f"avg rec: {sum(rec_l)/len(rec_l)}\n")
-                with open(f"{out_dir}/matches_gr{grammar}_k{k}.json", "w") as f:
+                with open(f"{temp_dir}/matches_gr{grammar}_k{k}.json", "w") as f:
                     json.dump(matches, f, indent=4)
-                with open(f"{out_dir}/exact_matches_gr{grammar}_k{k}.json", "w") as f:
+                with open(f"{temp_dir}/exact_matches_gr{grammar}_k{k}.json", "w") as f:
                     json.dump(exact_matches, f, indent=4)
             bold = find_best_in_column(table, ["prec", "rec", "F1"])
             report += make_markdown_table(table, bold)
             report += "\n"
             p_list.append(p)
             r_list.append(r)
-        save_pr_curve(p_list, r_list, [f"gr_{grammar}" for grammar in grammars], f"{out_dir}/pr_{dataset}.png")
+        save_pr_curve(p_list, r_list, [f"gr_{grammar}" for grammar in grammars], f"{report_dir}/pr_{dataset}.png")
         report += f"## P-R curve\n![](pr_{dataset}.png)"
-    with open(f"{out_dir}/eval.md", "w") as f:
+    with open(f"{report_dir}/eval.md", "w") as f:
         f.writelines(report)
 
 
@@ -293,5 +294,5 @@ if __name__ == "__main__":
          args.datasets,
          args.only_common,
          args.raw_scores,
-         args.out_dir)
-
+         args.report_dir,
+         args.temp_dir)

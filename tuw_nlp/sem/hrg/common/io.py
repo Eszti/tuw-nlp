@@ -31,7 +31,7 @@ def save_as_dot(fn, graph, log):
     log.write(f"wrote graph to {fn}\n")
 
 
-def get_range(in_dir, first, last):
+def get_range(in_dir, first=None, last=None):
     sen_dirs = sorted([int(fn.split(".")[0]) for fn in os.listdir(in_dir)])
     if first is None or first < sen_dirs[0]:
         first = sen_dirs[0]
