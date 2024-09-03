@@ -1,5 +1,6 @@
 from cmath import isclose
 
+import numpy as np
 import pandas as pd
 import matplotlib
 
@@ -75,4 +76,26 @@ def save_pr_curve(p_list, r_list, labels, out_fn):
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.legend(loc="lower right")
+    plt.savefig(out_fn)
+
+
+def save_bar_diagram(labels, values_dict, y_label, title, out_fn):
+    x = np.arange(len(labels))
+    width = 0.2  # the width of the bars
+    multiplier = 0
+
+    fig, ax = plt.subplots(layout='constrained', figsize=(15, 10))
+
+    for attribute, measurement in values_dict.items():
+        offset = width * multiplier
+        rects = ax.bar(x + offset, measurement, width, label=attribute)
+        ax.bar_label(rects, padding=3)
+        multiplier += 1
+
+    ax.set_ylabel(y_label)
+    ax.set_title(title)
+    ax.set_xticks(x + width, labels)
+    ax.legend(loc='upper left', ncols=len(labels))
+    ax.set_ylim(0, 1200)
+
     plt.savefig(out_fn)
