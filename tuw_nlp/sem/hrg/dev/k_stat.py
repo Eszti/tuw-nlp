@@ -62,7 +62,13 @@ def main(gold_fn, pred_dirs, out_dir):
             k_values[in_dir_str].append(k)
 
     df = pd.DataFrame(data=k_values, index=sen_ids)
+    for key in k_values:
+        if key != "gold":
+            df[f"{key.split('_')[1]} - gold"] = df[key] - df["gold"]
     df.to_csv(f"{out_dir}/k_values.tsv", sep="\t")
+    df2 = df.iloc[:, -len(pred_dirs):]
+    df3 = df2.apply(lambda x: x.value_counts(normalize=True)).fillna(0).round(4)
+    df3.to_csv(f"{out_dir}/k_differences.tsv", sep="\t")
 
     with open(f"{out_dir}/dev_k_stat.txt", "w") as f:
         f.writelines("Gold stat:\n")
