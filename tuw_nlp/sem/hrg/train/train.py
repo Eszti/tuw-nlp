@@ -6,6 +6,7 @@ import stanza
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, check_args
 from tuw_nlp.sem.hrg.common.io import create_sen_dir, parse_doc, save_as_dot
+from tuw_nlp.sem.hrg.dev.preproc import save_conll
 from tuw_nlp.text.utils import gen_tsv_sens
 
 
@@ -34,6 +35,7 @@ def main(first=None, last=None, method="per_word", out_dir="out"):
         print(f"processing sentence {sen_idx}, writing to {sen_dir}/sen{sen_idx}.log")
         log = open(f"{sen_dir}/sen{sen_idx}.log", "w")
 
+        save_conll(sen, f"{sen_dir}/sen{sen_idx}.conll")
         parsed_doc = parse_doc(nlp, sen, sen_idx, sen_dir, log)
         ud_graph = get_ud_graph(parsed_doc)
         save_as_dot(f"{sen_dir}/sen{sen_idx}_ud.dot", ud_graph, log)
