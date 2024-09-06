@@ -225,7 +225,7 @@ def tuple_match(t, gt):
         recall[1] += len(gold_words)
     if gt['arg2+']:
         for i, gold_words in enumerate(gt['arg2+']):
-            recall[1] += len(gold_words)
+            recall[1] += len(gold_words.split())
             if t.get("arg2+", False) and len(t['arg2+']) > i:
                 predicted_words = t['arg2+'][i].split()
                 matching_words = sum(1 for w in predicted_words if w in gold_words)
