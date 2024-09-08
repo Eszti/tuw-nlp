@@ -6,13 +6,12 @@ from collections import Counter, defaultdict
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-i", "--input-dir", type=str)
-    parser.add_argument("-o", "--out-fn", type=str)
-    parser.add_argument("-st", "--stat-fn", type=str)
+    parser.add_argument("-o", "--out-dir", type=str)
     parser.add_argument("-s", "--size", type=int)
     return parser.parse_args()
 
 
-def main(input_dir, out_fn, size, stat_fn):
+def main(input_dir, out_dir, size):
     grammar = defaultdict(Counter)
     for sen_dir in os.listdir(input_dir):
         filename = os.path.join(input_dir, sen_dir, f"sen{sen_dir}.hrg")
@@ -23,11 +22,11 @@ def main(input_dir, out_fn, size, stat_fn):
                 rule = line.strip()
                 nt = rule[0]
                 grammar[nt][rule] += 1
-    with open(out_fn, "w") as f:
+    size_str = str(size) if size is not None else "all"
+    with open(f"{out_dir}/grammar_{size_str}.hrg", "w") as f:
         write_rule(f, grammar, "weight", size)
-    if stat_fn:
-        with open(stat_fn, "w") as f:
-            write_rule(f, grammar, "cnt", size)
+    with open(f"{out_dir}/grammar_{size_str}.stat", "w") as f:
+        write_rule(f, grammar, "cnt", size)
     print(f"Unique rules: {get_total(grammar)}")
     for nt, prods in grammar.items():
         print(f"{nt}: {len(prods)}")
@@ -72,4 +71,4 @@ def get_total(grammar):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.input_dir, args.out_fn, args.size, args.stat_fn)
+    main(args.input_dir, args.out_dir, args.size)
