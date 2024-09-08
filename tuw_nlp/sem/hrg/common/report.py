@@ -67,8 +67,9 @@ def save_pr_curve(p_list, r_list, labels, out_fn):
         df = df[df['r'] > 0]
         r = tuple(list(df['r']))
         p = tuple(list(df['p']))
-        auc = metrics.auc(df['r'].values, df['p'].values)
-        print('auc is ' + str(round(auc, 4)))
+        if len(r) > 1 and len(p) > 1:
+            auc = metrics.auc(df['r'].values, df['p'].values)
+            print('auc is ' + str(round(auc, 4)))
         plt.plot(r, p, label=label)
 
     plt.ylim([0.0, 1.0])

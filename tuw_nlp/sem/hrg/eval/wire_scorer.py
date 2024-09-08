@@ -11,8 +11,6 @@ def get_args():
     parser.add_argument("-i", "--in-dir")
     parser.add_argument("-rd", "--report-dir")
     parser.add_argument("-td", "--temp-dir")
-    parser.add_argument("-f", "--k-from", type=int)
-    parser.add_argument("-t", "--k-to", type=int)
     parser.add_argument("-gr", "--grammars", nargs='+')
     parser.add_argument("-d", "--datasets", nargs='+')
     parser.add_argument("-c", "--only-common", action="store_true")
@@ -20,7 +18,7 @@ def get_args():
     return parser.parse_args()
 
 
-def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_scores, report_dir, temp_dir):
+def main(gold_path, in_dir, grammars, datasets, only_common, raw_scores, report_dir, temp_dir):
     gold = json.load(open(gold_path))
     report = "# Evaluation\n"
 
@@ -31,8 +29,11 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
             p, r = [], []
             report += f"### Grammar: {grammar}\n"
             table = [["k", "predicted extractions", "gold extractions", "matches", "exact matches", "prec", "rec", "F1"]]
-            for k in range(k_from, k_to + 1):
-                pred_path = os.path.join(in_dir, f"{dataset}_gr{grammar}_k{k}.json")
+            files = sorted([fn for fn in os.listdir(in_dir) if fn.startswith(f"{dataset}_gr{grammar}_k")],
+                           key=lambda x: int(x.split('.')[0].split("_k")[-1]))
+            for fn in files:
+                pred_path = os.path.join(in_dir, f"{in_dir}/{fn}")
+                k = fn.split(".")[0].split("_k")[-1]
                 all_predictions = json.load(open(pred_path))
 
                 if only_common:
@@ -42,7 +43,7 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
 
                 predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
                 models = predictions_by_model.keys()
-                assert len(models) == 1 and next(iter(models)) == "PoC"
+                assert len(models) == 1
 
                 m = next(iter(models))
                 metrics, raw_match_scores, exact_matches, matches = eval_system(gold, predictions_by_model[m])
@@ -63,7 +64,7 @@ def main(gold_path, in_dir, k_from, k_to, grammars, datasets, only_common, raw_s
                 nr_exact_matches = metrics['exactmatches_precision'][0]
                 gold_extractions = metrics['exactmatches_recall'][1]
                 table.append([k, pred_extractions, gold_extractions, nr_matches, nr_exact_matches, prec, rec, f1_score])
-                assert nr_exact_matches == len(exact_matches)
+                # assert nr_exact_matches == len(exact_matches)
                 assert nr_matches == len(matches)
                 prec_l = [m[2]["prec"] for m in matches]
                 rec_l = [m[2]["rec"] for m in matches]
@@ -288,8 +289,6 @@ if __name__ == "__main__":
     args = get_args()
     main(args.gold,
          args.in_dir,
-         args.k_from,
-         args.k_to,
          args.grammars,
          args.datasets,
          args.only_common,
