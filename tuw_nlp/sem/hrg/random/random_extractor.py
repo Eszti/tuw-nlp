@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import random
 from collections import defaultdict
 
@@ -9,17 +10,20 @@ from tuw_nlp.sem.hrg.common.predict import add_arg_idx
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.text.utils import gen_tsv_sens
 
+random.seed(42)
+
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-t1", "--train-seq-dist", type=str)
-    parser.add_argument("-t2", "--train-nr-ex", type=str)
     parser.add_argument("-d", "--dev-fn", type=str)
     parser.add_argument("-o", "--out-fn", type=str)
     return parser.parse_args()
 
 
-def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
+def main(dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
+    stat_dir = os.path.dirname(os.path.realpath(__file__))
+    train_seq_dist = f"{stat_dir}/train_stat/train_seq_dist.json"
+    train_nr_ex = f"{stat_dir}/train_stat/train_nr_ex.json"
     with open(train_seq_dist) as f:
         seq_stat = json.load(f)
     with open(train_nr_ex) as f:
@@ -44,8 +48,6 @@ def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True, verb
 
     with open(dev_fn) as f:
         for sen_idx, sen in enumerate(gen_tsv_sens(f)):
-            # if sen_idx < 104:
-            #     continue
             print(f"Processing sen {sen_idx}")
             sen_txt = " ".join([line[1] for line in sen])
             if with_nr_ex_stat and sen_txt == last_sen_txt:
@@ -72,7 +74,7 @@ def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True, verb
                                 extracted_labels[new_p_idx] = "P"
                                 extracted_labels[p_idx] = "O"
                 add_arg_idx(extracted_labels, len(pred_seq))
-                extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, extractor="random"))
+                extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, i+1, sen_idx, extractor="random"))
             last_sen_txt = sen_txt
 
     with open(out_fn,"w") as f:
@@ -81,4 +83,4 @@ def main(train_seq_dist, train_nr_ex, dev_fn, out_fn, with_nr_ex_stat=True, verb
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.train_seq_dist, args.train_nr_ex, args.dev_fn, args.out_fn)
+    main(args.dev_fn, args.out_fn)
