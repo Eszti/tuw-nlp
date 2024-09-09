@@ -48,10 +48,10 @@ def main(first=None, last=None, method="per_word", out_dir="out"):
             continue
 
         if method == "per_word":
-            from tuw_nlp.sem.hrg.generation.per_word import create_rules_and_graph
+            from tuw_nlp.sem.hrg.train.generation.per_word import create_rules_and_graph
             create_rules_and_graph(sen_idx, ud_graph, pred, args, vocab, log, sen_dir)
         elif method == "per_arg":
-            from tuw_nlp.sem.hrg.generation.per_arg import create_rules_and_graph
+            from tuw_nlp.sem.hrg.train.generation.per_arg import create_rules_and_graph
             create_rules_and_graph(sen_idx, ud_graph, pred, args, arg_graphs, vocab, log, sen_dir)
 
     vocab_fn = "vocab.txt"

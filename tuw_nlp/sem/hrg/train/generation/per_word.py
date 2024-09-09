@@ -37,7 +37,7 @@ def gen_subseq_rules(G, pred_edges, arg_words, pred, log):
 
 def get_initial_rule(next_edges, root_pos):
     rule = 'S -> (.'
-    for lhs in next_edges:
+    for lhs in sorted(next_edges.keys()):
         rule += ' ' + ' '.join(f':{lhs}$' for _ in next_edges[lhs])
     rule += f' :{root_pos} .);\n'
     return rule
