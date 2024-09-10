@@ -1,12 +1,9 @@
 import argparse
 import json
-import os
-from collections import Counter, defaultdict
 
 import numpy as np
 import pandas as pd
 
-from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.report import save_bar_diagram
 from tuw_nlp.text.utils import gen_tsv_sens
 
@@ -14,20 +11,18 @@ from tuw_nlp.text.utils import gen_tsv_sens
 def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold-fn", type=str)
-    parser.add_argument("-p", "--pred-dirs", nargs="+", type=str)
+    parser.add_argument("-p", "--pred-files", nargs="+", type=str)
     parser.add_argument("-o", "--out-dir", type=str)
     return parser.parse_args()
 
 
-def main(gold_fn, pred_dirs, out_dir):
-    gold_hist = Counter()
-    pred_hist = defaultdict(Counter)
+def main(gold_fn, pred_files, out_dir):
     sen_ids = [0]
-    k_values = defaultdict(list)
+    k_values = dict()
 
     last_sen_txt = ""
     cnt = 1
-    gold_hist[0] = 0
+    k_values["gold"] = []
     with open(gold_fn) as f:
         for sen_idx, sen in enumerate(gen_tsv_sens(f)):
             if cnt == 1 and sen_idx > 1:
@@ -36,62 +31,53 @@ def main(gold_fn, pred_dirs, out_dir):
             if last_sen_txt == sen_txt:
                 cnt += 1
             elif last_sen_txt != "":
-                gold_hist[cnt] += 1
                 k_values["gold"].append(cnt)
                 cnt = 1
             last_sen_txt = sen_txt
         if cnt != 1:
-            gold_hist[cnt] += 1
             k_values["gold"].append(cnt)
 
-    for in_dir in pred_dirs:
-        for i, sen_dir in enumerate(get_range(in_dir)):
-            bolinas_dir = os.path.join(in_dir, str(sen_dir), "bolinas")
-            matches_file = f"{bolinas_dir}/sen{sen_dir}_matches.graph"
-            k = 0
-            if os.path.exists(matches_file):
-                with open(os.path.join(in_dir, str(sen_dir), matches_file)) as f:
-                    matches_lines = f.readlines()
-                for match_line in matches_lines:
-                    if match_line.strip() in ["max", "prec", "rec"]:
-                        continue
-                    k += 1
-            in_dir_str = in_dir.split("/")[-1]
-            pred_hist[in_dir_str][k] += 1
-            assert sen_ids[i] == sen_dir
-            k_values[in_dir_str].append(k)
+    for fn in pred_files:
+        model = fn.split("/")[-1].split(".")[0]
+        k_values[model] = [0] * len(sen_ids)
+        with open(fn) as f:
+            extractions = json.load(f)
+        for sen, k_extr in extractions.items():
+            assert len(k_extr) > 0
+            sen_id = int(k_extr[-1]["sen_id"])
+            k_extr.sort(key=lambda x: x["k"])
+            k = k_extr[-1]["k"]
+            idx = sen_ids.index(sen_id)
+            k_values[model][idx] = k
 
-    df = pd.DataFrame(data=k_values, index=sen_ids)
-    for key in k_values:
-        if key != "gold":
-            df[f"{key.split('_')[1]} - gold"] = df[key] - df["gold"]
-    df.to_csv(f"{out_dir}/k_values.tsv", sep="\t")
-    df2 = df.iloc[:, -len(pred_dirs):]
-    df3 = df2.apply(lambda x: x.value_counts(normalize=True)).fillna(0).round(4)
-    df3.to_csv(f"{out_dir}/k_differences.tsv", sep="\t")
+    k_values_df = pd.DataFrame(data=k_values, index=sen_ids)
+    k_values_df.index.name = 'sen_id'
 
-    with open(f"{out_dir}/dev_k_stat.txt", "w") as f:
-        f.writelines("Gold stat:\n")
-        json.dump({key: v for key, v in sorted(gold_hist.items())}, f)
-        f.writelines(f"\n{sum(gold_hist.values())}\n\n")
-        for in_dir, pred_stat in pred_hist.items():
-            f.writelines(f"{in_dir}\n")
-            json.dump({key: v for key, v in sorted(pred_stat.items())}, f)
-            corr = np.corrcoef(k_values["gold"], k_values[in_dir])
-            f.writelines(f"\ncorr:\n{corr}\n{sum(pred_stat.values())}\n\n")
-
-    labels = list(sorted(gold_hist.keys()))  # beware if k is greater in preds
-    all_stat = dict()
-    all_stat["gold"] = [gold_hist[l] for l in labels]
-    for in_dir, pred_stat in pred_hist.items():
-        all_stat[in_dir] = [pred_stat[l] for l in labels]
-    save_bar_diagram(labels,
-                     all_stat,
+    k_hist = k_values_df.apply(lambda x: x.value_counts()).fillna(0).astype(int)
+    k_hist.index.name = 'k'
+    k_hist.to_csv(f"{out_dir}/k_hist.tsv", sep="\t")
+    save_bar_diagram(k_hist,
                      "Number of sentences",
                      "Distribution of number of extractions",
-                     f"{out_dir}/dev_k_stat_bar.png")
+                     f"{out_dir}/k_stat_bar.png")
+
+    for key in k_values:
+        if key != "gold":
+            k_values_df[f"{key.split('_')[1]} - gold"] = k_values_df[key] - k_values_df["gold"]
+    k_values_df.to_csv(f"{out_dir}/k_values.tsv", sep="\t")
+
+    k_differences = k_values_df.iloc[:, -len(pred_files):]\
+        .apply(lambda x: x.value_counts(normalize=True)).fillna(0).round(4)
+    k_differences.to_csv(f"{out_dir}/k_differences.tsv", sep="\t")
+
+    with open(f"{out_dir}/k_corr.txt", "w") as f:
+        for model in sorted(k_values.keys()):
+            if model != "gold":
+                f.writelines(f"{model}")
+                corr = np.corrcoef(k_values["gold"], k_values[model])
+                f.writelines(f"\ncorr:\n{corr}\nsum: {k_hist[model].sum()}\n\n")
 
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold_fn, args.pred_dirs, args.out_dir)
+    main(args.gold_fn, args.pred_files, args.out_dir)
