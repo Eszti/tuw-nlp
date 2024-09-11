@@ -61,6 +61,8 @@ def main(in_dir, out_fn, first, last, k, all_k):
     for ki, d in all_ex_set.items():
         all_ex_list = {}
         for sen, items in d.items():
+            for item in items:
+                item["extractor"] = item["extractor"].split("_")[0] + f"_k{ki}"
             all_ex_list[sen] = list(items)
 
         if all_k or k:

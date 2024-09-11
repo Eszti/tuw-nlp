@@ -137,7 +137,8 @@ def main(preproc_dir_root, predict_dir_root, first, last):
                     sen,
                     sen_id=int(sen_dir),
                     k=i,
-                    score=score
+                    score=score,
+                    extractor=predict_dir_root.split("/")[-1].split("_")[1],
                 ))
 
             print(f"Match {state} {i}")
