@@ -13,7 +13,8 @@ from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-i", "--in-dir", type=str)
+    parser.add_argument("-pp", "--preproc-dir", type=str)
+    parser.add_argument("-pd", "--predict-dir", type=str)
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
     return parser.parse_args()
@@ -43,14 +44,14 @@ def get_predicate(extracted_labels):
     return predicate
 
 
-def main(in_dir, first, last):
-    for sen_dir in get_range(in_dir, first, last):
+def main(preproc_dir_root, predict_dir_root, first, last):
+    for sen_dir in get_range(preproc_dir_root, first, last):
         print(f"\nProcessing sentence {sen_dir}")
 
         sen_dir = str(sen_dir)
-        preproc_dir = os.path.join(in_dir, sen_dir, "preproc")
-        bolinas_dir = os.path.join(in_dir, sen_dir, "bolinas")
-        predict_dir = os.path.join(in_dir, sen_dir, "predict")
+        preproc_dir = os.path.join(preproc_dir_root, sen_dir, "preproc")
+        bolinas_dir = os.path.join(predict_dir_root, sen_dir, "bolinas")
+        predict_dir = os.path.join(predict_dir_root, sen_dir, "predict")
         if not os.path.exists(predict_dir):
             os.makedirs(predict_dir)
         match_dir = os.path.join(predict_dir, "matches")
@@ -71,26 +72,26 @@ def main(in_dir, first, last):
         log = open(f"{predict_dir}/sen{sen_dir}_pred.log", "w")
         wire_json = f"{predict_dir}/sen{sen_dir}_wire.json"
 
-        with open(os.path.join(in_dir, sen_dir, graph_file)) as f:
+        with open(graph_file) as f:
             lines = f.readlines()
             assert len(lines) == 1
             graph_str = lines[0].strip()
 
         graph = Graph.from_bolinas(graph_str)
 
-        with open(os.path.join(in_dir, sen_dir, node_to_label_file)) as f:
+        with open(node_to_label_file) as f:
             gold_labels = json.load(f)
 
-        with open(os.path.join(in_dir, sen_dir, pa_graph_file)) as f:
+        with open(pa_graph_file) as f:
             lines = f.readlines()
             assert len(lines) == 1
             pa_graph_str = lines[0].strip()
 
         pa_graph = Graph.from_bolinas(pa_graph_str)
 
-        with open(os.path.join(in_dir, sen_dir, matches_file)) as f:
+        with open(matches_file) as f:
             matches_lines = f.readlines()
-        with open(os.path.join(in_dir, sen_dir, labels_file)) as f:
+        with open(labels_file) as f:
             labels_lines = f.readlines()
         state = None
 
@@ -110,7 +111,7 @@ def main(in_dir, first, last):
             score = match_line.split(';')[1].strip()
 
             extracted_labels = json.loads(labels_str)
-            pos_tags = get_pos_tags(os.path.join(in_dir, sen_dir, parsed_doc_file))
+            pos_tags = get_pos_tags(parsed_doc_file)
             log.write(f"pred_labels (before): {extracted_labels}\n")
             resolve_pred(graph.G, extracted_labels, pos_tags, log)
             log.write(f"pred_labels (after): {extracted_labels}\n")
@@ -155,4 +156,4 @@ if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
 
     args = get_args()
-    main(args.in_dir, args.first, args.last)
+    main(args.preproc_dir, args.predict_dir, args.first, args.last)
