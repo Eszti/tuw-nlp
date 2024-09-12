@@ -95,7 +95,7 @@ def main(gold_path, in_dir, config_json, only_common, raw_scores, report_dir, te
         r_list.append(r)
     if not test:
         save_pr_curve(p_list, r_list, [model[0] for model in config], f"{report_dir}/pr_curve.png")
-    report += f"## P-R curve\n![](pr_curve.png)"
+        report += f"## P-R curve\n![](pr_curve.png)"
     with open(f"{report_dir}/eval.md", "w") as f:
         f.writelines(report)
 

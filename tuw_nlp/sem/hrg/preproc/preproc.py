@@ -25,11 +25,11 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-f", "--first", type=int)
     parser.add_argument("-l", "--last", type=int)
-    parser.add_argument("-o", "--out-dir", default="out", type=str)
+    parser.add_argument("-o", "--out-dir", type=str)
     return parser.parse_args()
 
 
-def main(first=None, last=None, out_dir="out"):
+def main(out_dir, first=None, last=None):
     nlp = stanza.Pipeline(
         lang="en",
         processors="tokenize,mwt,pos,lemma,depparse",
@@ -81,4 +81,4 @@ def main(first=None, last=None, out_dir="out"):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.first, args.last, args.out_dir)
+    main(args.out_dir, args.first, args.last)
