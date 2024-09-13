@@ -107,15 +107,15 @@ def aggregate_exact_matches(match_matrix):
 
 def tuple_exact_match(t, gt):
     for part in ['arg1', 'rel']:
-        if len(t[part]["text"]) == len(gt[part]["text"]):
+        if len(t[part]["indexes"]) == len(gt[part]["indexes"]):
             pass
-        if t[part]["text"] != gt[part]["text"]:
+        if t[part]["indexes"] != gt[part]["indexes"]:
             return False
     if gt['arg2+']:
         if not t.get('arg2+', False):
             return False
         for i, p in enumerate(gt['arg2+']):
-            if len(t['arg2+']) > i and t['arg2+'][i]["text"] != p["text"]:
+            if len(t['arg2+']) > i and t['arg2+'][i]["indexes"] != p["indexes"]:
                 return False
     return True
 
@@ -124,8 +124,8 @@ def tuple_match(t, gt):
     precision = [0, 0]
     recall = [0, 0]
     for part in ['arg1', 'rel']:
-        predicted_words = t[part]["text"].split()
-        gold_words = gt[part]["text"].split()
+        predicted_words = t[part]["indexes"]
+        gold_words = gt[part]["indexes"]
         if not predicted_words:
             if gold_words:
                 return False
@@ -140,10 +140,10 @@ def tuple_match(t, gt):
         recall[1] += len(gold_words)
     if gt['arg2+']:
         for i, gold_arg in enumerate(gt['arg2+']):
-            recall[1] += len(gold_arg["text"].split())
+            recall[1] += len(gold_arg["indexes"])
             if t.get("arg2+", False) and len(t['arg2+']) > i:
-                predicted_words = t['arg2+'][i]["text"].split()
-                matching_words = sum(1 for w in predicted_words if w in gold_arg["text"])
+                predicted_words = t['arg2+'][i]["indexes"]
+                matching_words = sum(1 for w in predicted_words if w in gold_arg["indexes"])
                 precision[0] += matching_words
                 precision[1] += len(predicted_words)
                 recall[0] += matching_words
