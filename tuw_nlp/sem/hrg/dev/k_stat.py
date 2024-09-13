@@ -73,9 +73,12 @@ def main(gold_fn, pred_files, out_dir):
     with open(f"{out_dir}/k_corr.txt", "w") as f:
         for model in sorted(k_values.keys()):
             if model != "gold":
-                f.writelines(f"{model}")
+                f.writelines(f"{model}\n")
                 corr = np.corrcoef(k_values["gold"], k_values[model])
-                f.writelines(f"\ncorr:\n{corr}\nsum: {k_hist[model].sum()}\n\n")
+                f.writelines(f"values corr:\n{corr}\n")
+                corr = np.corrcoef(k_hist["gold"], k_hist[model])
+                f.writelines(f"distribution corr:\n{corr}\n")
+                f.writelines(f"sum extractions: {k_hist[model].sum()}\n\n")
 
 
 if __name__ == "__main__":

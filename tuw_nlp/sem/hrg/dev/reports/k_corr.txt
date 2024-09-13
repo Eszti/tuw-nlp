@@ -1,24 +1,27 @@
 dev_gr100_all
-corr:
-[[1.         0.13069851]
- [0.13069851 1.        ]]
-sum: 2266
+values corr:
+[[1.         0.13044608]
+ [0.13044608 1.        ]]
+distribution corr:
+[[1.         0.83719427]
+ [0.83719427 1.        ]]
+sum extractions: 2266
 
 dev_gr200_all
-corr:
-[[1.         0.28142751]
- [0.28142751 1.        ]]
-sum: 2266
-
-dev_gr99_all
-corr:
-[[1.        0.1685033]
- [0.1685033 1.       ]]
-sum: 2266
+values corr:
+[[1.         0.28596355]
+ [0.28596355 1.        ]]
+distribution corr:
+[[1.         0.10792987]
+ [0.10792987 1.        ]]
+sum extractions: 2266
 
 dev_grRND_all
-corr:
+values corr:
 [[ 1.        -0.0064292]
  [-0.0064292  1.       ]]
-sum: 2266
+distribution corr:
+[[1.         0.99716323]
+ [0.99716323 1.        ]]
+sum extractions: 2266
 

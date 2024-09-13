@@ -2,25 +2,28 @@ import argparse
 import json
 import os
 import random
+import sys
 from collections import defaultdict
 
 import stanza
 
+from tuw_nlp.sem.hrg.common.conll import get_sen_from_conll_sen
+from tuw_nlp.sem.hrg.common.io import create_sen_dir
 from tuw_nlp.sem.hrg.common.predict import add_arg_idx
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.text.utils import gen_tsv_sens
 
-random.seed(42)
-
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--dev-fn", type=str)
-    parser.add_argument("-o", "--out-fn", type=str)
+    parser.add_argument("-o", "--out-dir", type=str)
+    parser.add_argument("-f", "--first", type=int)
+    parser.add_argument("-l", "--last", type=int)
+    parser.add_argument("-k", "--k-max", type=int, default=10)
     return parser.parse_args()
 
 
-def main(dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
+def main(out_dir, k_max=10, first=None, last=None, with_nr_ex_stat=True, verb_pred=True):
     stat_dir = os.path.dirname(os.path.realpath(__file__))
     train_seq_dist = f"{stat_dir}/train_stat/train_seq_dist.json"
     train_nr_ex = f"{stat_dir}/train_stat/train_nr_ex.json"
@@ -30,15 +33,13 @@ def main(dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
         nr_ex_stat = json.load(f)
     to_del = []
     for k, v in nr_ex_stat.items():
-        if int(k) > 10:
+        if int(k) > k_max:
             to_del.append(k)
     for k in to_del:
         del nr_ex_stat[k]
     print(f"stat len: {len(seq_stat)}")
     print(f"{sorted(seq_stat)}")
-    extracted = defaultdict(list)
     random.seed(10)
-    last_sen_txt = ""
     if verb_pred:
         nlp = stanza.Pipeline(
             lang="en",
@@ -46,41 +47,58 @@ def main(dev_fn, out_fn, with_nr_ex_stat=True, verb_pred=True):
             tokenize_pretokenized=True,
         )
 
-    with open(dev_fn) as f:
-        for sen_idx, sen in enumerate(gen_tsv_sens(f)):
-            print(f"Processing sen {sen_idx}")
-            sen_txt = " ".join([line[1] for line in sen])
-            if with_nr_ex_stat and sen_txt == last_sen_txt:
-                continue
-            sen_len = str(len(sen))
-            nr_seq = len(seq_stat[sen_len])
-            nr_to_gen = 1
-            if with_nr_ex_stat:
-                nr_ex = random.choices(list(nr_ex_stat.keys()), list(nr_ex_stat.values()))
-                nr_to_gen = int(nr_ex[0])
-            for i in range(nr_to_gen):
-                rnd_idx = random.randrange(nr_seq)
-                pred_seq = seq_stat[sen_len][rnd_idx]
-                extracted_labels = {str(i+1): l for i, l in enumerate(pred_seq)}
-                if verb_pred:
-                    parsed_doc = nlp(sen_txt)
-                    pos_tags = [w.pos for w in parsed_doc.sentences[0].words]
-                    p_idx_l = [i for i, label in extracted_labels.items() if label == "P"]
-                    verbs = [str((i+1)) for i, t in enumerate(pos_tags) if t == "VERB"]
-                    if verbs:
-                        for p_idx in p_idx_l:
-                            if pos_tags[int(p_idx)-1] != "VERB":
-                                new_p_idx = verbs[random.randrange(0, len(verbs))]
-                                extracted_labels[new_p_idx] = "P"
-                                extracted_labels[p_idx] = "O"
-                add_arg_idx(extracted_labels, len(pred_seq))
-                extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, i+1, sen_idx, extractor="random"))
-            last_sen_txt = sen_txt
+    last_sen = ""
+    for sen_idx, sen in enumerate(gen_tsv_sens(sys.stdin)):
+        if first is not None and sen_idx < first:
+            continue
+        if last is not None and last < sen_idx:
+            break
+        sen_txt = get_sen_from_conll_sen(sen)
+        if with_nr_ex_stat and sen_txt == last_sen:
+            continue
+        last_sen = sen_txt
 
-    with open(out_fn,"w") as f:
-        json.dump(extracted, f, indent=4)
+        print(f"Processing sen {sen_idx}")
+        sen_dir = create_sen_dir(out_dir, sen_idx)
+        predict_dir = os.path.join(sen_dir, "predict")
+        if not os.path.exists(predict_dir):
+            os.makedirs(predict_dir)
+
+        extracted = defaultdict(list)
+        sen_len = str(len(sen))
+        sen_len_stat = sen_len
+        if sen_len_stat not in seq_stat:
+            while sen_len_stat not in seq_stat:
+                sen_len_stat = str(int(sen_len_stat) - 1)
+        nr_seq = len(seq_stat[sen_len_stat])
+
+        nr_to_gen = 1
+        if with_nr_ex_stat:
+            nr_ex = random.choices(list(nr_ex_stat.keys()), list(nr_ex_stat.values()))
+            nr_to_gen = int(nr_ex[0])
+        for i in range(nr_to_gen):
+            rnd_idx = random.randrange(nr_seq)
+            pred_seq = seq_stat[sen_len][rnd_idx]
+            if len(sen) > len(pred_seq):
+                pred_seq += ["O"] * (len(sen) - len(pred_seq))
+            extracted_labels = {str(i+1): l for i, l in enumerate(pred_seq)}
+            if verb_pred:
+                parsed_doc = nlp(sen_txt)
+                pos_tags = [w.pos for w in parsed_doc.sentences[0].words]
+                p_idx_l = [i for i, label in extracted_labels.items() if label == "P"]
+                verbs = [str((i+1)) for i, t in enumerate(pos_tags) if t == "VERB"]
+                if verbs:
+                    for p_idx in p_idx_l:
+                        if pos_tags[int(p_idx)-1] != "VERB":
+                            new_p_idx = verbs[random.randrange(0, len(verbs))]
+                            extracted_labels[new_p_idx] = "P"
+                            extracted_labels[p_idx] = "O"
+            add_arg_idx(extracted_labels, len(pred_seq))
+            extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, i+1, sen_idx, extractor="random"))
+        with open(f"{predict_dir}/sen{sen_idx}_wire.json", "w") as f:
+            json.dump(extracted, f, indent=4)
 
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.dev_fn, args.out_fn)
+    main(args.out_dir, args.k_max, args.first, args.last)
