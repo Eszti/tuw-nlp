@@ -77,7 +77,7 @@ def main(gold_path, in_dir, config_json, only_common, raw_scores, report_dir, te
                               rec,
                               f1_score])
 
-                # assert nr_exact_matches == len(exact_matches)
+                assert nr_exact_matches == len(exact_matches)
                 assert nr_matches == len(matches)
                 prec_l = [m[2]["prec"] for m in matches]
                 rec_l = [m[2]["rec"] for m in matches]

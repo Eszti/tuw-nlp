@@ -65,22 +65,25 @@ def main(out_dir, k_max=10, first=None, last=None, with_nr_ex_stat=True, verb_pr
             os.makedirs(predict_dir)
 
         extracted = defaultdict(list)
-        sen_len = str(len(sen))
-        sen_len_stat = sen_len
-        if sen_len_stat not in seq_stat:
-            while sen_len_stat not in seq_stat:
-                sen_len_stat = str(int(sen_len_stat) - 1)
-        nr_seq = len(seq_stat[sen_len_stat])
+        sen_len_for_stat = str(len(sen))
+        if sen_len_for_stat not in seq_stat:
+            while sen_len_for_stat not in seq_stat:
+                sen_len_for_stat = str(int(sen_len_for_stat) - 1)
+        nr_seq = len(seq_stat[sen_len_for_stat])
 
         nr_to_gen = 1
         if with_nr_ex_stat:
             nr_ex = random.choices(list(nr_ex_stat.keys()), list(nr_ex_stat.values()))
             nr_to_gen = int(nr_ex[0])
+        used_rnd_indexes = set()
         for i in range(nr_to_gen):
             rnd_idx = random.randrange(nr_seq)
-            pred_seq = seq_stat[sen_len][rnd_idx]
+            while rnd_idx in used_rnd_indexes:
+                rnd_idx = random.randrange(nr_seq)
+            used_rnd_indexes.add(rnd_idx)
+            pred_seq = seq_stat[sen_len_for_stat][rnd_idx]
             if len(sen) > len(pred_seq):
-                pred_seq += ["O"] * (len(sen) - len(pred_seq))
+                pred_seq += "".join(["O"] * (len(sen) - len(pred_seq)))
             extracted_labels = {str(i+1): l for i, l in enumerate(pred_seq)}
             if verb_pred:
                 parsed_doc = nlp(sen_txt)
