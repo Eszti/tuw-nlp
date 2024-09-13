@@ -2,7 +2,9 @@
     [
         "Test results",
         [
-            "test_gr100_k2.json"
+            "test_gr100_k2.json",
+            "test_grRND_all.json",
+            "test_lsioe_baselines.json"
         ]
     ]
 ]
