@@ -14,14 +14,17 @@ def get_args():
 
 
 def main(out_fn):
-    wire_all = defaultdict(list)
+    wire_all = defaultdict(set)
     for sen_idx, sen in enumerate(gen_tsv_sens(sys.stdin)):
         print(f"Processing sen {sen_idx}")
         sen_txt = " ".join([fields[1] for fields in sen])
         wire_ex = wire_from_conll(sen, sen_idx)
-        wire_all[sen_txt].append(wire_ex)
+        wire_all[sen_txt].add(wire_ex)
+    wire_all_list = defaultdict(list)
+    for k, v in wire_all.items():
+        wire_all_list[k] = list(v)
     with open(out_fn, "w") as f:
-        json.dump(wire_all, f, indent=4)
+        json.dump(wire_all_list, f, indent=4)
 
 
 if __name__ == "__main__":

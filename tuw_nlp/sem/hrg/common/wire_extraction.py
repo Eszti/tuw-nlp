@@ -17,6 +17,9 @@ class WiReEx(dict):
         if "extractor" in extraction:
             self["extractor"] = extraction["extractor"]
 
+    def __eq__(self, other):
+        return self["rel"] == other["rel"] and self["arg1"] == other["arg1"] and self["arg2+"] == other["arg2+"]
+
     def __hash__(self):
         return hash(
             (self["rel"]["text"],

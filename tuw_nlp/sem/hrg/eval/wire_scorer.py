@@ -107,16 +107,13 @@ def aggregate_exact_matches(match_matrix):
 
 def tuple_exact_match(t, gt):
     for part in ['arg1', 'rel']:
-        if len(t[part]["indexes"]) == len(gt[part]["indexes"]):
-            pass
         if t[part]["indexes"] != gt[part]["indexes"]:
             return False
-    if gt['arg2+']:
-        if not t.get('arg2+', False):
+    if len(gt['arg2+']) != len(t["arg2+"]):
+        return False
+    for i, p in enumerate(gt['arg2+']):
+        if t['arg2+'][i]["indexes"] != p["indexes"]:
             return False
-        for i, p in enumerate(gt['arg2+']):
-            if len(t['arg2+']) > i and t['arg2+'][i]["indexes"] != p["indexes"]:
-                return False
     return True
 
 
