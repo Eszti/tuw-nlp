@@ -1,22 +1,10 @@
 import networkx as nx
 
 
-def add_labels_to_nodes(graph, gold_labels, pred_labels, node_prefix=""):
-    for n in graph.G.nodes:
-        gold, pred = "O", "O"
-        key = n
-        if node_prefix:
-            key = n.split(node_prefix)[1]
-        if int(key) < 1000:
-            if key in gold_labels:
-                gold = gold_labels[key]
-            if key in pred_labels:
-                pred = pred_labels[key]
-            graph.G.nodes[n]["name"] = f"{gold}\n{pred}"
-
-
-def resolve_pred(G, pred_labels, pos_tags, log=None):
+def resolve_pred(G, pred_labels, pos_tags, postprocess, log=None):
     preds = [n for n, l in pred_labels.items() if l == "P"]
+    if not postprocess and len(preds) > 0:
+        return
     verbs = [n for n, t in pos_tags.items() if t == "VERB"]
     preds_w_verbs = [n for n in preds if n in verbs]
     if len(preds) == 1:
