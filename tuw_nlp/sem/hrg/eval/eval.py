@@ -51,8 +51,10 @@ def calculate_table(
         in_dir += f"/{chart_filter}"
     if pp:
         in_dir += f"/{pp}"
-    files = [i for i in os.listdir(in_dir) if i.split("_")[-1].startswith("k")]
-    files = sorted(files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
+    files = [i for i in os.listdir(in_dir) if i.endswith(".json")]
+    if not test:
+        files = [i for i in files if i.split("_")[-1].startswith("k")]
+        files = sorted(files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
     for file in files:
         fn = f"{in_dir}/{file}"
         print(fn)

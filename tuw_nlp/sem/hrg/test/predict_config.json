@@ -1,0 +1,19 @@
+{
+    "Grammar 100":
+    {
+        "ignore": false,
+        "preproc_dir": "test_gr100",
+        "predict_dir_root": "test_gr100",
+        "bolinas_chart_filters": 
+        [
+            "max"
+        ],
+        "postprocess": 
+        {
+            "postprocess":
+            {
+                "postprocess_p": true
+            }
+        }
+    }
+}

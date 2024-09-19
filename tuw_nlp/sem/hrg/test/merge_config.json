@@ -1,15 +1,15 @@
 {
-    "Test results":
+    "test_gr100":
     {
         "ignore": false,
-        "in_dir": "test_extractions",
         "bolinas_chart_filters": 
         [
-            ""
+            "max"
         ],
         "postprocess": 
         [
-            ""
-        ]
+            "postprocess"
+        ],
+        "out_dir": "test_extractions"
     }
 }
