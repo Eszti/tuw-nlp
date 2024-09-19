@@ -114,7 +114,7 @@ def main(data_dir, config_json, first, last):
                             extracted_labels,
                             sen_text,
                             sen_id=int(sen_dir),
-                            k=i,
+                            k=k,
                             score=score,
                             extractor=predict_dir_root.split("/")[-1].split("_")[1],
                         ))
@@ -129,8 +129,6 @@ def main(data_dir, config_json, first, last):
                             f.write(graph.to_dot(
                                 marked_nodes=get_marked_nodes(graph, extracted_labels))
                             )
-
-                        k += 1
                 for subdir, extractions in wire_extractions.items():
                     wire_json = f"{chart_filter_dir}/{subdir}/sen{sen_dir}_wire.json"
                     with open(wire_json, "w") as f:

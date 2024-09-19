@@ -1,0 +1,29 @@
+{
+    "dev_gr100":
+    {
+        "ignore": true,
+        "bolinas_chart_filters": 
+        [
+            "max",
+            "basic"
+        ],
+        "postprocess": 
+        [
+            "postprocess",
+            "keep"
+        ],
+        "out_dir": "new_dev_extractions"
+    },
+    "dev_random":
+    {
+        "bolinas_chart_filters": 
+        [
+            ""
+        ],
+        "postprocess": 
+        [
+            ""
+        ],
+        "out_dir": "new_dev_extractions"
+    }
+}
