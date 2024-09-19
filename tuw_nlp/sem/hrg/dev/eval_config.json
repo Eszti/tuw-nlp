@@ -1,47 +1,28 @@
-[
-    [
-        "Grammar 100",
+{
+    "Grammar 100":
+    {
+        "in_dir": "dev_gr100",
+        "bolinas_chart_filters": 
         [
-            "dev_gr100_k1.json",
-            "dev_gr100_k2.json",
-            "dev_gr100_k3.json",
-            "dev_gr100_k4.json",
-            "dev_gr100_k5.json",
-            "dev_gr100_k6.json",
-            "dev_gr100_k7.json",
-            "dev_gr100_k8.json",
-            "dev_gr100_k9.json",
-            "dev_gr100_k10.json"
-        ]
-    ],
-    [
-        "Grammar 200",
+            "max",
+            "basic"
+        ],
+        "postprocess": 
         [
-            "dev_gr200_k1.json",
-            "dev_gr200_k2.json",
-            "dev_gr200_k3.json",
-            "dev_gr200_k4.json",
-            "dev_gr200_k5.json",
-            "dev_gr200_k6.json",
-            "dev_gr200_k7.json",
-            "dev_gr200_k8.json",
-            "dev_gr200_k9.json",
-            "dev_gr200_k10.json"
+            "postprocess",
+            "keep"
         ]
-    ],
-    [
-        "Random ",
+    },
+    "Random":
+    {
+        "in_dir": "dev_random",
+        "bolinas_chart_filters": 
         [
-            "dev_grRND_k1.json",
-            "dev_grRND_k2.json",
-            "dev_grRND_k3.json",
-            "dev_grRND_k4.json",
-            "dev_grRND_k5.json",
-            "dev_grRND_k6.json",
-            "dev_grRND_k7.json",
-            "dev_grRND_k8.json",
-            "dev_grRND_k9.json",
-            "dev_grRND_k10.json"
+            ""
+        ],
+        "postprocess": 
+        [
+            ""
         ]
-    ]
-]
+    }
+}

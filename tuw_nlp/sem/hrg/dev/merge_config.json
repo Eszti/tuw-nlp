@@ -1,7 +1,6 @@
 {
     "dev_gr100":
     {
-        "ignore": true,
         "bolinas_chart_filters": 
         [
             "max",
