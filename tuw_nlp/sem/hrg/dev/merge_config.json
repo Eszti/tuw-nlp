@@ -1,6 +1,7 @@
 {
     "dev_gr100":
     {
+        "ignore": false,
         "bolinas_chart_filters": 
         [
             "max",
@@ -11,10 +12,26 @@
             "postprocess",
             "keep"
         ],
-        "out_dir": "new_dev_extractions"
+        "out_dir": "dev_extractions"
+    },
+    "dev_gr200":
+    {
+        "ignore": false,
+        "bolinas_chart_filters": 
+        [
+            "max",
+            "basic"
+        ],
+        "postprocess": 
+        [
+            "postprocess",
+            "keep"
+        ],
+        "out_dir": "dev_extractions"
     },
     "dev_random":
     {
+        "ignore": true,
         "bolinas_chart_filters": 
         [
             ""
@@ -23,6 +40,6 @@
         [
             ""
         ],
-        "out_dir": "new_dev_extractions"
+        "out_dir": "dev_extractions"
     }
 }

@@ -1,27 +1,27 @@
-dev_gr100_all
+dev_gr100_max_postprocess_all
 values corr:
-[[1.         0.13044608]
- [0.13044608 1.        ]]
+[[1.         0.13043575]
+ [0.13043575 1.        ]]
 distribution corr:
-[[1.         0.83719427]
- [0.83719427 1.        ]]
+[[1.         0.83751472]
+ [0.83751472 1.        ]]
 sum extractions: 2266
 
-dev_gr200_all
+dev_gr200_max_postprocess_all
 values corr:
-[[1.         0.28596355]
- [0.28596355 1.        ]]
+[[1.         0.29028921]
+ [0.29028921 1.        ]]
 distribution corr:
-[[1.         0.10792987]
- [0.10792987 1.        ]]
+[[1.         0.12958338]
+ [0.12958338 1.        ]]
 sum extractions: 2266
 
-dev_grRND_all
+dev_random_all
 values corr:
-[[1.         0.07291303]
- [0.07291303 1.        ]]
+[[1.         0.07531053]
+ [0.07531053 1.        ]]
 distribution corr:
-[[1.         0.99854779]
- [0.99854779 1.        ]]
+[[1.         0.99847025]
+ [0.99847025 1.        ]]
 sum extractions: 2266
 

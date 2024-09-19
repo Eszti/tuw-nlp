@@ -71,6 +71,8 @@ def postprocess(extracted_labels, graph, pos_tags, postprocess_p):
 def main(data_dir, config_json, first, last):
     config = json.load(open(config_json))
     for name, c in config.items():
+        if c.get("ignore") and c["ignore"]:
+            continue
         preproc_dir_root = f"{data_dir}/{c['preproc_dir']}"
         predict_dir_root = f"{data_dir}/{c['predict_dir_root']}"
         for sen_dir in get_range(preproc_dir_root, first, last):

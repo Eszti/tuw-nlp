@@ -1,8 +1,31 @@
 {
     "Grammar 100":
     {
+        "ignore": false,
         "preproc_dir": "dev_preproc",
         "predict_dir_root": "dev_gr100",
+        "bolinas_chart_filters": 
+        [
+            "max",
+            "basic"
+        ],
+        "postprocess": 
+        {
+            "postprocess":
+            {
+                "postprocess_p": true
+            },
+            "keep":
+            {
+                "postprocess_p": false
+            }
+        }
+    },
+    "Grammar 200":
+    {
+        "ignore": false,
+        "preproc_dir": "dev_preproc",
+        "predict_dir_root": "dev_gr200",
         "bolinas_chart_filters": 
         [
             "max",
