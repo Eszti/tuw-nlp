@@ -9,8 +9,8 @@ import stanza
 
 from tuw_nlp.sem.hrg.common.conll import get_sen_from_conll_sen
 from tuw_nlp.sem.hrg.common.io import create_sen_dir
-from tuw_nlp.sem.hrg.common.predict import add_arg_idx
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
+from tuw_nlp.sem.hrg.predict.postprocess import add_arg_idx
 from tuw_nlp.text.utils import gen_tsv_sens
 
 
@@ -24,6 +24,7 @@ def get_args():
 
 
 def main(out_dir, k_max=10, first=None, last=None, with_nr_ex_stat=True, verb_pred=True):
+    non_verbs = defaultdict(list)
     stat_dir = os.path.dirname(os.path.realpath(__file__))
     train_seq_dist = f"{stat_dir}/train_stat/train_seq_dist.json"
     train_nr_ex = f"{stat_dir}/train_stat/train_nr_ex.json"
@@ -96,10 +97,13 @@ def main(out_dir, k_max=10, first=None, last=None, with_nr_ex_stat=True, verb_pr
                             new_p_idx = verbs[random.randrange(0, len(verbs))]
                             extracted_labels[new_p_idx] = "P"
                             extracted_labels[p_idx] = "O"
+                else:
+                    non_verbs[sen_idx].append((p_idx_l, pos_tags))
             add_arg_idx(extracted_labels, len(pred_seq))
             extracted[sen_txt].append(get_wire_extraction(extracted_labels, sen_txt, i+1, sen_idx, extractor="random"))
         with open(f"{predict_dir}/sen{sen_idx}_wire.json", "w") as f:
             json.dump(extracted, f, indent=4)
+    print(non_verbs)
 
 
 if __name__ == "__main__":

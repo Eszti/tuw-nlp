@@ -1,6 +1,6 @@
 {
     "preproc_dir": "dev_preproc",
-    "in_dir": "dev_extractions",
+    "extractions_dir": "dev_extractions",
     "models":
     [
         {
