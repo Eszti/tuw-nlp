@@ -1,5 +1,5 @@
 # Pred-Arg Evaluation
-## Grammar 100
+## dev_gr100
 ### max - postprocess
 
 |  k | gold rels | avg gold rel / sen | nr gold mult-word rels | predicted rels | avg predicted rel / sen | nr predicted mult-word rels | prec | rec | F1 |
@@ -64,7 +64,7 @@
 | k10 | 4913 | 2.1681 | 113 | 3009 | 1.3279 | 0 | 0.7315 | **0.4480** | 0.5557 | 
 
 
-## Grammar 200
+## dev_gr200
 ### max - postprocess
 
 |  k | gold rels | avg gold rel / sen | nr gold mult-word rels | predicted rels | avg predicted rel / sen | nr predicted mult-word rels | prec | rec | F1 |
@@ -129,7 +129,7 @@
 | k10 | 4913 | 2.1681 | 113 | 3001 | 1.3244 | 0 | 0.7947 | **0.4854** | **0.6027** | 
 
 
-## Random
+## dev_random
 
 |  k | gold rels | avg gold rel / sen | nr gold mult-word rels | predicted rels | avg predicted rel / sen | nr predicted mult-word rels | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 

@@ -99,15 +99,15 @@ def main(gold_path, data_dir, config_json, report_dir):
     gold, gold_multi_rel = get_rels(json.load(open(gold_path)))
     report = "# Pred-Arg Evaluation\n"
 
-    for grammar_name, c in config.items():
-        report += f"## {grammar_name}\n"
+    for c in config["models"]:
+        report += f"## {c['name']}\n"
         if c.get("ignore") and c["ignore"]:
             continue
         for chart_filter in c["bolinas_chart_filters"]:
             for pp in c["postprocess"]:
                 report = calculate_table(
                     data_dir,
-                    c["in_dir"],
+                    c["name"],
                     chart_filter,
                     pp,
                     gold,
