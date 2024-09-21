@@ -119,12 +119,14 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
     report = "# Evaluation\n"
 
     p_list, r_list = [], []
+    pr_curve_names = []
     for grammar_name, c in config.items():
-        report += f"## {grammar_name}\n"
         if c.get("ignore") and c["ignore"]:
             continue
-        for chart_filter in c["bolinas_chart_filters"]:
-            for pp in c["postprocess"]:
+        report += f"## {grammar_name}\n"
+        for chart_filter in sorted(c["bolinas_chart_filters"]):
+            for pp in sorted(c["postprocess"]):
+                pr_curve_names.append(f"{grammar_name}-{chart_filter}-{pp}")
                 report = calculate_table(
                     data_dir,
                     c["in_dir"],
@@ -140,8 +142,8 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
                     test
                 )
     if not test:
-        save_pr_curve(p_list, r_list, [model[0] for model in config], f"{report_dir}/pr_curve.png")
-        report += f"## P-R curve\n![](pr_curve.png)"
+        save_pr_curve(p_list, r_list, pr_curve_names, f"{report_dir}/pr_curve.png")
+    report += f"## P-R curve\n![](pr_curve.png)"
     with open(f"{report_dir}/eval.md", "w") as f:
         f.writelines(report)
 

@@ -1,7 +1,9 @@
-	basic_keep	basic_postprocess	max_keep	max_postprocess
-A	0	1006	0	4188
+	basic_keep	basic_verb	max_keep	max_verb
+A D	0	4	0	1
+A E	0	38	0	403
+A G	0	38	0	1323
 D	83	83	47	47
-E	5519	5519	2166	2166
-G	15977	15977	7949	7949
-X	1006	0	4188	0
-no extraction	0	0	8235	8235
+E	5520	5520	2170	2170
+G	15979	15979	7998	7998
+X	1003	923	4183	2456
+no extraction	0	0	8187	8187

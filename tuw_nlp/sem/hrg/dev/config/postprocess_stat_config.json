@@ -4,7 +4,20 @@
     "models":
     [
         {
-            "ignore": false,
+            "ignore": true,
+            "name": "dev_gr100_test",
+            "bolinas_chart_filters": 
+            [
+                "max"
+            ],
+            "postprocess": 
+            [
+                "verb",
+                "keep"
+            ]
+        },
+        {
+            "ignore": true,
             "name": "dev_gr100",
             "bolinas_chart_filters": 
             [
@@ -13,12 +26,12 @@
             ],
             "postprocess": 
             [
-                "postprocess",
+                "verb",
                 "keep"
             ]
         },
         {
-            "ignore": false,
+            "ignore": true,
             "name": "dev_gr200",
             "bolinas_chart_filters": 
             [
@@ -27,12 +40,12 @@
             ],
             "postprocess": 
             [
-                "postprocess",
+                "verb",
                 "keep"
             ]
         },
         {
-            "ignore": false,
+            "ignore": true,
             "name": "dev_random",
             "bolinas_chart_filters": 
             [

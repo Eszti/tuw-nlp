@@ -64,8 +64,8 @@ def get_bolinas_input(predict_dir_root, sen_dir, chart_filter):
     return zip(matches_lines, labels_lines)
 
 
-def postprocess(extracted_labels, graph, pos_tags, postprocess_p, pred_stat):
-    resolve_pred(graph.G, extracted_labels, pos_tags, postprocess_p, pred_stat)
+def postprocess(extracted_labels, graph, pos_tags, pp, pred_stat):
+    resolve_pred(graph.G, extracted_labels, pos_tags, pp, pred_stat)
     add_arg_idx(extracted_labels, len(pos_tags))
 
 
@@ -96,25 +96,25 @@ def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_di
             with open(f"{chart_filter_dir}/sen{sen_dir}_match_{i}.dot", "w") as f:
                 f.write(match_graph.to_dot())
 
-            for subdir, pp_c in c["postprocess"].items():
+            for pp in c["postprocess"]:
                 extracted_labels = json.loads(labels_str)
-                pp_dir = f"{chart_filter_dir}/{subdir}"
-                models.add(f"{chart_filter}_{subdir}")
+                pp_dir = f"{chart_filter_dir}/{pp}"
+                models.add(f"{chart_filter}_{pp}")
                 if not os.path.exists(pp_dir):
                     os.makedirs(pp_dir)
                 postprocess(
                     extracted_labels,
                     graph,
                     pos_tags,
-                    pp_c["postprocess_p"],
-                    pred_stat[f"{sen_dir}_k{k}"][f"{chart_filter}_{subdir}"]
+                    pp,
+                    pred_stat[f"{sen_dir}_k{k}"][f"{chart_filter}_{pp}"]
                 )
                 save_predicted_conll(
                     orig_conll,
                     extracted_labels,
                     f"{pp_dir}/sen{sen_dir}_extracted_k{i}.conll"
                 )
-                wire_extractions[subdir][sen_text].append(get_wire_extraction(
+                wire_extractions[pp][sen_text].append(get_wire_extraction(
                     extracted_labels,
                     sen_text,
                     sen_id=int(sen_dir),

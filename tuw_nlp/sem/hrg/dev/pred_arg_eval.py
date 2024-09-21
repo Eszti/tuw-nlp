@@ -103,8 +103,8 @@ def main(gold_path, data_dir, config_json, report_dir):
         report += f"## {c['name']}\n"
         if c.get("ignore") and c["ignore"]:
             continue
-        for chart_filter in c["bolinas_chart_filters"]:
-            for pp in c["postprocess"]:
+        for chart_filter in sorted(c["bolinas_chart_filters"]):
+            for pp in sorted(c["postprocess"]):
                 report = calculate_table(
                     data_dir,
                     c["name"],

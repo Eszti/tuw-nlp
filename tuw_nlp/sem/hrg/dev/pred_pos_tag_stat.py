@@ -56,11 +56,11 @@ def main(gold_path, data_dir, config_json, report_dir):
     report += f"{gold_stat}\n"
 
     for c in config["models"]:
-        report += f"## {c['name']}\n"
         if c.get("ignore") and c["ignore"]:
             continue
-        for chart_filter in c["bolinas_chart_filters"]:
-            for pp in c["postprocess"]:
+        report += f"## {c['name']}\n"
+        for chart_filter in sorted(c["bolinas_chart_filters"]):
+            for pp in sorted(c["postprocess"]):
                 report += f"### {chart_filter} - {pp}\n"
                 in_dir = f"{data_dir}/{config['extractions_dir']}/{c['name']}"
                 if chart_filter:

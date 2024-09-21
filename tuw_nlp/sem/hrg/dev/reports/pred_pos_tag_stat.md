@@ -13,89 +13,85 @@
 
 
 ## dev_gr100
-### max - postprocess
+### basic - keep
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 8271 | 
-| AUX | 679 | 
-| sum | 8950 | 
+| VERB | 21381 | 
+| AUX | 541 | 
+| sum | 21922 | 
+
+
+### basic - verb
+
+|  POS tag | number of pred words |
+|-------------- | -------------- | 
+| VERB | 21443 | 
+| sum | 21443 | 
 
 
 ### max - keep
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 8271 | 
-| AUX | 679 | 
-| sum | 8950 | 
+| VERB | 8529 | 
+| AUX | 673 | 
+| sum | 9202 | 
 
 
-### basic - postprocess
-
-|  POS tag | number of pred words |
-|-------------- | -------------- | 
-| VERB | 21381 | 
-| AUX | 539 | 
-| sum | 21920 | 
-
-
-### basic - keep
+### max - verb
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 21381 | 
-| AUX | 539 | 
-| sum | 21920 | 
+| VERB | 9188 | 
+| sum | 9188 | 
 
 
 ## dev_gr200
-### max - postprocess
+### basic - keep
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 12568 | 
-| AUX | 1735 | 
-| NOUN | 36 | 
-| ADJ | 1 | 
+| VERB | 22369 | 
+| AUX | 80 | 
+| NOUN | 63 | 
+| ADJ | 10 | 
 | PROPN | 10 | 
-| sum | 14350 | 
+| sum | 22532 | 
+
+
+### basic - verb
+
+|  POS tag | number of pred words |
+|-------------- | -------------- | 
+| VERB | 22391 | 
+| NOUN | 63 | 
+| ADJ | 14 | 
+| PROPN | 10 | 
+| sum | 22478 | 
 
 
 ### max - keep
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 12568 | 
-| AUX | 1735 | 
+| VERB | 12624 | 
+| AUX | 1727 | 
 | NOUN | 36 | 
 | ADJ | 1 | 
 | PROPN | 10 | 
-| sum | 14350 | 
+| sum | 14398 | 
 
 
-### basic - postprocess
-
-|  POS tag | number of pred words |
-|-------------- | -------------- | 
-| VERB | 22368 | 
-| AUX | 80 | 
-| NOUN | 63 | 
-| ADJ | 10 | 
-| PROPN | 10 | 
-| sum | 22531 | 
-
-
-### basic - keep
+### max - verb
 
 |  POS tag | number of pred words |
 |-------------- | -------------- | 
-| VERB | 22368 | 
-| AUX | 80 | 
-| NOUN | 63 | 
-| ADJ | 10 | 
+| VERB | 14306 | 
+| NOUN | 36 | 
+| ADJ | 2 | 
 | PROPN | 10 | 
-| sum | 22531 | 
+| sum | 14354 | 
 
 
 ## dev_random
