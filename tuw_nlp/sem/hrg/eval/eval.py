@@ -51,7 +51,7 @@ def calculate_table(
         in_dir += f"/{chart_filter}"
     if pp:
         in_dir += f"/{pp}"
-    files = [i for i in os.listdir(in_dir) if i.endswith(".json")]
+    files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
     if not test:
         files = [i for i in files if i.split("_")[-1].startswith("k")]
         files = sorted(files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
@@ -143,7 +143,7 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
                 )
     if not test:
         save_pr_curve(p_list, r_list, pr_curve_names, f"{report_dir}/pr_curve.png")
-    report += f"## P-R curve\n![](pr_curve.png)"
+        report += f"## P-R curve\n![](pr_curve.png)"
     with open(f"{report_dir}/eval.md", "w") as f:
         f.writelines(report)
 

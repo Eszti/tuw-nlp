@@ -1,0 +1,55 @@
+{
+    "preproc_dir": "test_preproc",
+    "extractions_dir": "test_extractions",
+    "models":
+    [
+        {
+            "ignore": false,
+            "name": "ls_oie",
+            "bolinas_chart_filters": 
+            [
+                ""
+            ],
+            "postprocess": 
+            [
+                ""
+            ]
+        },
+        {
+            "ignore": false,
+            "name": "ls_oie_crf",
+            "bolinas_chart_filters": 
+            [
+                ""
+            ],
+            "postprocess": 
+            [
+                ""
+            ]
+        },
+        {
+            "ignore": false,
+            "name": "srl_bert",
+            "bolinas_chart_filters": 
+            [
+                ""
+            ],
+            "postprocess": 
+            [
+                ""
+            ]
+        },
+        {
+            "ignore": false,
+            "name": "srl_bert_oie2016",
+            "bolinas_chart_filters": 
+            [
+                ""
+            ],
+            "postprocess": 
+            [
+                ""
+            ]
+        }
+    ]
+}
