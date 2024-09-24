@@ -36,7 +36,7 @@ def main(first=None, last=None, method="per_word", out_dir="out"):
         log = open(f"{sen_dir}/sen{sen_idx}.log", "w")
 
         save_conll(sen, f"{sen_dir}/sen{sen_idx}.conll")
-        parsed_doc = parse_doc(nlp, sen, sen_idx, sen_dir, log)
+        parsed_doc = parse_doc(nlp, sen, sen_dir, log)
         ud_graph = get_ud_graph(parsed_doc)
         save_as_dot(f"{sen_dir}/sen{sen_idx}_ud.dot", ud_graph, log)
 

@@ -10,11 +10,12 @@ def create_sen_dir(out_dir, sen_id):
     return sen_dir
 
 
-def parse_doc(nlp, sen, sen_idx, out_dir, log):
+def parse_doc(nlp, sen, out_dir, log, save=True):
     parsed_doc = nlp(" ".join(t[1] for t in sen))
-    fn = f"{out_dir}/sen{sen_idx}_parsed.conll"
-    CoNLL.write_doc2conll(parsed_doc, fn)
-    log.write(f"wrote parse to {fn}\n")
+    if save:
+        fn = f"{out_dir}/parsed.conll"
+        CoNLL.write_doc2conll(parsed_doc, fn)
+        log.write(f"wrote parse to {fn}\n")
     return parsed_doc
 
 

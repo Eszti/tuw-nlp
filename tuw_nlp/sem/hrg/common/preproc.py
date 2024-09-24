@@ -12,19 +12,19 @@ def get_ud_graph(parsed_doc):
 def get_pred_and_args(sen, sen_idx, log):
     args = defaultdict(list)
     pred = []
-    node_to_label = defaultdict()
+    gold_labels = defaultdict()
     for i, tok in enumerate(sen):
         label = tok[7].split("-")[0]
         if label == "O":
             continue
         elif label == "P":
             pred.append(i + 1)
-            node_to_label[i + 1] = label
+            gold_labels[i + 1] = label
             continue
         args[label].append(i + 1)
-        node_to_label[i + 1] = label
-    log.write(f"sen{sen_idx}\npred: {pred}\nargs: {args}\nnode_to_label: {node_to_label}\n")
-    return args, pred, node_to_label
+        gold_labels[i + 1] = label
+    log.write(f"sen{sen_idx}\npred: {pred}\nargs: {args}\nnode_to_label: {gold_labels}\n")
+    return args, pred, gold_labels
 
 
 def get_pred_arg_subgraph(ud_graph, pred, args, vocab, log):
