@@ -5,8 +5,9 @@
         "in_dir": "dev_gr100_test",
         "bolinas_chart_filters": 
         [
-            "basic",
-            "max"
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [

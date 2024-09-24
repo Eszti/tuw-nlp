@@ -25,7 +25,7 @@ def get_args():
 def get_preproc_input(preproc_dir_root, sen_dir):
     preproc_dir = os.path.join(preproc_dir_root, sen_dir, "preproc")
 
-    graph_file = f"{preproc_dir}/sen{sen_dir}_labels.graph"
+    graph_file = f"{preproc_dir}/pos_edge_with_labels.graph"
     with open(graph_file) as f:
         lines = f.readlines()
         assert len(lines) == 1
@@ -39,11 +39,11 @@ def get_preproc_input(preproc_dir_root, sen_dir):
         pa_graph_str = lines[0].strip()
     pa_graph = Graph.from_bolinas(pa_graph_str)
 
-    node_to_label_file = f"{preproc_dir}/sen{sen_dir}_node_to_label.json"
+    node_to_label_file = f"{preproc_dir}/sen{sen_dir}_gold_labels.json"
     with open(node_to_label_file) as f:
         gold_labels = json.load(f)
 
-    parsed_doc_file = f"{preproc_dir}/sen{sen_dir}_parsed.conll"
+    parsed_doc_file = f"{preproc_dir}/parsed.conll"
     pos_tags = get_pos_tags(parsed_doc_file)
 
     orig_conll = f"{preproc_dir}/sen{sen_dir}.conll"

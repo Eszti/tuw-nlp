@@ -11,8 +11,6 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-d", "--data-dir", type=str)
     parser.add_argument("-c", "--config", type=str)
-    parser.add_argument("-f", "--first", type=int)
-    parser.add_argument("-l", "--last", type=int)
     parser.add_argument("-k", type=int)
     return parser.parse_args()
 
@@ -93,11 +91,14 @@ def merge(data_dir, in_dir, out_dir, chart_filter, postprocess, k, first, last):
         print(f"Output saved to {out_fn_k}\n")
 
 
-def main(data_dir, config_json, first, last, k):
+def main(data_dir, config_json):
     config = json.load(open(config_json))
     for in_dir, c in config.items():
         if c.get("ignore") and c["ignore"]:
             continue
+        first = c.get("first", None)
+        last = c.get("last", None)
+        k = c.get("k", 0)
         for chart_filter in c["bolinas_chart_filters"]:
             for pp in c["postprocess"]:
                 merge(data_dir, in_dir, c["out_dir"], chart_filter, pp, k, first, last)
@@ -105,4 +106,4 @@ def main(data_dir, config_json, first, last, k):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.data_dir, args.config, args.first, args.last, args.k)
+    main(args.data_dir, args.config)

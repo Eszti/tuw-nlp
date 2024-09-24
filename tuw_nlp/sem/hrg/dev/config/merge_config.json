@@ -2,10 +2,12 @@
     "dev_gr100_test":
     {
         "ignore": true,
+        "last": 30,
         "bolinas_chart_filters": 
         [
-            "basic",
-            "max"
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [
