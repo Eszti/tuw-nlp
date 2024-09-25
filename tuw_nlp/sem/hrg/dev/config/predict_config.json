@@ -25,7 +25,10 @@
         "bolinas_chart_filters": 
         [
             "basic",
-            "max"
+            "max",
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [

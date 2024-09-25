@@ -21,8 +21,9 @@
         "ignore": true,
         "bolinas_chart_filters": 
         [
-            "max",
-            "basic"
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [

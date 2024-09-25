@@ -22,7 +22,10 @@
         "bolinas_chart_filters": 
         [
             "max",
-            "basic"
+            "basic",
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [
@@ -47,7 +50,7 @@
     },
     "Random":
     {
-        "ignore": true,
+        "ignore": false,
         "in_dir": "dev_random",
         "bolinas_chart_filters": 
         [
