@@ -50,7 +50,7 @@
     },
     "Random":
     {
-        "ignore": false,
+        "ignore": true,
         "in_dir": "dev_random",
         "bolinas_chart_filters": 
         [

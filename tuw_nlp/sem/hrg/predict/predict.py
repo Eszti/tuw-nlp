@@ -46,9 +46,12 @@ def get_preproc_input(preproc_dir_root, sen_dir):
     parsed_doc_file = f"{preproc_dir}/parsed.conll"
     pos_tags = get_pos_tags(parsed_doc_file)
 
+    top_order_file = f"{preproc_dir}/pos_edge_graph_top_order.json"
+    top_order = json.load(open(top_order_file))
+
     orig_conll = f"{preproc_dir}/sen{sen_dir}.conll"
     sen_text = get_sen_text_from_conll_file(orig_conll)
-    return sen_text, graph, pa_graph, gold_labels, pos_tags, orig_conll
+    return sen_text, graph, pa_graph, gold_labels, pos_tags, top_order, orig_conll
 
 
 def get_bolinas_input(predict_dir_root, sen_dir, chart_filter):
@@ -64,8 +67,8 @@ def get_bolinas_input(predict_dir_root, sen_dir, chart_filter):
     return zip(matches_lines, labels_lines)
 
 
-def postprocess(extracted_labels, graph, pos_tags, pp, pred_stat):
-    resolve_pred(graph.G, extracted_labels, pos_tags, pp, pred_stat)
+def postprocess(extracted_labels, pos_tags, pp, top_order, pred_stat):
+    resolve_pred(extracted_labels, pos_tags, pp, top_order, pred_stat)
     add_arg_idx(extracted_labels, len(pos_tags))
 
 
@@ -76,7 +79,7 @@ def get_sort_number(x):
 
 
 def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_dir):
-    sen_text, graph, pa_graph, gold_labels, pos_tags, orig_conll = get_preproc_input(
+    sen_text, graph, pa_graph, gold_labels, pos_tags, top_order, orig_conll = get_preproc_input(
         preproc_dir_root,
         sen_dir
     )
@@ -104,9 +107,9 @@ def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_di
                     os.makedirs(pp_dir)
                 postprocess(
                     extracted_labels,
-                    graph,
                     pos_tags,
                     pp,
+                    top_order,
                     pred_stat[f"{sen_dir}_k{k}"][f"{chart_filter}_{pp}"]
                 )
                 save_predicted_conll(

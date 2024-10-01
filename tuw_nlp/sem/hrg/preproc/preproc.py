@@ -3,6 +3,7 @@ import json
 import os
 import sys
 
+import networkx as nx
 import stanza
 
 from tuw_nlp.common.vocabulary import Vocabulary
@@ -27,6 +28,13 @@ def get_args():
     parser.add_argument("-l", "--last", type=int)
     parser.add_argument("-o", "--out-dir", type=str)
     return parser.parse_args()
+
+
+def add_node_labels(bolinas_graph):
+    for node, data in bolinas_graph.G.nodes(data=True):
+        name = data['name']
+        if not name:
+            data["name"] = node
 
 
 def main(out_dir, first=None, last=None):
@@ -63,10 +71,13 @@ def main(out_dir, first=None, last=None):
         ud_graph = get_ud_graph(parsed_doc)
 
         if sen_txt != last_sen:
+            top_order = [n for n in nx.topological_sort(ud_graph.G)]
+            json.dump(top_order, open(f"{preproc_dir}/pos_edge_graph_top_order.json", "w"))
             bolinas_graph = ud_graph.pos_edge_graph(vocab)
-            save_as_dot(f"{preproc_dir}/pos_edge_graph.dot", bolinas_graph, log)
             save_bolinas_str(f"{preproc_dir}/pos_edge.graph", bolinas_graph, log)
             save_bolinas_str(f"{preproc_dir}/pos_edge_with_labels.graph", bolinas_graph, log, add_names=True)
+            add_node_labels(bolinas_graph)
+            save_as_dot(f"{preproc_dir}/pos_edge_graph.dot", bolinas_graph, log)
 
         pred_arg_subgraph = get_pred_arg_subgraph(ud_graph, pred, args, vocab, log)
         save_as_dot(f"{preproc_dir}/sen{sen_idx}_pa_graph.dot", pred_arg_subgraph, log)

@@ -1,7 +1,4 @@
-import networkx as nx
-
-
-def resolve_pred(G, pred_labels, pos_tags, postprocess, pred_stat):
+def resolve_pred(pred_labels, pos_tags, postprocess, top_order, pred_stat):
     preds = [n for n, l in pred_labels.items() if l == "P"]
     if postprocess == "keep" and len(preds) > 0:
         pred_stat.append("X")
@@ -28,10 +25,9 @@ def resolve_pred(G, pred_labels, pos_tags, postprocess, pred_stat):
             pred_stat.append("C")
         for p in preds:
             del pred_labels[p]
-    top_order = [n for n in nx.topological_sort(G)]
     if len(verbs) == 0:
         pred_stat.append("D")
-        pred_labels[top_order[1].split('n')[1]] = "P"
+        pred_labels[top_order[1]] = "P"
         return
     if len(verbs) == 1:
         pred_stat.append("E")
@@ -45,10 +41,10 @@ def resolve_pred(G, pred_labels, pos_tags, postprocess, pred_stat):
         pred_stat.append("G")
     first_verb_idx = None
     for v_idx in verbs:
-        idx = top_order.index(f"n{v_idx}")
+        idx = top_order.index(int(v_idx))
         if first_verb_idx is None or idx < first_verb_idx:
             first_verb_idx = idx
-    first_verb_node = top_order[first_verb_idx].split("n")[1]
+    first_verb_node = str(top_order[first_verb_idx])
     pred_labels[first_verb_node] = "P"
     if len(preds_w_verbs) > 1:
         for p in preds:
@@ -57,10 +53,10 @@ def resolve_pred(G, pred_labels, pos_tags, postprocess, pred_stat):
     return
 
 
-def add_arg_idx(extracted_labels, len):
+def add_arg_idx(extracted_labels, length):
     prev = "O"
     idx = -1
-    for i in range(1, len+1):
+    for i in range(1, length + 1):
         if str(i) not in extracted_labels:
             extracted_labels[str(i)] = "O"
         else:
