@@ -1,0 +1,22 @@
+{
+    "pr_curve": false,
+    "test": false,
+    "models":
+    {
+        "Grammar 100":
+        {
+            "ignore": false,
+            "in_dir": "dev_gr100",
+            "bolinas_chart_filters": 
+            [
+                "prec",
+                "rec",
+                "f1"
+            ],
+            "postprocess": 
+            [
+                "keep"
+            ]
+        }
+    }
+}

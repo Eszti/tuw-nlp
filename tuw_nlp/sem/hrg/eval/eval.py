@@ -15,7 +15,6 @@ def get_args():
     parser.add_argument("-td", "--temp-dir")
     parser.add_argument("-oc", "--only-common", action="store_true")
     parser.add_argument("-r", "--raw-scores", action="store_true")
-    parser.add_argument("-t", "--test", action="store_true")
     return parser.parse_args()
 
 
@@ -116,14 +115,14 @@ def calculate_table(
     return report
 
 
-def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, temp_dir, test):
+def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, temp_dir):
     config = json.load(open(config_json))
     gold = json.load(open(gold_path))
     report = "# Evaluation\n"
 
     p_list, r_list = [], []
     pr_curve_names = []
-    for grammar_name, c in config.items():
+    for grammar_name, c in config["models"].items():
         if c.get("ignore") and c["ignore"]:
             continue
         report += f"## {grammar_name}\n"
@@ -142,12 +141,13 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
                     raw_scores,
                     report,
                     temp_dir,
-                    test
+                    config["test"]
                 )
-    if not test:
-        save_pr_curve(p_list, r_list, pr_curve_names, f"{report_dir}/pr_curve.png")
-        report += f"## P-R curve\n![](pr_curve.png)"
-    with open(f"{report_dir}/eval.md", "w") as f:
+    eval_md_name = config_json.split("/")[-1].split("_config.json")[0]
+    if config["pr_curve"] and not config["test"]:
+        save_pr_curve(p_list, r_list, pr_curve_names, f"{report_dir}/pr_curve_{eval_md_name}.png")
+        report += f"## P-R curve\n![](pr_curve_{eval_md_name}.png)"
+    with open(f"{report_dir}/{eval_md_name}.md", "w") as f:
         f.writelines(report)
 
 
@@ -160,6 +160,5 @@ if __name__ == "__main__":
         args.only_common,
         args.raw_scores,
         args.report_dir,
-        args.temp_dir,
-        args.test
+        args.temp_dir
     )

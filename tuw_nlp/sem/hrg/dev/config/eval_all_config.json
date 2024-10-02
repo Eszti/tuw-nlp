@@ -1,0 +1,69 @@
+{
+    "pr_curve": true,
+    "test": false,
+    "models":
+    {
+        "Grammar 100 test":
+        {
+            "ignore": true,
+            "in_dir": "dev_gr100_test",
+            "bolinas_chart_filters": 
+            [
+                "prec",
+                "rec",
+                "f1"
+            ],
+            "postprocess": 
+            [
+                "verb",
+                "keep"
+            ]
+        },
+        "Grammar 100":
+        {
+            "ignore": false,
+            "in_dir": "dev_gr100",
+            "bolinas_chart_filters": 
+            [
+                "max",
+                "basic",
+                "prec",
+                "rec",
+                "f1"
+            ],
+            "postprocess": 
+            [
+                "verb",
+                "keep"
+            ]
+        },
+        "Grammar 200":
+        {
+            "ignore": false,
+            "in_dir": "dev_gr200",
+            "bolinas_chart_filters": 
+            [
+                "max",
+                "basic"
+            ],
+            "postprocess": 
+            [
+                "verb",
+                "keep"
+            ]
+        },
+        "Random":
+        {
+            "ignore": false,
+            "in_dir": "dev_random",
+            "bolinas_chart_filters": 
+            [
+                ""
+            ],
+            "postprocess": 
+            [
+                ""
+            ]
+        }
+    }
+}
