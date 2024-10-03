@@ -11,7 +11,6 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-d", "--data-dir", type=str)
     parser.add_argument("-c", "--config", type=str)
-    parser.add_argument("-k", type=int)
     return parser.parse_args()
 
 
