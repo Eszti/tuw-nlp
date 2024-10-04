@@ -52,9 +52,11 @@
     "dev_random":
     {
         "ignore": true,
+        "k": 10,
         "bolinas_chart_filters": 
         [
-            ""
+            "boa",
+            "argidx"
         ],
         "postprocess": 
         [

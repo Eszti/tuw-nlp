@@ -58,7 +58,8 @@
             "in_dir": "dev_random",
             "bolinas_chart_filters": 
             [
-                ""
+                "boa",
+                "argidx"
             ],
             "postprocess": 
             [
