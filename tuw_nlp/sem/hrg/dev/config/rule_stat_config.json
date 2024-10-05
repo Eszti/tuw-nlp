@@ -1,0 +1,17 @@
+{
+    "models":
+    [
+        {
+            "grammar_file": "grammar_100.hrg",
+            "in_dir": "dev_gr100",
+            "bolinas_filters":
+            [
+                "basic",
+                "max",
+                "f1",
+                "prec",
+                "rec"
+            ]
+        }
+    ]
+}
