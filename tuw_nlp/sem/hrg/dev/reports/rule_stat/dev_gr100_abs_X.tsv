@@ -1,0 +1,22 @@
+	weight	lhs	rule	basic	f1	max	prec	rec
+80	0.06	X	X -> (. :advcl (. :X$ :VERB .))	22	6	6	1	6
+81	0.06	X	X -> (. :conj (. :X$ :VERB .))	63	10	79	9	10
+82	0.06	X	X -> (. :obl (. :X$ :NOUN .))	22	13	3	6	13
+83	0.06	X	X -> (. :obj (. :X$ :NOUN .))	6	16	13	5	15
+84	0.06	X	X -> (. :advcl (. :A$ :VERB .))	11	37	85	1	34
+85	0.05	X	X -> (. :obl (. :A$ :NOUN .))	9	21	87	11	18
+86	0.05	X	X -> (. :advcl (. :P$ :VERB .))	58	43	59	44	43
+87	0.05	X	X -> (. :obj (. :A$ :NOUN .))	8	20	35	0	14
+88	0.05	X	X -> (. :conj (. :P$ :VERB .))	155	39	53	39	37
+89	0.05	X	X -> (. :conj (. :A$ :VERB .))	26	40	102	1	40
+90	0.05	X	X -> (. :nsubj (. :A$ :NOUN .))	4	27	49	7	25
+91	0.05	X	X -> (. :obl (. :P$ :NOUN .))	83	38	102	38	38
+92	0.04	X	X -> (. :acl_relcl (. :P$ :VERB .))	23	6	2	6	6
+93	0.04	X	X -> (. :acl (. :A$ :VERB .))	0	4	0	0	4
+94	0.04	X	X -> (. :xcomp (. :P$ :VERB .))	76	32	28	32	32
+95	0.04	X	X -> (. :obj (. :P$ :NOUN .))	106	25	96	25	25
+96	0.04	X	X -> (. :acl_relcl (. :X$ :VERB .))	1	0	0	0	0
+97	0.04	X	X -> (. :xcomp (. :X$ :VERB .))	10	20	11	12	18
+98	0.04	X	X -> (. :acl (. :P$ :VERB .))	4	5	14	5	5
+99	0.03	X	X -> (. :nmod (. :A$ :NOUN .))	0	0	0	0	0
+100	0.03	X	X -> (. :acl_relcl (. :A$ :VERB .))	0	14	0	0	13

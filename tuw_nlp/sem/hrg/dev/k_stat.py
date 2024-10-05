@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -12,11 +13,11 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-g", "--gold-fn", type=str)
     parser.add_argument("-p", "--pred-files", nargs="+", type=str)
-    parser.add_argument("-o", "--out-dir", type=str)
     return parser.parse_args()
 
 
-def main(gold_fn, pred_files, out_dir):
+def main(gold_fn, pred_files):
+    out_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/k_stat"
     sen_ids = [0]
     k_values = dict()
 
@@ -38,7 +39,7 @@ def main(gold_fn, pred_files, out_dir):
             k_values["gold"].append(cnt)
 
     for fn in pred_files:
-        model = fn.split("/")[-1].split(".")[0]
+        model = fn.split("/")[-1].split(".")[0].split("dev_")[-1].split("_all")[0]
         k_values[model] = [0] * len(sen_ids)
         with open(fn) as f:
             extractions = json.load(f)
@@ -63,7 +64,7 @@ def main(gold_fn, pred_files, out_dir):
 
     for key in k_values:
         if key != "gold":
-            k_values_df[f"{key.split('_')[1]} - gold"] = k_values_df[key] - k_values_df["gold"]
+            k_values_df[f"{key} - gold"] = k_values_df[key] - k_values_df["gold"]
     k_values_df.to_csv(f"{out_dir}/k_values.tsv", sep="\t")
 
     k_differences = k_values_df.iloc[:, -len(pred_files):]\
@@ -83,4 +84,4 @@ def main(gold_fn, pred_files, out_dir):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold_fn, args.pred_files, args.out_dir)
+    main(args.gold_fn, args.pred_files)
