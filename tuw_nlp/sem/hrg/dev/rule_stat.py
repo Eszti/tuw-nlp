@@ -43,6 +43,8 @@ def fill_stat(bf, c, data_dir, sen_dir, stat_dict):
 def main(data_dir, config_json):
     grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/train/grammar"
     report_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/rule_stat"
+    if not os.path.exists(report_dir):
+        os.makedirs(report_dir)
 
     config = json.load(open(config_json))
 
@@ -66,6 +68,12 @@ def main(data_dir, config_json):
         add_rule_cols(df_rel, complete_rules, lhs, weights)
         df_rel.to_csv(f"{report_dir}/{c['in_dir']}_rel.tsv", sep="\t")
 
+        df_sum_abs = df_abs.iloc[:, 2:].groupby("lhs").sum()
+        df_sum_rel = df_sum_abs.apply(lambda x: x*100 / x.sum()).map('{:.4}'.format)
+        df_sum_abs.loc["total"] = df_sum_abs.sum()
+        df_sum_abs.to_csv(f"{report_dir}/{c['in_dir']}_sum_abs.tsv", sep="\t")
+        df_sum_rel.to_csv(f"{report_dir}/{c['in_dir']}_sum_rel.tsv", sep="\t")
+
         corr_lines = []
         for name, group in df_abs.groupby("lhs"):
             group.to_csv(f"{report_dir}/{c['in_dir']}_abs_{name}.tsv", sep="\t")
@@ -84,8 +92,8 @@ def main(data_dir, config_json):
 
 def add_rule_cols(df, complete_rules, lhs, weights):
     df.insert(0, "weight", weights)
-    df.insert(1, "lhs", lhs)
-    df.insert(2, "rule", complete_rules)
+    df.insert(1, "rule", complete_rules)
+    df.insert(2, "lhs", lhs)
 
 
 if __name__ == "__main__":
