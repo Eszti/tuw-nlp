@@ -1,0 +1,10 @@
+	f1_keep	f1_verb	prec_keep	prec_verb	rec_keep	rec_verb
+0_k1	X	X	G	G	X	X
+0_k2	G	G	X	X	G	G
+4_k1	X	X	X	X	X	X
+4_k2	X	X	X	X	X	X
+6_k1	G	G	G	G	G	G
+7_k1	E	E	E	E	E	E
+8_k1	X	X	X	X	X	X
+8_k2	X	X	X	X	X	X
+8_k3	X	X	X	X	X	X
