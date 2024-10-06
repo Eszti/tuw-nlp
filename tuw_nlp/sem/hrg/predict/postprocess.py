@@ -27,7 +27,7 @@ def resolve_pred(pred_labels, pos_tags, postprocess, top_order, pred_stat):
             del pred_labels[p]
     if len(verbs) == 0:
         pred_stat.append("D")
-        pred_labels[top_order[1]] = "P"
+        pred_labels[str(top_order[1])] = "P"
         return
     if len(verbs) == 1:
         pred_stat.append("E")

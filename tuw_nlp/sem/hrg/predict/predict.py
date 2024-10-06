@@ -18,7 +18,6 @@ def get_args():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-d", "--data-dir", type=str)
     parser.add_argument("-c", "--config", type=str)
-    parser.add_argument("-rd", "--report-dir", type=str)
     return parser.parse_args()
 
 
@@ -158,12 +157,12 @@ def save_pred_stat(models, name, pred_stat, report_dir):
         index.append(k)
     df = pd.DataFrame(pred_stat_records, columns=models, index=index)
     df = df.fillna("no extraction")
-    df.to_csv(f"{report_dir}/{name}_pred_stat.tsv", sep="\t")
+    df.to_csv(f"{report_dir}/{name}_pred_res.tsv", sep="\t")
     df_sum = df.apply(lambda x: x.value_counts()).fillna(0).astype(int)
-    df_sum.to_csv(f"{report_dir}/{name}_pred_stat_sum.tsv", sep="\t")
+    df_sum.to_csv(f"{report_dir}/{name}_pred_res_sum.tsv", sep="\t")
 
 
-def main(data_dir, config_json, report_dir):
+def main(data_dir, config_json):
     config = json.load(open(config_json))
     for name, c in config.items():
         if c.get("ignore") and c["ignore"]:
@@ -174,10 +173,12 @@ def main(data_dir, config_json, report_dir):
         models = set()
         first = c.get("first", None)
         last = c.get("last", None)
+        print(f"Processing ")
         for sen_dir in get_range(preproc_dir_root, first, last):
             sen_dir = str(sen_dir)
             print(f"\nProcessing sentence {sen_dir}")
             predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_dir)
+        report_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/dev/reports/pred_stat"
         save_pred_stat(models, c["predict_dir_root"], pred_stat, report_dir)
 
 
@@ -185,4 +186,4 @@ if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
 
     args = get_args()
-    main(args.data_dir, args.config, args.report_dir)
+    main(args.data_dir, args.config)

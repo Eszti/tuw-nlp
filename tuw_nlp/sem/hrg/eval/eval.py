@@ -27,6 +27,8 @@ def calculate_table(
         only_common,
         p_list,
         r_list,
+        pr_curve_names,
+        grammar_name,
         raw_scores,
         report,
         temp_dir,
@@ -110,8 +112,10 @@ def calculate_table(
     bold = find_best_in_column(table, ["prec", "rec", "F1"])
     report += make_markdown_table(table, bold)
     report += "\n"
-    p_list.append(p)
-    r_list.append(r)
+    if len(files) > 1:
+        p_list.append(p)
+        r_list.append(r)
+        pr_curve_names.append(f"{grammar_name}-{chart_filter}-{pp}")
     return report
 
 
@@ -128,7 +132,6 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
         report += f"## {grammar_name}\n"
         for chart_filter in sorted(c["bolinas_chart_filters"]):
             for pp in sorted(c["postprocess"]):
-                pr_curve_names.append(f"{grammar_name}-{chart_filter}-{pp}")
                 report = calculate_table(
                     data_dir,
                     c["in_dir"],
@@ -138,6 +141,8 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
                     only_common,
                     p_list,
                     r_list,
+                    pr_curve_names,
+                    grammar_name,
                     raw_scores,
                     report,
                     temp_dir,

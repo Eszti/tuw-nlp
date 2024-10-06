@@ -33,7 +33,6 @@
             ],
             "postprocess": 
             [
-                "verb",
                 "keep"
             ]
         },
@@ -44,11 +43,13 @@
             "bolinas_chart_filters": 
             [
                 "max",
-                "basic"
+                "basic",
+                "prec",
+                "rec",
+                "f1"
             ],
             "postprocess": 
             [
-                "verb",
                 "keep"
             ]
         },

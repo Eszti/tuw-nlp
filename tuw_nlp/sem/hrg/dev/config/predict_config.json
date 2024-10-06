@@ -4,7 +4,7 @@
         "ignore": true,
         "preproc_dir": "dev_preproc",
         "predict_dir_root": "dev_gr100_test",
-        "last": 0,
+        "last": 10,
         "bolinas_chart_filters": 
         [
             "prec",
@@ -44,7 +44,10 @@
         "bolinas_chart_filters": 
         [
             "basic",
-            "max"
+            "max",
+            "prec",
+            "rec",
+            "f1"
         ],
         "postprocess": 
         [
