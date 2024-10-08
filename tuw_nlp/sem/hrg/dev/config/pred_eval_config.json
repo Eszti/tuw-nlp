@@ -8,11 +8,10 @@
             "name": "dev_gr100_test",
             "bolinas_chart_filters": 
             [
-                "max"
+                "f1"
             ],
             "postprocess": 
             [
-                "verb",
                 "keep"
             ]
         },
@@ -22,11 +21,13 @@
             "bolinas_chart_filters": 
             [
                 "max",
-                "basic"
+                "basic",
+                "f1",
+                "prec",
+                "rec"
             ],
             "postprocess": 
             [
-                "verb",
                 "keep"
             ]
         },
@@ -36,11 +37,13 @@
             "bolinas_chart_filters": 
             [
                 "max",
-                "basic"
+                "basic",
+                "f1",
+                "prec",
+                "rec"
             ],
             "postprocess": 
             [
-                "verb",
                 "keep"
             ]
         },
@@ -49,7 +52,8 @@
             "name": "dev_random",
             "bolinas_chart_filters": 
             [
-                ""
+                "boa",
+                "argidx"
             ],
             "postprocess": 
             [

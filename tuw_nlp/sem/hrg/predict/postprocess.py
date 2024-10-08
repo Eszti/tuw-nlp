@@ -1,44 +1,15 @@
-def resolve_pred(pred_labels, pos_tags, postprocess, top_order, pred_stat):
+def resolve_pred(pred_labels, pos_tags, top_order):
     preds = [n for n, l in pred_labels.items() if l == "P"]
-    if postprocess == "keep" and len(preds) > 0:
-        pred_stat.append("X")
-        return
+    if len(preds) > 0:
+        return "X"
     verbs = [n for n, t in pos_tags.items() if t == "VERB"]
-    preds_w_verbs = [n for n in preds if n in verbs]
-    if len(preds) == 1:
-        assert postprocess != "keep"
-        if preds == preds_w_verbs:
-            pred_stat.append("X")
-            return
-        else:
-            assert len(preds_w_verbs) == 0
-            pred_stat.append("A")
-    if len(preds_w_verbs) == 1:
-        pred_stat.append("B")
-        keep = preds_w_verbs[0]
-        for p in preds:
-            if p != keep:
-                del pred_labels[p]
-        return
-    if len(preds_w_verbs) == 0:
-        if len(preds) > 1:
-            pred_stat.append("C")
-        for p in preds:
-            del pred_labels[p]
     if len(verbs) == 0:
-        pred_stat.append("D")
         pred_labels[str(top_order[1])] = "P"
-        return
+        return "A"
     if len(verbs) == 1:
-        pred_stat.append("E")
         pred_labels[verbs[0]] = "P"
-        return
+        return "B"
     assert len(verbs) > 1
-    if len(preds_w_verbs) > 1:
-        pred_stat.append("F")
-        verbs = preds_w_verbs
-    else:
-        pred_stat.append("G")
     first_verb_idx = None
     for v_idx in verbs:
         idx = top_order.index(int(v_idx))
@@ -46,11 +17,7 @@ def resolve_pred(pred_labels, pos_tags, postprocess, top_order, pred_stat):
             first_verb_idx = idx
     first_verb_node = str(top_order[first_verb_idx])
     pred_labels[first_verb_node] = "P"
-    if len(preds_w_verbs) > 1:
-        for p in preds:
-            if p != first_verb_node:
-                del pred_labels[p]
-    return
+    return "C"
 
 
 def add_arg_idx(extracted_labels, length):

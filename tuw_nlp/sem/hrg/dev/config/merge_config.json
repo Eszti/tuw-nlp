@@ -2,53 +2,49 @@
     "dev_gr100_test":
     {
         "ignore": true,
-        "last": 30,
         "bolinas_chart_filters": 
         [
-            "prec",
-            "rec",
             "f1"
         ],
         "postprocess": 
         [
-            "keep",
-            "verb"
+            "keep"
         ],
         "out_dir": "dev_extractions"
     },
     "dev_gr100":
     {
         "ignore": true,
+        "k": 10,
         "bolinas_chart_filters": 
         [
             "max",
-            "basic"
+            "basic",
             "prec",
             "rec",
             "f1"
         ],
         "postprocess": 
         [
-            "keep",
-            "verb"
+            "keep"
         ],
         "out_dir": "dev_extractions"
     },
     "dev_gr200":
     {
         "ignore": true,
+        "k": 10,
         "bolinas_chart_filters": 
         [
             "max",
-            "basic"
+            "basic",
             "prec",
             "rec",
             "f1"
         ],
         "postprocess": 
         [
-            "keep",
-            "verb"
+            "keep"
         ],
         "out_dir": "dev_extractions"
     },

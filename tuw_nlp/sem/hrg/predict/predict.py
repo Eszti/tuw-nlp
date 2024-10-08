@@ -2,10 +2,7 @@ import argparse
 import json
 import logging
 import os
-from collections import defaultdict, OrderedDict
-
-import pandas as pd
-
+from collections import defaultdict
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_text_from_conll_file
 from tuw_nlp.sem.hrg.common.io import get_range
@@ -66,18 +63,13 @@ def get_bolinas_input(predict_dir_root, sen_dir, chart_filter):
     return zip(matches_lines, labels_lines)
 
 
-def postprocess(extracted_labels, pos_tags, pp, top_order, pred_stat):
-    resolve_pred(extracted_labels, pos_tags, pp, top_order, pred_stat)
+def postprocess(extracted_labels, pos_tags, top_order):
+    pred_res = resolve_pred(extracted_labels, pos_tags, top_order)
     add_arg_idx(extracted_labels, len(pos_tags))
+    return pred_res
 
 
-def get_sort_number(x):
-    nr1 = int(x.split("_")[0])
-    nr2 = int(x.split("_")[1].split("k")[-1])
-    return nr1*100 + nr2
-
-
-def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_dir):
+def predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir):
     sen_text, graph, pa_graph, gold_labels, pos_tags, top_order, orig_conll = get_preproc_input(
         preproc_dir_root,
         sen_dir
@@ -101,15 +93,12 @@ def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_di
             for pp in c["postprocess"]:
                 extracted_labels = json.loads(labels_str)
                 pp_dir = f"{chart_filter_dir}/{pp}"
-                models.add(f"{chart_filter}_{pp}")
                 if not os.path.exists(pp_dir):
                     os.makedirs(pp_dir)
-                postprocess(
+                pred_res = postprocess(
                     extracted_labels,
                     pos_tags,
-                    pp,
                     top_order,
-                    pred_stat[f"{sen_dir}_k{k}"][f"{chart_filter}_{pp}"]
                 )
                 save_predicted_conll(
                     orig_conll,
@@ -123,8 +112,8 @@ def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_di
                     k=k,
                     score=score,
                     extractor=predict_dir_root.split("/")[-1].split("_")[1],
+                    pred_res=pred_res,
                 ))
-
                 update_graph_labels(
                     graph,
                     gold_labels,
@@ -141,27 +130,6 @@ def predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_di
                 json.dump(extractions, f, indent=4)
 
 
-def save_pred_stat(models, name, pred_stat, report_dir):
-    pred_stat_records = []
-    models = sorted(list(models))
-    pred_stat = OrderedDict(sorted(pred_stat.items(), key=lambda x: get_sort_number(x[0])))
-    index = []
-    for k, vals in pred_stat.items():
-        record = []
-        for m in models:
-            val = " ".join(vals[m])
-            if not val:
-                val = "no extraction"
-            record.append(val)
-        pred_stat_records.append(record)
-        index.append(k)
-    df = pd.DataFrame(pred_stat_records, columns=models, index=index)
-    df = df.fillna("no extraction")
-    df.to_csv(f"{report_dir}/{name}_pred_res.tsv", sep="\t")
-    df_sum = df.apply(lambda x: x.value_counts()).fillna(0).astype(int)
-    df_sum.to_csv(f"{report_dir}/{name}_pred_res_sum.tsv", sep="\t")
-
-
 def main(data_dir, config_json):
     config = json.load(open(config_json))
     for name, c in config.items():
@@ -169,17 +137,17 @@ def main(data_dir, config_json):
             continue
         preproc_dir_root = f"{data_dir}/{c['preproc_dir']}"
         predict_dir_root = f"{data_dir}/{c['predict_dir_root']}"
-        pred_stat = defaultdict(lambda: defaultdict(list))
-        models = set()
         first = c.get("first", None)
         last = c.get("last", None)
         print(f"Processing ")
         for sen_dir in get_range(preproc_dir_root, first, last):
             sen_dir = str(sen_dir)
             print(f"\nProcessing sentence {sen_dir}")
-            predict_sen(c, models, pred_stat, predict_dir_root, preproc_dir_root, sen_dir)
-        report_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/dev/reports/pred_stat"
-        save_pred_stat(models, c["predict_dir_root"], pred_stat, report_dir)
+            predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir)
+        dataset_dir = os.path.dirname(os.path.dirname(os.path.realpath(config_json)))
+        report_dir = f"{dataset_dir}/reports/pred_res_stat"
+        if not os.path.exists(report_dir):
+            os.makedirs(report_dir)
 
 
 if __name__ == "__main__":

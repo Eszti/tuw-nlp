@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 
+from tuw_nlp.sem.hrg.common.io import get_k_files_or_assert_all
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.eval.wire_scorer import check_keys, keep_only_common, split_tuples_by_extractor, eval_system, f1
 
@@ -54,11 +55,7 @@ def calculate_table(
         in_dir += f"/{pp}"
     files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
     if not test:
-        k_files = [i for i in files if i.split("_")[-1].startswith("k")]
-        if k_files:
-            files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
-        else:
-            assert len(files) == 1 and files[0].endswith("_all.json")
+        files = get_k_files_or_assert_all(files)
     for file in files:
         fn = f"{in_dir}/{file}"
         print(fn)
