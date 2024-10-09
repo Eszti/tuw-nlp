@@ -5,39 +5,42 @@ import os
 import numpy as np
 import pandas as pd
 
+from tuw_nlp.sem.hrg.common.io import get_all_json
 from tuw_nlp.sem.hrg.common.report import save_bar_diagram
-from tuw_nlp.text.utils import gen_tsv_sens
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-g", "--gold-fn", type=str)
-    parser.add_argument("-p", "--pred-files", nargs="+", type=str)
+    parser.add_argument("-d", "--data-dir", type=str)
+    parser.add_argument("-c", "--config", type=str)
     return parser.parse_args()
 
 
-def main(gold_fn, pred_files):
+def get_pred_files(data_dir, config):
+    ret = []
+    for c in config["models"]:
+        if c.get("ignore") and c["ignore"]:
+            continue
+        for chart_filter in sorted(c["bolinas_chart_filters"]):
+            for pp in sorted(c["postprocess"]):
+                ret.append(get_all_json(f"{data_dir}/{config['extractions_dir']}/{c['in_dir']}", chart_filter, pp))
+    return ret
+
+
+def main(data_dir, config_json):
+    config = json.load(open(config_json))
     out_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/k_stat"
-    sen_ids = [0]
+    gold_fn = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/data/{config['gold_fn']}"
+    sen_ids = []
     k_values = dict()
 
-    last_sen_txt = ""
-    cnt = 1
     k_values["gold"] = []
-    with open(gold_fn) as f:
-        for sen_idx, sen in enumerate(gen_tsv_sens(f)):
-            if cnt == 1 and sen_idx > 1:
-                sen_ids.append(sen_idx-1)
-            sen_txt = " ".join([word[1] for word in sen])
-            if last_sen_txt == sen_txt:
-                cnt += 1
-            elif last_sen_txt != "":
-                k_values["gold"].append(cnt)
-                cnt = 1
-            last_sen_txt = sen_txt
-        if cnt != 1:
-            k_values["gold"].append(cnt)
+    gold_extractions = json.load(open(gold_fn))
+    for sen, extractions in gold_extractions.items():
+        sen_ids.append(int(sorted(extractions, key=lambda x: int(x["sen_id"]))[0]["sen_id"]))
+        k_values["gold"].append(len(extractions))
 
+    pred_files = get_pred_files(data_dir, config)
     for fn in pred_files:
         model = fn.split("/")[-1].split(".")[0].split("dev_")[-1].split("_all")[0]
         k_values[model] = [0] * len(sen_ids)
@@ -84,4 +87,4 @@ def main(gold_fn, pred_files):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.gold_fn, args.pred_files)
+    main(args.data_dir, args.config)

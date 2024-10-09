@@ -48,3 +48,14 @@ def get_k_files_or_assert_all(files):
     else:
         assert len(files) == 1 and files[0].endswith("_all.json")
     return files
+
+
+def get_all_json(in_dir, chart_filter, pp):
+    if chart_filter:
+        in_dir += f"/{chart_filter}"
+    if pp:
+        in_dir += f"/{pp}"
+    files = [i for i in os.listdir(in_dir) if i.endswith("all.json")]
+    assert len(files) == 1
+    fn = f"{in_dir}/{files[0]}"
+    return fn
