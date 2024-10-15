@@ -1,0 +1,37 @@
+{
+    "preproc_dir": "dev_preproc",
+    "model_dir": "dev_gr100_test",
+    "first": 91,
+    "last": 100,
+    "arg_permutation": false,
+    "filters":
+    {
+        "basic":
+        {
+            "ignore": true,
+            "chart_filter": "basic",
+            "k": 10
+        },
+        "max":
+        {
+            "ignore": true,
+            "chart_filter": "max",
+            "k": 10
+        },
+        "prec":
+        {
+            "ignore": false,
+            "pr_metric": "prec"
+        },
+        "rec":
+        {
+            "ignore": true,
+            "pr_metric": "rec"
+        },
+        "f1":
+        {
+            "ignore": true,
+            "pr_metric": "f1"
+        }
+    }
+}
