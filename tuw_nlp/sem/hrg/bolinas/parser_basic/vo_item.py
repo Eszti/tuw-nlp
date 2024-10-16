@@ -80,6 +80,9 @@ class HergItem(Item):
                other.shifted == self.shifted and \
                other.mapping == self.mapping
 
+    def __lt__(self, other):
+        return self.__str__().__lt__(other.__str__())
+
     def __repr__(self):
         return 'HergItem(%d, %d, %s, %s)' % (self.rule.rule_id, self.size, self.rule.symbol, len(self.shifted))
 

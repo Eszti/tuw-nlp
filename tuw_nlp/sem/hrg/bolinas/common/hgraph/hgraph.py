@@ -494,7 +494,7 @@ class Hgraph(defaultdict):
             childstr = " ".join(["\n%s %s %s" % (depth * "\t", ":%s" % rel if rel else "", child) for rel, child in
                                  sorted(childmap.items())])
             return "(%s %s)" % (nodestr, childstr)
-        
+
         def hedgecombiner(nodes):
             return " ".join(nodes)
 

@@ -24,13 +24,13 @@ def load_grammar(grammar_file, backward, nodelabels, logprob, log_lines):
     return grammar
 
 
-def parse_sen(graph_parser, graph_file, chart_file, sen_log_file):
+def parse_sen(graph_parser, graph_file, chart_file, sen_log_file, max_steps):
     sen_log_lines = []
     parse_generator = graph_parser.parse_graphs(
         (Hgraph.from_string(x) for x in fileinput.input(graph_file)),
         sen_log_lines,
         partial=True,
-        max_steps=10000
+        max_steps=max_steps
     )
     for i, chart in enumerate(parse_generator):
         assert i == 0
@@ -64,9 +64,12 @@ def main(data_dir):
     first = config.get("first", None)
     last = config.get("last", None)
     if first:
-        log_lines.append("First: %d\n" % first)
+        log_to_console_and_log_lines(f"First: {first}\n", log_lines)
     if last:
-        log_lines.append("Last: %d\n" % last)
+        log_to_console_and_log_lines(f"Last: {last}\n", log_lines)
+
+    max_steps = config.get("max_steps", 10000)
+    log_to_console_and_log_lines(f"Max steps: {max_steps}\n", log_lines)
 
     grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))}//train/grammar/"
     grammar_file = f"{grammar_dir}/{config['grammar_file']}"
@@ -87,7 +90,7 @@ def main(data_dir):
         chart_file = f"{bolinas_dir}/sen{str(sen_idx)}_chart.pickle"
         sen_log_file = f"{bolinas_dir}/sen{str(sen_idx)}_parse.log"
 
-        parse_sen(graph_parser, graph_file, chart_file, sen_log_file)
+        parse_sen(graph_parser, graph_file, chart_file, sen_log_file, max_steps)
 
     log_to_console_and_log_lines(f"\nExecution finish: {datetime.now()}", log_lines)
     elapsed_time = time.time() - start_time

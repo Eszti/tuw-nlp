@@ -1,5 +1,7 @@
 import time
-from collections import defaultdict as ddict, deque
+from collections import defaultdict, deque
+
+from ordered_set import OrderedSet
 
 from tuw_nlp.sem.hrg.bolinas.common.cfg import Chart
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_item import HergItem
@@ -16,7 +18,7 @@ class Parser:
 
     def __init__(self, grammar):
         self.grammar = grammar
-        self.nodelabels = grammar.nodelabels 
+        self.nodelabels = grammar.nodelabels
 
     def parse_graphs(self, graph_iterator, log_lines, partial=False, max_steps=None):
         """
@@ -47,26 +49,26 @@ class Parser:
         # initialize data structures and lookups
         # we use various tables to provide constant-time lookup of fragments available
         # for shifting, completion, etc.
-        chart = ddict(set)
+        chart = defaultdict(set)
 
         pgrammar = [grammar[r] for r in grammar.reachable_rules(graph, None)]
 
-        queue = deque()                     # the items left to be visited
-        pending = set()                     # a copy of queue with constant-time lookup
-        attempted = set()                   # a cache of previously-attempted item combinations
-        visited = set()                     # a cache of already-visited items
-        nonterminal_lookup = ddict(set)     # a mapping from labels to graph edges
-        reverse_lookup = ddict(set)         # a mapping from outside symbols open items
-        edge_terminal_lookup = ddict(set)   # mapping from edge labels to graph edges
+        queue = deque()
+        pending = set()
+        attempted = set()
+        visited = set()
+        nonterminal_lookup = defaultdict(OrderedSet)
+        reverse_lookup = defaultdict(OrderedSet)
+        edge_terminal_lookup = defaultdict(set)
         for edge in graph.triples(nodelabels=self.nodelabels):
             edge_terminal_lookup[edge[1]].add(edge)
 
         for rule in pgrammar:
-            axiom = HergItem(rule, nodelabels = self.nodelabels)
+            axiom = HergItem(rule, nodelabels=self.nodelabels)
             queue.append(axiom)
             pending.add(axiom)
             if axiom.outside_is_nonterminal:
-              reverse_lookup[axiom.outside_symbol].add(axiom)
+                reverse_lookup[axiom.outside_symbol].add(axiom)
 
         max_queue_size = 0
         max_queue_diff_comp = 0
@@ -167,10 +169,8 @@ class Parser:
         Determines whether the given item represents a complete derivation of the
         object(s) being parsed.
         """
-        # make sure the right start symbol is used
         if self.grammar.start_symbol != item.rule.symbol:
             return False
-        # make sure the item spans the whole object
         return len(item.shifted) == graph_size
 
 
@@ -187,7 +187,6 @@ def get_cky_chart(chart):
 
         prodlist = list(chart[citem])
 
-        lefts = set(x[0] for x in prodlist)
         lengths = set(len(x) for x in prodlist)
         assert len(lengths) == 1
         split_len = lengths.pop()
