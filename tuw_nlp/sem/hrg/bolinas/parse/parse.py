@@ -45,14 +45,15 @@ def parse_sen(graph_parser, graph_file, chart_file, sen_log_file, max_steps):
         f.writelines(sen_log_lines)
 
 
-def main(data_dir):
+def main(data_dir, config_json):
     start_time = time.time()
 
     logprob = True
     nodelabels = True
     backward = False
 
-    config_json = f"{os.path.dirname(os.path.realpath(__file__))}/parse_config.json"
+    if not config_json:
+        config_json = f"{os.path.dirname(os.path.realpath(__file__))}/parse_config.json"
     config = json.load(open(config_json))
 
     log_file = os.path.join(
@@ -60,16 +61,16 @@ def main(data_dir):
         "log",
         "parse_" + config["out_dir"] + ".log"
     )
-    log_lines = ["Execution start: %s\n" % str(datetime.now())]
+    log_lines = [f"Execution start: {datetime.now()}\n"]
     first = config.get("first", None)
     last = config.get("last", None)
     if first:
-        log_to_console_and_log_lines(f"First: {first}\n", log_lines)
+        log_to_console_and_log_lines(f"First: {first}", log_lines)
     if last:
-        log_to_console_and_log_lines(f"Last: {last}\n", log_lines)
+        log_to_console_and_log_lines(f"Last: {last}", log_lines)
 
     max_steps = config.get("max_steps", 10000)
-    log_to_console_and_log_lines(f"Max steps: {max_steps}\n", log_lines)
+    log_to_console_and_log_lines(f"Max steps: {max_steps}", log_lines)
 
     grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))}//train/grammar/"
     grammar_file = f"{grammar_dir}/{config['grammar_file']}"
@@ -79,7 +80,12 @@ def main(data_dir):
 
     in_dir = f"{data_dir}/{config['preproc_dir']}"
     out_dir = f"{data_dir}/{config['out_dir']}"
+    first_sen_to_proc = None
+    last_sen_to_proc = None
     for sen_idx in get_range(in_dir, first, last):
+        if first_sen_to_proc is None:
+            first_sen_to_proc = sen_idx
+
         print(f"\nProcessing sen {sen_idx}\n")
         preproc_dir = f"{in_dir}/{str(sen_idx)}/preproc"
         graph_file = f"{preproc_dir}/pos_edge.graph"
@@ -91,7 +97,10 @@ def main(data_dir):
         sen_log_file = f"{bolinas_dir}/sen{str(sen_idx)}_parse.log"
 
         parse_sen(graph_parser, graph_file, chart_file, sen_log_file, max_steps)
+        last_sen_to_proc = sen_idx
 
+    log_to_console_and_log_lines(f"\nFirst sentence to process: {first_sen_to_proc}", log_lines)
+    log_to_console_and_log_lines(f"Last sentence to process: {last_sen_to_proc}", log_lines)
     log_to_console_and_log_lines(f"\nExecution finish: {datetime.now()}", log_lines)
     elapsed_time = time.time() - start_time
     time_str = f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n"
@@ -103,6 +112,7 @@ def main(data_dir):
 if __name__ == "__main__":
     parser = ArgumentParser(description ="Parse graph inputs and save chart.")
     parser.add_argument("-d", "--data-dir", type=str)
+    parser.add_argument("-c", "--config", type=str)
     args = parser.parse_args()
 
-    main(args.data_dir)
+    main(args.data_dir, args.config)
