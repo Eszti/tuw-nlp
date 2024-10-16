@@ -101,6 +101,7 @@ def main(data_dir, config_json):
 
     log_to_console_and_log_lines(f"\nFirst sentence to process: {first_sen_to_proc}", log_lines)
     log_to_console_and_log_lines(f"Last sentence to process: {last_sen_to_proc}", log_lines)
+
     log_to_console_and_log_lines(f"\nExecution finish: {datetime.now()}", log_lines)
     elapsed_time = time.time() - start_time
     time_str = f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n"

@@ -2,7 +2,7 @@ import copy
 from collections import defaultdict
 
 from tuw_nlp.sem.hrg.bolinas.common.oie import get_labels
-from tuw_nlp.sem.hrg.bolinas.filter.postproc import postprocess
+from tuw_nlp.sem.hrg.postproc.postproc import postprocess
 
 
 def f1(prec, rec):
@@ -63,10 +63,12 @@ def filter_for_pr(derivations, gold_labels, metric, pos_tags, top_order, arg_per
     derivations_to_keep = [None] * len(gold_labels)
     extractions = [None] * len(gold_labels)
     max_scores = [-1.0] * len(gold_labels)
+
     for score, derivation in derivations:
         labels = get_labels(derivation)
         predicted_labels = copy.copy(labels)
         all_permutations = postprocess(predicted_labels, pos_tags, top_order, arg_perm)
+
         for permutation in all_permutations:
             pred = convert_label_dict(permutation)
             for i, g in enumerate(gold_labels):
@@ -91,6 +93,7 @@ def filter_for_pr(derivations, gold_labels, metric, pos_tags, top_order, arg_per
             scores.append(max_scores[i])
     if not scores:
         return [], []
+
     ret = zip(scores, found_derivations, found_extractions)
     ret = sorted(ret, reverse=True, key=lambda x: x[0])
     a, b, c = zip(*ret)

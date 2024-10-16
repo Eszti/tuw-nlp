@@ -1,3 +1,5 @@
+import json
+import os
 from collections import defaultdict
 
 from tuw_nlp.graph.graph import UnconnectedGraphError
@@ -61,3 +63,13 @@ def add_oie_data_to_nodes(graph, node_to_label, node_prefix=""):
                 new_name += "\n"
             new_name += f"{node_to_label[key]}"
             graph.G.nodes[n]["name"] = new_name
+
+
+def get_gold_labels(preproc_dir, sen_idx):
+    gold_labels = []
+    preproc_path = f"{preproc_dir}/{sen_idx}/preproc"
+    files = [fn for fn in os.listdir(preproc_path) if fn.endswith("_gold_labels.json")]
+    for fn in files:
+        with open(f"{preproc_path}/{fn}") as f:
+            gold_labels.append(json.load(f))
+    return gold_labels
