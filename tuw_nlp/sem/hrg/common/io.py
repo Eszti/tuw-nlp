@@ -59,3 +59,8 @@ def get_all_json(in_dir, chart_filter, pp):
     assert len(files) == 1
     fn = f"{in_dir}/{files[0]}"
     return fn
+
+
+def log_to_console_and_log_lines(line, sen_log_lines):
+    print(line)
+    sen_log_lines.append(f"{line}\n")

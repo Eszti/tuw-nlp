@@ -10,7 +10,7 @@ def print_shifted(derivation):
     for v, l, u in final_item.shifted:
         triples.append((v[0], l, u[0][0]))
     graph = Hgraph.from_triples(triples, node_to_concepts)
-    return re.sub("(\n|\s+)"," ", graph.to_bolinas_str(nodeids=True))
+    return re.sub(r"(\n|\s+)", " ", graph.to_bolinas_str(nodeids=True))
 
 
 def walk_derivation(derivation, combiner, leaf):

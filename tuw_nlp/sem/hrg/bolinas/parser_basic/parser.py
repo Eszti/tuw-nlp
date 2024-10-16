@@ -3,6 +3,7 @@ from collections import defaultdict as ddict, deque
 
 from tuw_nlp.sem.hrg.bolinas.common.cfg import Chart
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_item import HergItem
+from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines
 
 
 class Parser:
@@ -17,16 +18,16 @@ class Parser:
         self.grammar = grammar
         self.nodelabels = grammar.nodelabels 
 
-    def parse_graphs(self, graph_iterator, partial=False, max_steps=None):
+    def parse_graphs(self, graph_iterator, log_lines, partial=False, max_steps=None):
         """
         Parse all the graphs in graph_iterator.
         This is a generator.
         """
         for graph in graph_iterator:
-            raw_chart = self.parse(graph, partial=partial, max_steps=max_steps)
+            raw_chart = self.parse(graph, log_lines, partial=partial, max_steps=max_steps)
             yield get_cky_chart(raw_chart)
 
-    def parse(self, graph, partial=False, max_steps=None):
+    def parse(self, graph, log_lines, partial=False, max_steps=None):
         """
         Parses the given string and/or graph.
         """
@@ -40,7 +41,6 @@ class Parser:
 
         grammar = self.grammar
 
-        # remember when we started
         start_time = time.time()
         graph_size = len(graph.triples(nodelabels=self.nodelabels))
 
@@ -153,11 +153,12 @@ class Parser:
                         max_queue_diff_shift = after - before
 
         etime = time.time() - start_time
-        print("Max queue size: %d" % max_queue_size)
-        print("Max queue diff comp: %d" % max_queue_diff_comp)
-        print("Max queue diff outside nt: %d" % max_queue_diff_outside_nt)
-        print("Max queue diff shift: %d" % max_queue_diff_shift)
-        print("Steps: %d" % steps)
+        log_to_console_and_log_lines(f"Elapsed time for parsing: {round(etime, 2)} sec", log_lines)
+        log_to_console_and_log_lines(f"Max queue size: {max_queue_size}", log_lines)
+        log_to_console_and_log_lines(f"Max queue diff comp: {max_queue_diff_comp}", log_lines)
+        log_to_console_and_log_lines(f"Max queue diff outside nt: {max_queue_diff_outside_nt}", log_lines)
+        log_to_console_and_log_lines(f"Max queue diff shift: {max_queue_diff_shift}", log_lines)
+        log_to_console_and_log_lines(f"Steps: {steps}", log_lines)
 
         return chart
 
@@ -222,7 +223,6 @@ def get_cky_chart(chart):
 
     cky_chart = Chart()
     for item in visit_items:
-        # we only care about complete steps, so only add closed items to the chart
         if not (item == 'START' or item.closed):
             continue
 

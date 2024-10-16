@@ -44,7 +44,7 @@ class HergItem(Item):
 
         self.nodelabels = nodelabels
 
-        # Store the nonterminal symbol and index of the previous complete 
+        # Store the nonterminal symbol and index of the previous complete
         # on this item so we can rebuild the derivation easily
         triples = rule.rhs1.triples(nodelabels=nodelabels)
         self.outside_symbol = None
@@ -55,9 +55,6 @@ class HergItem(Item):
             self.closed = False
             self.outside_is_nonterminal = isinstance(self.outside_triple[1], NonterminalLabel)
             if self.outside_is_nonterminal:
-                # strip the index off of the nonterminal label
-                # self.outside_symbol = str(self.outside_triple[1])
-                # self.outside_symbol = self.outside_symbol[1:].split('[')[0]
                 self.outside_symbol = self.outside_triple[1].label
                 self.outside_nt_index = self.outside_triple[1].index
         else:
@@ -83,24 +80,6 @@ class HergItem(Item):
                other.shifted == self.shifted and \
                other.mapping == self.mapping
 
-    def uniq_str(self):
-        """
-    Produces a unique string representation of this item. When representing
-    charts in other formats (e.g. when writing a tiburon RTG file) we have to
-    represent this item as a string, which we build from the rule id and list of
-    nodes.
-    """
-        return 'R%d__%s' % (self.rule.rule_id, self.uniq_cover_str())
-
-    def uniq_cover_str(self):
-        edges = set()
-        for head, elabel, tail in self.shifted:
-            if tail:
-                edges.add('%s:%s' % (head[0], ':'.join([x[0] for x in tail])))
-            else:
-                edges.add(head[0])
-        return ','.join(sorted(list(edges)))
-
     def __repr__(self):
         return 'HergItem(%d, %d, %s, %s)' % (self.rule.rule_id, self.size, self.rule.symbol, len(self.shifted))
 
@@ -113,10 +92,9 @@ class HergItem(Item):
 
     def can_shift(self, new_edge):
         """
-    Determines whether new_edge matches the outside of this item, and can be
-    shifted.
-    """
-        # print "SHIFT", self, "<---", new_edge
+        Determines whether new_edge matches the outside of this item, and can be
+        shifted.
+        """
         # can't shift into a closed item
         if self.closed:
             return False
@@ -131,7 +109,6 @@ class HergItem(Item):
         # make sure new_edge preserves a consistent mapping between the nodes of the
         # graph and the nodes of the rule
         if self.nodelabels:
-            # print o1
             o1, o1_label = self.outside_triple[0]
             n1, n1_label = new_edge[0]
             if o1_label != n1_label:
@@ -143,8 +120,8 @@ class HergItem(Item):
         if o1 in self.mapping and self.mapping[o1] != n1:
             return False
 
-        # if this node is not a node of this rule RHS, but of a subgraph it needs to have a mapping. 
-        # otherwise, we can't attach. 
+        # If this node is not a node of this rule RHS, but of a subgraph,
+        # it needs to have a mapping otherwise, we can't attach.
         if n1 in self.nodeset and n1 not in self.rev_mapping:
             return False
 
@@ -169,8 +146,7 @@ class HergItem(Item):
         for i in range(len(o2)):
             if o2[i] in self.mapping and self.mapping[o2[i]] != n2[i]:
                 return False
-            # Again, need to make sure this node is part of the rule RHS, not of a 
-            # proper subgraph.
+            # Again, need to make sure this node is part of the rule RHS, not of a  proper subgraph.
             if n2[i] in self.nodeset and n2[i] not in self.rev_mapping:
                 return False
 
@@ -178,14 +154,12 @@ class HergItem(Item):
 
     def shift(self, new_edge):
         """
-    Creates the chart item resulting from a shift of new_edge. Assumes
-    can_shift returned true.
-    """
-        olabel = self.outside_triple[1]
+        Creates the chart item resulting from a shift of new_edge. Assumes
+        can_shift returned true.
+        """
         o1 = self.outside_triple[0][0] if self.nodelabels else self.outside_triple[0]
         o2 = tuple(x[0] for x in self.outside_triple[2]) if self.nodelabels else self.outside_triple[2]
 
-        nlabel = new_edge[1]
         n1 = new_edge[0][0] if self.nodelabels else new_edge[0]
         n2 = tuple(x[0] for x in new_edge[2]) if self.nodelabels else new_edge[2]
 
@@ -203,26 +177,22 @@ class HergItem(Item):
 
     def can_complete(self, new_item):
         """
-    Determines whether new_item matches the outside of this item (i.e. if the
-    nonterminals match and the node mappings agree).
-    """
+        Determines whether new_item matches the outside of this item (i.e. if the
+        nonterminals match and the node mappings agree).
+        """
         # can't add to a closed item
         if self.closed:
-            # log.debug('fail bc closed')
             return False
         # can't shift an incomplete item
         if not new_item.closed:
-            # log.debug('fail bc other not closed')
             return False
 
         # make sure labels agree
         if not self.outside_is_nonterminal:
-            # log.debug('fail bc outside terminal')
             return False
 
         # Make sure items are disjoint
         if any(edge in self.shifted for edge in new_item.shifted):
-            # log.debug('fail bc overlap')
             return False
 
         # make sure mappings agree
@@ -237,7 +207,6 @@ class HergItem(Item):
             o2 = self.outside_triple[2]
 
         if len(o2) != len(new_item.rule.rhs1.external_nodes):
-            # log.debug('fail bc hyperedge type mismatch')
             return False
 
         nroot = list(new_item.rule.rhs1.roots)[0]
@@ -247,12 +216,8 @@ class HergItem(Item):
             return False
 
         if o1 in self.mapping and self.mapping[o1] != new_item.mapping[nroot]:
-            #  new_item.mapping[new_item.rule.rhs1.roots[0]]:
-            # log.debug('fail bc mismapping')
             return False
 
-        real_nroot = new_item.mapping[nroot]
-        real_ntail = None
         for i in range(len(o2)):
             otail = o2[i]
             ntail = new_item.rule.rhs1.rev_external_nodes[i]
@@ -260,7 +225,6 @@ class HergItem(Item):
             if self.nodelabels and o2labels[i] != new_item.rule.rhs1.node_to_concepts[ntail]:
                 return False
             if otail in self.mapping and self.mapping[otail] != new_item.mapping[ntail]:
-                # log.debug('fail bc bad mapping in tail')
                 return False
 
         for node in new_item.mapping.values():
@@ -273,10 +237,9 @@ class HergItem(Item):
 
     def complete(self, new_item):
         """
-    Creates the chart item resulting from a complete of new_item. Assumes
-    can_shift returned true.
-    """
-        olabel = self.outside_triple[1]
+        Creates the chart item resulting from a complete of new_item. Assumes
+        can_shift returned true.
+        """
         o1 = self.outside_triple[0][0] if self.nodelabels else self.outside_triple[0]
         o2 = tuple(x[0] for x in self.outside_triple[2]) if self.nodelabels else self.outside_triple[2]
 
@@ -292,130 +255,3 @@ class HergItem(Item):
 
         new = HergItem(self.rule, new_size, new_shifted, new_mapping, new_nodeset, self.nodelabels)
         return new
-
-
-class CfgItem(Item):
-    """
-  Chart item for a CFG parse.
-  """
-
-    def __init__(self, rule, size=None, i=None, j=None, nodelabels=False):
-        # until this item is associated with some span in the sentence, let i and j
-        # (the left and right boundaries) be -1
-        if size == None:
-            size = 0
-        if i == None:
-            i = -1
-        if j == None:
-            j = -1
-
-        self.rule = rule
-        self.i = i
-        self.j = j
-        self.size = size
-
-        self.shifted = []
-        assert len(rule.rhs1) != 0
-
-        if size == 0:
-            assert i == -1
-            assert j == -1
-            self.closed = False
-            self.outside_word = rule.rhs1[rule.rhs1_visit_order[0]]
-        elif size < len(rule.string):
-            self.closed = False
-            self.outside_word = rule.string[rule.rhs1_visit_order[self.size]]
-        else:
-            self.closed = True
-            self.outside_word = None
-
-        if self.outside_word and isinstance(self.outside_word, NonterminalLabel):
-            self.outside_is_nonterminal = True
-            self.outside_symbol = self.outside_word.label
-            self.outside_nt_index = self.outside_word.index
-        else:
-            self.outside_is_nonterminal = False
-
-        self.__cached_hash = None
-
-    def __hash__(self):
-        if not self.__cached_hash:
-            self.__cached_hash = 2 * hash(self.rule) + 3 * self.i + 5 * self.j
-        return self.__cached_hash
-
-    def __eq__(self, other):
-        return isinstance(other, CfgItem) and \
-               other.rule == self.rule and \
-               other.i == self.i and \
-               other.j == self.j and \
-               other.size == self.size
-
-    def __repr__(self):
-        return 'CfgItem(%d, %d, %s, (%d, %d))' % (self.rule.rule_id, self.size, str(self.closed), self.i, self.j)
-
-    def __str__(self):
-        return '[%s, %d/%d, (%d,%d)]' % (self.rule,
-                                         self.size,
-                                         len(self.rule.rhs1),
-                                         self.i, self.j)
-
-    def uniq_str(self):
-        """
-    Produces a unique string representation of this item (see note on uniq_str
-    in HergItem above).
-    """
-        return '%d__%d_%d' % (self.rule.rule_id, self.i, self.j)
-
-    def can_shift(self, word, index):
-        """
-    Determines whether word matches the outside of this item (i.e. is adjacent
-    and has the right symbol) and can be shifted.
-    """
-        if self.closed:
-            return False
-        if self.i == -1:
-            return True
-        if index == self.i - 1:
-            return self.outside_word == word
-        elif index == self.j:
-            return self.outside_word == word
-        return False
-
-    def shift(self, word, index):
-        """
-    Creates the chart item resulting from a shift of the word at the given
-    index.
-    """
-        if self.i == -1:
-            return CfgItem(self.rule, self.size + 1, index, index + 1)
-        elif index == self.i - 1:
-            return CfgItem(self.rule, self.size + 1, self.i - 1, self.j)
-        elif index == self.j:
-            return CfgItem(self.rule, self.size + 1, self.i, self.j + 1)
-        assert False
-
-    def can_complete(self, new_item):
-        """
-    Determines whether new_item matches the outside of this item.
-    """
-        if self.closed:
-            return False
-        if not new_item.closed:
-            return False
-
-        if self.outside_symbol != new_item.rule.symbol:
-            return False
-
-        return self.i == -1 or new_item.i == self.j  # or new_item.j == self.i
-
-    def complete(self, new_item):
-        """
-    Creates the chart item resulting from a completion with the given item.
-    """
-        if self.i == -1:
-            return CfgItem(self.rule, self.size + 1, new_item.i, new_item.j)
-        elif new_item.i == self.j:
-            return CfgItem(self.rule, self.size + 1, self.i, new_item.j)
-        elif new_item.j == self.i:
-            return CfgItem(self.rule, self.size + 1, new_item.i, self.j)
-        assert False
