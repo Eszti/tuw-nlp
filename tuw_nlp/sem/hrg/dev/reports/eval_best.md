@@ -2,44 +2,44 @@
 ## Grammar 100
 ### f1 - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3274 | 5265 | 3274 | 374 | **0.9365** | **0.3389** | **0.4977** | 
+| all | 3274 | 5265 | 3274 | 374 | **0.9365** | **0.3389** | **0.4977** | 
 
 
 ### prec - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3267 | 5265 | 3267 | 359 | **0.9494** | **0.3196** | **0.4782** | 
+| all | 3267 | 5265 | 3267 | 359 | **0.9494** | **0.3196** | **0.4782** | 
 
 
 ### rec - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3245 | 5265 | 3245 | 185 | **0.8591** | **0.3369** | **0.4840** | 
+| all | 3245 | 5265 | 3245 | 185 | **0.8591** | **0.3369** | **0.4840** | 
 
 
 ## Grammar 200
 ### f1 - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3716 | 5265 | 3716 | 372 | **0.9462** | **0.3253** | **0.4841** | 
+| all | 3716 | 5265 | 3716 | 372 | **0.9462** | **0.3253** | **0.4841** | 
 
 
 ### prec - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3712 | 5265 | 3712 | 328 | **0.9582** | **0.3028** | **0.4601** | 
+| all | 3712 | 5265 | 3712 | 328 | **0.9582** | **0.3028** | **0.4601** | 
 
 
 ### rec - keep
 
-|  k | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
+|  model | predicted extractions | gold extractions | matches | exact matches | prec | rec | F1 |
 |-------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | -------------- | 
-| k0 | 3690 | 5265 | 3690 | 192 | **0.8801** | **0.3230** | **0.4725** | 
+| all | 3690 | 5265 | 3690 | 192 | **0.8801** | **0.3230** | **0.4725** | 
 
 
