@@ -67,7 +67,7 @@ def filter_for_pr(derivations, gold_labels, metric, pos_tags, top_order, arg_per
     for score, derivation in derivations:
         labels = get_labels(derivation)
         predicted_labels = copy.copy(labels)
-        all_permutations = postprocess(predicted_labels, pos_tags, top_order, arg_perm)
+        _, all_permutations = postprocess(predicted_labels, pos_tags, top_order, arg_perm)
 
         for permutation in all_permutations:
             pred = convert_label_dict(permutation)

@@ -7,15 +7,8 @@ from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_text_from_conll_file
 from tuw_nlp.sem.hrg.common.io import get_range
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
-from tuw_nlp.sem.hrg.predict.postprocess import resolve_pred, add_arg_idx
+from tuw_nlp.sem.hrg.postproc.postproc import postprocess
 from tuw_nlp.sem.hrg.predict.utils import save_predicted_conll, update_graph_labels, get_marked_nodes
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
 
 
 def get_preproc_input(preproc_dir_root, sen_dir):
@@ -63,19 +56,13 @@ def get_bolinas_input(predict_dir_root, sen_dir, chart_filter):
     return zip(matches_lines, labels_lines)
 
 
-def postprocess(extracted_labels, pos_tags, top_order):
-    pred_res = resolve_pred(extracted_labels, pos_tags, top_order)
-    add_arg_idx(extracted_labels, len(pos_tags))
-    return pred_res
-
-
-def predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir):
+def predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir):
     sen_text, graph, pa_graph, gold_labels, pos_tags, top_order, orig_conll = get_preproc_input(
         preproc_dir_root,
         sen_dir
     )
     predict_dir = f"{predict_dir_root}/{sen_dir}/predict"
-    for chart_filter in c["bolinas_chart_filters"]:
+    for chart_filter in config["bolinas_chart_filters"]:
         chart_filter_dir = f"{predict_dir}/{chart_filter}"
         if not os.path.exists(chart_filter_dir):
             os.makedirs(chart_filter_dir)
@@ -90,16 +77,21 @@ def predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir):
             with open(f"{chart_filter_dir}/sen{sen_dir}_match_{i}.dot", "w") as f:
                 f.write(match_graph.to_dot())
 
-            for pp in c["postprocess"]:
+            for pp in config["postprocess"]:
+                if pp == "arg_perm" and chart_filter in ["prec", "rec", "f1"]:
+                    continue
                 extracted_labels = json.loads(labels_str)
                 pp_dir = f"{chart_filter_dir}/{pp}"
                 if not os.path.exists(pp_dir):
                     os.makedirs(pp_dir)
-                pred_res = postprocess(
+                pred_res, extracted_labels_all_permutations = postprocess(
                     extracted_labels,
                     pos_tags,
                     top_order,
+                    arg_perm=(pp == "arg_perm"),
                 )
+                assert len(extracted_labels_all_permutations) == 1  # Todo
+                extracted_labels = extracted_labels_all_permutations[0]
                 save_predicted_conll(
                     orig_conll,
                     extracted_labels,
@@ -132,22 +124,23 @@ def predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir):
 
 def main(data_dir, config_json):
     config = json.load(open(config_json))
-    for name, c in config.items():
-        if c.get("ignore") and c["ignore"]:
-            continue
-        preproc_dir_root = f"{data_dir}/{c['preproc_dir']}"
-        predict_dir_root = f"{data_dir}/{c['predict_dir_root']}"
-        first = c.get("first", None)
-        last = c.get("last", None)
-        print(f"Processing ")
-        for sen_dir in get_range(preproc_dir_root, first, last):
-            sen_dir = str(sen_dir)
-            print(f"\nProcessing sentence {sen_dir}")
-            predict_sen(c, predict_dir_root, preproc_dir_root, sen_dir)
-        dataset_dir = os.path.dirname(os.path.dirname(os.path.realpath(config_json)))
-        report_dir = f"{dataset_dir}/reports/pred_res_stat"
-        if not os.path.exists(report_dir):
-            os.makedirs(report_dir)
+
+    preproc_dir_root = f"{data_dir}/{config['preproc_dir']}"
+    predict_dir_root = f"{data_dir}/{config['predict_dir_root']}"
+    first = config.get("first", None)
+    last = config.get("last", None)
+
+    for sen_dir in get_range(preproc_dir_root, first, last):
+        sen_dir = str(sen_dir)
+        print(f"Processing sentence {sen_dir}")
+        predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir)
+
+
+def get_args():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-d", "--data-dir", type=str)
+    parser.add_argument("-c", "--config", type=str)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

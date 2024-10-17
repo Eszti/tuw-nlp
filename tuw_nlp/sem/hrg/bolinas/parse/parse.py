@@ -52,8 +52,6 @@ def main(data_dir, config_json):
     nodelabels = True
     backward = False
 
-    if not config_json:
-        config_json = f"{os.path.dirname(os.path.realpath(__file__))}/parse_config.json"
     config = json.load(open(config_json))
 
     log_file = os.path.join(

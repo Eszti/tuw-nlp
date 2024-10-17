@@ -6,14 +6,14 @@ from collections import defaultdict
 def resolve_pred(pred_labels, pos_tags, top_order):
     preds = [n for n, l in pred_labels.items() if l == "P"]
     if len(preds) > 0:
-        return
+        return "X"
     verbs = [n for n, t in pos_tags.items() if t == "VERB"]
     if len(verbs) == 0:
         pred_labels[str(top_order[1])] = "P"
-        return
+        return "A"
     if len(verbs) == 1:
         pred_labels[verbs[0]] = "P"
-        return
+        return "B"
     assert len(verbs) > 1
     first_verb_idx = None
     for v_idx in verbs:
@@ -22,7 +22,7 @@ def resolve_pred(pred_labels, pos_tags, top_order):
             first_verb_idx = idx
     first_verb_node = str(top_order[first_verb_idx])
     pred_labels[first_verb_node] = "P"
-    return
+    return "C"
 
 
 def add_arg_idx(extracted_labels, length, arg_perm):
@@ -53,6 +53,6 @@ def add_arg_idx(extracted_labels, length, arg_perm):
 
 
 def postprocess(extracted_labels, pos_tags, top_order, arg_perm):
-    resolve_pred(extracted_labels, pos_tags, top_order)
-    return add_arg_idx(extracted_labels, len(pos_tags), arg_perm)
-
+    pred_res = resolve_pred(extracted_labels, pos_tags, top_order)
+    pp_labels = add_arg_idx(extracted_labels, len(pos_tags), arg_perm)
+    return pred_res, pp_labels

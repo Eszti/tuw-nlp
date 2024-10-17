@@ -66,8 +66,6 @@ def main(data_dir, config_json):
     start_time = time.time()
     logprob = True
 
-    if not config_json:
-        config_json = f"{os.path.dirname(os.path.realpath(__file__))}/kbest_config.json"
     config = json.load(open(config_json))
 
     log_file = os.path.join(
@@ -77,7 +75,7 @@ def main(data_dir, config_json):
     )
     log_lines = [
         f"Execution start: {str(datetime.now())}\n",
-        f"Chart filters: {' '.join([f for f, c in config['filters'].items() if not c.get('ignore', False)])}",
+        f"Chart filters: {' '.join(sorted([f for f, c in config['filters'].items() if not c.get('ignore', False)]))}",
         "\n"]
     first = config.get("first", None)
     last = config.get("last", None)
@@ -114,7 +112,7 @@ def main(data_dir, config_json):
         ))
         pos_tags = get_pos_tags(f"{data_dir}/{config['preproc_dir']}/{sen_idx}/preproc/parsed.conll")
 
-        for name, c in config["filters"].items():
+        for name, c in sorted(config["filters"].items()):
             if c.get("ignore", False):
                 continue
             print(f"Processing {name}")
