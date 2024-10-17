@@ -7,7 +7,7 @@ import pandas as pd
 
 from tuw_nlp.common.eval import f1
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
-from tuw_nlp.sem.hrg.common.io import get_range, get_k_files_or_all, get_all_json
+from tuw_nlp.sem.hrg.common.io import get_range, get_merged_jsons
 from tuw_nlp.sem.hrg.common.report import find_best_in_column, make_markdown_table
 
 
@@ -49,16 +49,9 @@ def calculate_eval_table(data_dir, grammar_dir, chart_filter, pp, gold, gold_mul
     ]]
 
     in_dir = f"{data_dir}/{grammar_dir}"
-    if chart_filter:
-        in_dir += f"/{chart_filter}"
-    if pp:
-        in_dir += f"/{pp}"
-
-    files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
-    files = get_k_files_or_all(files)
+    files = get_merged_jsons(in_dir, chart_filter, pp)
     for file in files:
-        fn = f"{in_dir}/{file}"
-        predictions, pred_multi_rel = get_rels(json.load(open(fn)))
+        predictions, pred_multi_rel = get_rels(json.load(open(file)))
         results = {}
         for s, gold_rels in gold.items():
             pred_rels = predictions.get(s, set())
@@ -75,7 +68,7 @@ def calculate_eval_table(data_dir, grammar_dir, chart_filter, pp, gold, gold_mul
             rec_num += s["G & P"]
             rec_denom += s["len G"]
 
-        first_col = fn.split(".")[0].split("_")[-1]
+        first_col = file.split("/")[-1].split(".")[0].split("_")[-1]
         prec = round(prec_num / prec_denom, 4)
         rec = round(rec_num / rec_denom, 4)
         nr_gold_sens = len(gold.keys())
@@ -200,7 +193,7 @@ def main(gold_path, data_dir, config_json):
                     eval_report,
                 )
 
-                all_json = get_all_json(f"{data_dir}/{config['extractions_dir']}/{c['name']}", chart_filter, pp)
+                all_json = get_merged_jsons(f"{data_dir}/{config['extractions_dir']}/{c['name']}", chart_filter, pp, only_all=True)
 
                 pos_report = fill_pos_table(
                     all_json,

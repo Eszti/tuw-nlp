@@ -142,5 +142,4 @@ tuw_nlp/sem/hrg/out_old/
 tuw_nlp/sem/hrg/out/
 tuw_nlp/sem/hrg/temp/
 !tuw_nlp/sem/hrg/**/*.log
-*_local.log
-*_local.json
+*_local.*

@@ -41,17 +41,20 @@ def get_range(in_dir, first=None, last=None):
     return [n for n in sen_dirs if first <= n <= last]
 
 
-def get_k_files_or_all(files, only_all=False):
+def get_merged_jsons(in_dir, chart_filter, pp, only_all=False):
+    if chart_filter:
+        in_dir += f"/{chart_filter}"
+    if pp:
+        in_dir += f"/{pp}"
+    files = [i for i in os.listdir(in_dir) if i.endswith(".json")]
     if only_all:
         files = [i for i in files if i.endswith("_all.json")]
         assert len(files) == 1
-        return files
-    k_files = [i for i in files if i.split("_")[-1].startswith("k")]
-    if k_files:
-        files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
     else:
-        assert len(files) == 1 and files[0].endswith("_all.json")
-    return files
+        k_files = [i for i in files if i.split("_")[-1].startswith("k")]
+        if k_files:
+            files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
+    return [f"{in_dir}/{f}" for f in files]
 
 
 def get_all_json(in_dir, chart_filter, pp):

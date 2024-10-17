@@ -3,22 +3,6 @@
     "test": false,
     "models":
     {
-        "Grammar 100 test":
-        {
-            "ignore": true,
-            "in_dir": "dev_gr100_test",
-            "bolinas_chart_filters": 
-            [
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "verb",
-                "keep"
-            ]
-        },
         "Grammar 100":
         {
             "ignore": false,

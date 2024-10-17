@@ -160,38 +160,3 @@ def split_tuples_by_extractor(gold, tuples):
                 else:
                     predictions_by_model[t['extractor']][s] = [t]
     return predictions_by_model
-
-
-def check_keys(gold, extracted):
-    print(f"Keys in gold: {len(gold)}")
-    print(f"Keys in extracted: {len(extracted)}")
-    found = 0
-    not_found = 0
-    common = set()
-    for s in gold:
-        if s not in extracted:
-            not_found += 1
-        else:
-            found += 1
-            common.add(s)
-    print("Keys from gold")
-    print(f"found: {found}")
-    print(f"not found: {not_found}")
-    found = 0
-    not_found = 0
-    for s in extracted:
-        if s not in gold:
-            not_found += 1
-        else:
-            found += 1
-    print("Keys from extracted")
-    print(f"found: {found}")
-    print(f"not found: {not_found}")
-    return common
-
-
-def keep_only_common(tuples, common):
-    diff = tuples.keys() - common
-    for k in diff:
-        del tuples[k]
-
