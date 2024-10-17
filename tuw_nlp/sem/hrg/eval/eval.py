@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 
-from tuw_nlp.sem.hrg.common.io import get_k_files_or_assert_all
+from tuw_nlp.sem.hrg.common.io import get_k_files_or_all
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.eval.wire_scorer import check_keys, keep_only_common, split_tuples_by_extractor, eval_system, f1
 
@@ -30,10 +30,11 @@ def calculate_table(
         r_list,
         pr_curve_names,
         grammar_name,
-        raw_scores,
         report,
+        debug,
         temp_dir,
         test,
+        print_pr_curve,
 ):
     print(f"Processing: {grammar_dir} - {chart_filter} - {pp}")
     if chart_filter or pp:
@@ -55,7 +56,7 @@ def calculate_table(
         in_dir += f"/{pp}"
     files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
     if not test:
-        files = get_k_files_or_assert_all(files)
+        files = get_k_files_or_all(files, only_all=not print_pr_curve)
     for file in files:
         fn = f"{in_dir}/{file}"
         print(fn)
@@ -70,7 +71,7 @@ def calculate_table(
         for model, system_extractions in predictions_by_model.items():
             metrics, raw_match_scores, exact_matches, matches = eval_system(gold, system_extractions)
 
-            if raw_scores:
+            if debug:
                 with open(f"{temp_dir}/{model}_prec_scores.dat", "w") as f:
                     f.write(str(raw_match_scores[0]))
                 with open(f"{temp_dir}/{model}_rec_scores.dat", "w") as f:
@@ -97,15 +98,17 @@ def calculate_table(
                           f1_score])
             assert nr_exact_matches == len(exact_matches)
             assert nr_matches == len(matches)
-            prec_l = [m[2]["prec"] for m in matches]
-            rec_l = [m[2]["rec"] for m in matches]
-            print(f"model: {model}")
-            print(f"avg prec: {sum(prec_l) / len(prec_l)}")
-            print(f"avg rec: {sum(rec_l) / len(rec_l)}\n")
-            with open(f"{temp_dir}/matches_{file}", "w") as f:
-                json.dump(matches, f, indent=4)
-            with open(f"{temp_dir}/exact_matches_{file}", "w") as f:
-                json.dump(exact_matches, f, indent=4)
+
+            if debug:
+                prec_l = [m[2]["prec"] for m in matches]
+                rec_l = [m[2]["rec"] for m in matches]
+                print(f"model: {model}")
+                print(f"avg prec: {sum(prec_l) / len(prec_l)}")
+                print(f"avg rec: {sum(rec_l) / len(rec_l)}\n")
+                with open(f"{temp_dir}/matches_{file}", "w") as f:
+                    json.dump(matches, f, indent=4)
+                with open(f"{temp_dir}/exact_matches_{file}", "w") as f:
+                    json.dump(exact_matches, f, indent=4)
     bold = find_best_in_column(table, ["prec", "rec", "F1"])
     report += make_markdown_table(table, bold)
     report += "\n"
@@ -140,10 +143,11 @@ def main(gold_path, data_dir, config_json, only_common, raw_scores, report_dir, 
                     r_list,
                     pr_curve_names,
                     grammar_name,
-                    raw_scores,
                     report,
+                    config["debug"],
                     temp_dir,
-                    config["test"]
+                    config["test"],
+                    config["pr_curve"],
                 )
     eval_md_name = config_json.split("/")[-1].split("_config.json")[0]
     if config["pr_curve"] and not config["test"]:

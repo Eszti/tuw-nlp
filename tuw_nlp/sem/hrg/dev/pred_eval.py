@@ -7,7 +7,7 @@ import pandas as pd
 
 from tuw_nlp.common.eval import f1
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
-from tuw_nlp.sem.hrg.common.io import get_range, get_k_files_or_assert_all, get_all_json
+from tuw_nlp.sem.hrg.common.io import get_range, get_k_files_or_all, get_all_json
 from tuw_nlp.sem.hrg.common.report import find_best_in_column, make_markdown_table
 
 
@@ -55,7 +55,7 @@ def calculate_eval_table(data_dir, grammar_dir, chart_filter, pp, gold, gold_mul
         in_dir += f"/{pp}"
 
     files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
-    files = get_k_files_or_assert_all(files)
+    files = get_k_files_or_all(files)
     for file in files:
         fn = f"{in_dir}/{file}"
         predictions, pred_multi_rel = get_rels(json.load(open(fn)))

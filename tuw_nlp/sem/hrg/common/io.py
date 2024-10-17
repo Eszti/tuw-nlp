@@ -41,7 +41,11 @@ def get_range(in_dir, first=None, last=None):
     return [n for n in sen_dirs if first <= n <= last]
 
 
-def get_k_files_or_assert_all(files):
+def get_k_files_or_all(files, only_all=False):
+    if only_all:
+        files = [i for i in files if i.endswith("_all.json")]
+        assert len(files) == 1
+        return files
     k_files = [i for i in files if i.split("_")[-1].startswith("k")]
     if k_files:
         files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))

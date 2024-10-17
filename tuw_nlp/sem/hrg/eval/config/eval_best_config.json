@@ -1,6 +1,7 @@
 {
     "pr_curve": false,
     "test": false,
+    "debug": false,
     "models":
     {
         "Grammar 100":

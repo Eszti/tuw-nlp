@@ -1,17 +1,14 @@
 {
-    "in_dir": "dev_gr300",
+    "in_dir": "dev_random",
     "k": 10,
     "bolinas_chart_filters": 
     [
-        "max",
-        "basic",
-        "prec",
-        "rec",
-        "f1"
+        "boa",
+        "argidx"
     ],
     "postprocess": 
     [
-        "keep"
+        ""
     ],
     "out_dir": "dev_extractions"
 }
