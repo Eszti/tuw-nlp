@@ -92,15 +92,12 @@ def merge(data_dir, in_dir, out_dir, chart_filter, postprocess, k, first, last):
 
 def main(data_dir, config_json):
     config = json.load(open(config_json))
-    for in_dir, c in config.items():
-        if c.get("ignore") and c["ignore"]:
-            continue
-        first = c.get("first", None)
-        last = c.get("last", None)
-        k = c.get("k", 0)
-        for chart_filter in c["bolinas_chart_filters"]:
-            for pp in c["postprocess"]:
-                merge(data_dir, in_dir, c["out_dir"], chart_filter, pp, k, first, last)
+    first = config.get("first", None)
+    last = config.get("last", None)
+    k = config.get("k", 0)
+    for chart_filter in config["bolinas_chart_filters"]:
+        for pp in config["postprocess"]:
+            merge(data_dir, config["in_dir"], config["out_dir"], chart_filter, pp, k, first, last)
 
 
 if __name__ == "__main__":
