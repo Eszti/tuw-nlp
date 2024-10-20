@@ -59,16 +59,11 @@ def main(data_dir, config_json):
         "log",
         "parse_" + config["out_dir"] + ".log"
     )
-    log_lines = [f"Execution start: {datetime.now()}\n"]
+    log_lines = [f"Execution start: {datetime.now()}\n", f"{json.dumps(config, indent=4)}\n"]
     first = config.get("first", None)
     last = config.get("last", None)
-    if first:
-        log_to_console_and_log_lines(f"First: {first}", log_lines)
-    if last:
-        log_to_console_and_log_lines(f"Last: {last}", log_lines)
 
     max_steps = config.get("max_steps", 10000)
-    log_to_console_and_log_lines(f"Max steps: {max_steps}", log_lines)
 
     grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))}//train/grammar/"
     grammar_file = f"{grammar_dir}/{config['grammar_file']}"

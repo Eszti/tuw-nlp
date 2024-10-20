@@ -73,16 +73,9 @@ def main(data_dir, config_json):
         "log",
         "kbest_" + config["model_dir"] + ".log"
     )
-    log_lines = [
-        f"Execution start: {str(datetime.now())}\n",
-        f"Chart filters: {' '.join(sorted([f for f, c in config['filters'].items() if not c.get('ignore', False)]))}",
-        "\n"]
+    log_lines = [f"Execution start: {str(datetime.now())}\n", f"{json.dumps(config, indent=4)}\n"]
     first = config.get("first", None)
     last = config.get("last", None)
-    if first:
-        log_to_console_and_log_lines(f"First: {first}\n", log_lines)
-    if last:
-        log_to_console_and_log_lines(f"Last: {last}\n", log_lines)
 
     score_disorder_collector = {}
     model_dir = os.path.join(data_dir, config["model_dir"])
