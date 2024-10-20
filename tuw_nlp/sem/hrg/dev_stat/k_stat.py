@@ -27,9 +27,12 @@ def get_pred_files(data_dir, config):
     return ret
 
 
-def main(data_dir, config_json):
+def calc_k_stat(data_dir, config_json):
     config = json.load(open(config_json))
-    out_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/k_stat"
+    report_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/k_stat"
+    if not os.path.exists(report_dir):
+        os.makedirs(report_dir)
+
     gold_fn = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/data/{config['gold_fn']}"
     sen_ids = []
     k_values = dict()
@@ -59,22 +62,22 @@ def main(data_dir, config_json):
 
     k_hist = k_values_df.apply(lambda x: x.value_counts()).fillna(0).astype(int)
     k_hist.index.name = 'k'
-    k_hist.to_csv(f"{out_dir}/k_hist.tsv", sep="\t")
+    k_hist.to_csv(f"{report_dir}/k_hist.tsv", sep="\t")
     save_bar_diagram(k_hist,
                      "Number of sentences",
                      "Distribution of number of extractions",
-                     f"{out_dir}/k_stat_bar.png")
+                     f"{report_dir}/k_stat_bar.png")
 
     for key in k_values:
         if key != "gold":
             k_values_df[f"{key} - gold"] = k_values_df[key] - k_values_df["gold"]
-    k_values_df.to_csv(f"{out_dir}/k_values.tsv", sep="\t")
+    k_values_df.to_csv(f"{report_dir}/k_values.tsv", sep="\t")
 
     k_differences = k_values_df.iloc[:, -len(pred_files):]\
         .apply(lambda x: x.value_counts(normalize=True)).fillna(0).round(4)
-    k_differences.to_csv(f"{out_dir}/k_differences.tsv", sep="\t")
+    k_differences.to_csv(f"{report_dir}/k_differences.tsv", sep="\t")
 
-    with open(f"{out_dir}/k_corr.txt", "w") as f:
+    with open(f"{report_dir}/k_corr.txt", "w") as f:
         for model in sorted(k_values.keys()):
             if model != "gold":
                 f.writelines(f"{model}\n")
@@ -87,4 +90,4 @@ def main(data_dir, config_json):
 
 if __name__ == "__main__":
     args = get_args()
-    main(args.data_dir, args.config)
+    calc_k_stat(args.data_dir, args.config)

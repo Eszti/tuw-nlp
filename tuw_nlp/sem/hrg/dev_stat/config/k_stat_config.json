@@ -4,19 +4,6 @@
     "models":
     [
         {
-            "ignore": true,
-            "in_dir": "dev_gr100_test",
-            "bolinas_chart_filters": 
-            [
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
-            ]
-        },
-        {
-            "ignore": false,
             "in_dir": "dev_gr100",
             "bolinas_chart_filters": 
             [
@@ -32,7 +19,6 @@
             ]
         },
         {
-            "ignore": false,
             "in_dir": "dev_gr200",
             "bolinas_chart_filters": 
             [
@@ -48,7 +34,21 @@
             ]
         },
         {
-            "ignore": false,
+            "in_dir": "dev_gr300",
+            "bolinas_chart_filters": 
+            [
+                "max",
+                "basic",
+                "f1",
+                "prec",
+                "rec"
+            ],
+            "postprocess": 
+            [
+                "keep"
+            ]
+        },
+        {
             "in_dir": "dev_random",
             "bolinas_chart_filters": 
             [

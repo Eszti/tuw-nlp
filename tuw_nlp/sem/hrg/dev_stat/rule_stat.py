@@ -9,13 +9,6 @@ import pandas as pd
 from tuw_nlp.sem.hrg.common.io import get_range
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
-
-
 def get_rules_from_grammar_file(config, grammar_dir):
     grammar_fn = f"{grammar_dir}/{config['grammar_file']}"
     with open(grammar_fn) as f:
@@ -40,7 +33,7 @@ def fill_stat(bf, c, data_dir, sen_dir, stat_dict):
                 stat_dict[bf][rule_id-1] += 1
 
 
-def main(data_dir, config_json):
+def calc_rule_stat(data_dir, config_json):
     grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/train/grammar"
     report_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/rule_stat"
     if not os.path.exists(report_dir):
@@ -96,6 +89,13 @@ def add_rule_cols(df, complete_rules, lhs, weights):
     df.insert(2, "lhs", lhs)
 
 
+def get_args():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-d", "--data-dir", type=str)
+    parser.add_argument("-c", "--config", type=str)
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
     args = get_args()
-    main(args.data_dir, args.config)
+    calc_rule_stat(args.data_dir, args.config)

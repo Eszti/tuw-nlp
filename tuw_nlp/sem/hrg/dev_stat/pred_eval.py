@@ -11,14 +11,6 @@ from tuw_nlp.sem.hrg.common.io import get_range, get_merged_jsons
 from tuw_nlp.sem.hrg.common.report import find_best_in_column, make_markdown_table
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-g", "--gold")
-    parser.add_argument("-d", "--data-dir")
-    parser.add_argument("-c", "--config")
-    return parser.parse_args()
-
-
 def get_rels(extractions):
     ret = defaultdict(set)
     multi_word_rel = 0
@@ -161,18 +153,19 @@ def save_pred_stat(models, name, pred_stat, report_dir):
     df_sum.to_csv(f"{report_dir}/{name}_pred_res_sum.tsv", sep="\t")
 
 
-def main(gold_path, data_dir, config_json):
+def evaluate_predicate_recognition(data_dir, config_json):
     config = json.load(open(config_json))
+    gold_fn = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/data/{config['gold_fn']}"
     report_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports/pred_eval"
     if not os.path.exists(report_dir):
         os.makedirs(report_dir)
 
-    gold, gold_multi_rel = get_rels(json.load(open(gold_path)))
+    gold, gold_multi_rel = get_rels(json.load(open(gold_fn)))
     eval_report = "# Pred-Arg Evaluation\n"
 
     pos_tags = get_all_pos_tags(f"{data_dir}/{config['preproc_dir']}")
     pos_report = "# Verb stat\n"
-    pos_report = fill_pos_table(gold_path, pos_report, pos_tags, "Dev Gold")
+    pos_report = fill_pos_table(gold_fn, pos_report, pos_tags, "Dev Gold")
 
     pred_stat = defaultdict(dict)
     models = set()
@@ -193,7 +186,12 @@ def main(gold_path, data_dir, config_json):
                     eval_report,
                 )
 
-                all_json = get_merged_jsons(f"{data_dir}/{config['extractions_dir']}/{c['name']}", chart_filter, pp, only_all=True)
+                all_json = get_merged_jsons(
+                    f"{data_dir}/{config['extractions_dir']}/{c['name']}",
+                    chart_filter,
+                    pp,
+                    only_all=True
+                )[0]
 
                 pos_report = fill_pos_table(
                     all_json,
@@ -214,10 +212,13 @@ def main(gold_path, data_dir, config_json):
         f.writelines(pos_report)
 
 
+def get_args():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-d", "--data-dir")
+    parser.add_argument("-c", "--config")
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
     args = get_args()
-    main(
-        args.gold,
-        args.data_dir,
-        args.config,
-    )
+    evaluate_predicate_recognition(args.data_dir, args.config)
