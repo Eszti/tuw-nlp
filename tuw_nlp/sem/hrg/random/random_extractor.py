@@ -10,7 +10,7 @@ import stanza
 from tuw_nlp.sem.hrg.common.conll import get_sen_from_conll_sen
 from tuw_nlp.sem.hrg.common.io import create_sen_dir
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
-from tuw_nlp.sem.hrg.predict.postprocess import add_arg_idx
+from tuw_nlp.sem.hrg.postproc.postproc import add_arg_idx
 from tuw_nlp.text.utils import gen_tsv_sens
 
 
@@ -144,7 +144,7 @@ def get_extractions(
             else:
                 non_verbs[sen_idx].append((p_idx_l, pos_tags))
         if model == "boa":
-            add_arg_idx(extracted_labels, len(pred_seq))
+            add_arg_idx(extracted_labels, len(pred_seq), arg_perm=False)
         extracted[sen_txt].append(get_wire_extraction(
             extracted_labels,
             sen_txt, i + 1,
