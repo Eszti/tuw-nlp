@@ -1,19 +1,10 @@
 import argparse
 import json
+import os
 
 from tuw_nlp.sem.hrg.common.io import get_merged_jsons
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_system, f1
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-g", "--gold")
-    parser.add_argument("-d", "--data-dir")
-    parser.add_argument("-c", "--config")
-    parser.add_argument("-rd", "--report-dir")
-    parser.add_argument("-td", "--temp-dir")
-    return parser.parse_args()
 
 
 def calculate_table(files, gold, report, p, r, mode, debug, temp_dir):
@@ -82,13 +73,23 @@ def calculate_table(files, gold, report, p, r, mode, debug, temp_dir):
     return report
 
 
-def main(gold_path, data_dir, config_json, report_dir, temp_dir):
+def main(data_dir, config_json):
     config = json.load(open(config_json))
+    report_dir = f"{os.path.dirname(os.path.realpath(__file__))}/reports"
+    if not os.path.exists(report_dir):
+        os.makedirs(report_dir)
+    temp_dir = f"{os.path.dirname(os.path.realpath(__file__))}/temp"
+
+    gold_path = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/data/{config['gold_fn']}"
     gold = json.load(open(gold_path))
 
     test = config.get("test", False)
     pr_curve = config.get("pr_curve", False)
     debug = config.get("debug", False)
+
+    if debug:
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir)
 
     report = "# Evaluation\n"
 
@@ -127,7 +128,7 @@ def main(gold_path, data_dir, config_json, report_dir, temp_dir):
                     r_list.append(r)
                     pr_curve_names.append(f"{grammar_name}-{chart_filter}-{pp}")
 
-    eval_md_name = f"eval_{config_json.split('/')[-1].split('_')[-1].split('.json')[0]}"
+    eval_md_name = f"{config_json.split('/')[-1].split('.json')[0]}"
 
     if pr_curve and not test:
         save_pr_curve(p_list, r_list, pr_curve_names, f"{report_dir}/pr_curve_{eval_md_name}.png")
@@ -137,12 +138,13 @@ def main(gold_path, data_dir, config_json, report_dir, temp_dir):
         f.writelines(report)
 
 
+def get_args():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-d", "--data-dir")
+    parser.add_argument("-c", "--config")
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
     args = get_args()
-    main(
-        args.gold,
-        args.data_dir,
-        args.config,
-        args.report_dir,
-        args.temp_dir
-    )
+    main(args.data_dir, args.config)

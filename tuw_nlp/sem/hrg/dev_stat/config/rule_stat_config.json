@@ -24,6 +24,18 @@
                 "prec",
                 "rec"
             ]
+        },
+        {
+            "grammar_file": "grammar_300.hrg",
+            "in_dir": "dev_gr300",
+            "bolinas_filters":
+            [
+                "basic",
+                "max",
+                "f1",
+                "prec",
+                "rec"
+            ]
         }
     ]
 }

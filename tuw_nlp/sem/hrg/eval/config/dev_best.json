@@ -1,16 +1,12 @@
 {
-    "pr_curve": true,
-    "test": false,
+    "gold_fn": "gold_dev.json",
     "models":
     {
         "Grammar 100":
         {
-            "ignore": false,
             "in_dir": "dev_gr100",
             "bolinas_chart_filters": 
             [
-                "max",
-                "basic",
                 "prec",
                 "rec",
                 "f1"
@@ -22,12 +18,9 @@
         },
         "Grammar 200":
         {
-            "ignore": false,
             "in_dir": "dev_gr200",
             "bolinas_chart_filters": 
             [
-                "max",
-                "basic",
                 "prec",
                 "rec",
                 "f1"
@@ -37,18 +30,18 @@
                 "keep"
             ]
         },
-        "Random":
+        "Grammar 300":
         {
-            "ignore": false,
-            "in_dir": "dev_random",
+            "in_dir": "dev_gr300",
             "bolinas_chart_filters": 
             [
-                "boa",
-                "argidx"
+                "prec",
+                "rec",
+                "f1"
             ],
             "postprocess": 
             [
-                ""
+                "keep"
             ]
         }
     }
