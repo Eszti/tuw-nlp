@@ -1,4 +1,3 @@
-import argparse
 import json
 import os
 from collections import OrderedDict
@@ -6,7 +5,7 @@ from collections import OrderedDict
 import numpy as np
 import pandas as pd
 
-from tuw_nlp.sem.hrg.common.io import get_range
+from tuw_nlp.sem.hrg.common.io import get_range, get_data_dir_and_config_args
 
 
 def get_rules_from_grammar_file(config, grammar_dir):
@@ -89,13 +88,6 @@ def add_rule_cols(df, complete_rules, lhs, weights):
     df.insert(2, "lhs", lhs)
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
-
-
 if __name__ == "__main__":
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to calculate statistics on rule usage.")
     calc_rule_stat(args.data_dir, args.config)

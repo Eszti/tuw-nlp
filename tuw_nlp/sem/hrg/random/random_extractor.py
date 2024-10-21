@@ -1,4 +1,3 @@
-import argparse
 import json
 import os
 import random
@@ -8,17 +7,10 @@ from collections import defaultdict
 import stanza
 
 from tuw_nlp.sem.hrg.common.conll import get_sen_from_conll_sen
-from tuw_nlp.sem.hrg.common.io import create_sen_dir
+from tuw_nlp.sem.hrg.common.io import create_sen_dir, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import add_arg_idx
 from tuw_nlp.text.utils import gen_tsv_sens
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
 
 
 def main(data_dir, config_json, with_nr_ex_stat=True, verb_pred=True):
@@ -156,5 +148,5 @@ def get_extractions(
 
 
 if __name__ == "__main__":
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to generate random extractions.")
     main(args.data_dir, args.config)

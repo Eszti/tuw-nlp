@@ -22,14 +22,6 @@ def save_conll(sen, fn):
             f.write("\n")
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-f", "--first", type=int)
-    parser.add_argument("-l", "--last", type=int)
-    parser.add_argument("-o", "--out-dir", type=str)
-    return parser.parse_args()
-
-
 def add_node_labels(bolinas_graph):
     for node, data in bolinas_graph.G.nodes(data=True):
         name = data['name']
@@ -92,6 +84,14 @@ def main(out_dir, first=None, last=None):
             json.dump(gold_labels, f)
 
         last_sen = sen_txt
+
+
+def get_args():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-f", "--first", type=int)
+    parser.add_argument("-l", "--last", type=int)
+    parser.add_argument("-o", "--out-dir", type=str)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

@@ -1,17 +1,9 @@
-import argparse
 import json
 import os
 from collections import defaultdict, Counter
 
-from tuw_nlp.sem.hrg.common.io import get_range
+from tuw_nlp.sem.hrg.common.io import get_range, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.wire_extraction import WiReEx
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
 
 
 def get_extractions_for_sen(all_ex_set, ex_stat, k, wire_json):
@@ -101,5 +93,5 @@ def main(data_dir, config_json):
 
 
 if __name__ == "__main__":
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to merge predicted wire jsons.")
     main(args.data_dir, args.config)

@@ -4,15 +4,13 @@ import fileinput
 import pickle
 import time
 
-from argparse import ArgumentParser
 from datetime import datetime
-
 
 from tuw_nlp.sem.hrg.bolinas.common.grammar import Grammar
 from tuw_nlp.sem.hrg.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.bolinas.parser_basic.parser import Parser
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_rule import VoRule
-from tuw_nlp.sem.hrg.common.io import get_range, log_to_console_and_log_lines
+from tuw_nlp.sem.hrg.common.io import get_range, log_to_console_and_log_lines, get_data_dir_and_config_args
 
 
 def load_grammar(grammar_file, backward, nodelabels, logprob, log_lines):
@@ -104,9 +102,5 @@ def main(data_dir, config_json):
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description ="Parse graph inputs and save chart.")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    args = parser.parse_args()
-
+    args = get_data_dir_and_config_args("Script to parse graph inputs and save parsed chars.")
     main(args.data_dir, args.config)

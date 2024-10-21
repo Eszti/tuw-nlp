@@ -4,7 +4,6 @@ import os.path
 import pickle
 import time
 
-from argparse import ArgumentParser
 from collections import OrderedDict
 from copy import copy
 from datetime import datetime
@@ -16,7 +15,7 @@ from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.common.preproc import get_gold_labels
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
-from tuw_nlp.sem.hrg.common.io import get_range, log_to_console_and_log_lines
+from tuw_nlp.sem.hrg.common.io import get_range, log_to_console_and_log_lines, get_data_dir_and_config_args
 
 
 def get_k_best_unique_derivation(chart, k):
@@ -215,12 +214,5 @@ def main(data_dir, config_json):
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Bolinas is a toolkit for synchronous hyperedge replacement grammars.")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-
-    args = parser.parse_args()
-
-    main(
-        args.data_dir, args.config
-    )
+    args = get_data_dir_and_config_args("Script to search k best derivations in parsed charts.")
+    main(args.data_dir, args.config)

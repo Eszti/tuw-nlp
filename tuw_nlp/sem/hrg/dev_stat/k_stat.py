@@ -1,19 +1,11 @@
-import argparse
 import json
 import os
 
 import numpy as np
 import pandas as pd
 
-from tuw_nlp.sem.hrg.common.io import get_all_json
+from tuw_nlp.sem.hrg.common.io import get_all_json, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.report import save_bar_diagram
-
-
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
 
 
 def get_pred_files(data_dir, config):
@@ -89,5 +81,5 @@ def calc_k_stat(data_dir, config_json):
 
 
 if __name__ == "__main__":
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to calculate k stat on merged extractions.")
     calc_k_stat(args.data_dir, args.config)

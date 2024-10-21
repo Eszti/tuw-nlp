@@ -1,11 +1,10 @@
-import argparse
 import json
 import logging
 import os
 from collections import defaultdict
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_text_from_conll_file
-from tuw_nlp.sem.hrg.common.io import get_range
+from tuw_nlp.sem.hrg.common.io import get_range, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import postprocess
 from tuw_nlp.sem.hrg.predict.utils import save_predicted_conll, update_graph_labels, get_marked_nodes
@@ -136,15 +135,9 @@ def main(data_dir, config_json):
         predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir)
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir", type=str)
-    parser.add_argument("-c", "--config", type=str)
-    return parser.parse_args()
-
-
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
 
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to create wire jsons from predicted bolinas labels.")
     main(args.data_dir, args.config)
+

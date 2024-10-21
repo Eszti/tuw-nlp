@@ -1,3 +1,4 @@
+import argparse
 import os
 
 from stanza.utils.conll import CoNLL
@@ -71,3 +72,10 @@ def get_all_json(in_dir, chart_filter, pp):
 def log_to_console_and_log_lines(line, sen_log_lines):
     print(line)
     sen_log_lines.append(f"{line}\n")
+
+
+def get_data_dir_and_config_args(desc=""):
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument("-d", "--data-dir", type=str)
+    parser.add_argument("-c", "--config", type=str)
+    return parser.parse_args()
