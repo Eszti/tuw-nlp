@@ -1,8 +1,7 @@
-import argparse
 import json
 import os
 
-from tuw_nlp.sem.hrg.common.io import get_merged_jsons
+from tuw_nlp.sem.hrg.common.io import get_merged_jsons, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_system, f1
 
@@ -112,7 +111,7 @@ def main(data_dir, config_json):
                 if chart_filter or pp:
                     report += f"### {chart_filter} - {pp}\n"
 
-                in_dir = f"{data_dir}/{c['in_dir']}"
+                in_dir = f"{data_dir}/{config['extractions_dir']}/{c['in_dir']}"
                 files = get_merged_jsons(
                     in_dir,
                     chart_filter,
@@ -138,13 +137,6 @@ def main(data_dir, config_json):
         f.writelines(report)
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-d", "--data-dir")
-    parser.add_argument("-c", "--config")
-    return parser.parse_args()
-
-
 if __name__ == "__main__":
-    args = get_args()
+    args = get_data_dir_and_config_args("Script to evaluate systems.")
     main(args.data_dir, args.config)

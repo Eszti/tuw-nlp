@@ -1,5 +1,6 @@
 {
     "gold_fn": "gold_dev.json",
+    "extractions_dir": "dev_extractions",
     "models":
     {
         "Grammar 100":
