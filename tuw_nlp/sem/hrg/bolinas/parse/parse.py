@@ -22,7 +22,7 @@ class ParseBolinasScript(BolinasScript):
         self.parser = Parser(self.grammar)
 
         in_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
-        out_dir = f"{self.data_dir}/{self.config['out_dir']}"
+        out_dir = f"{self.data_dir}/{self.config['model_dir']}"
 
         for sen_idx in get_range(in_dir, self.first, self.last):
             if self.first_sen_to_proc is None:

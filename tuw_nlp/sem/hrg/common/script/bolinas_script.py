@@ -12,7 +12,7 @@ class BolinasScript(Script):
         super().__init__(data_dir, config_json)
         self.start_time = None
         self.log_lines = None
-        self.log_file = f"{log_file_prefix}{self.config['out_dir']}.log"
+        self.log_file = f"{log_file_prefix}{self.config['model_dir']}.log"
         self.last_sen_to_proc = None
         self.first_sen_to_proc = None
 
