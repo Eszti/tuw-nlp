@@ -38,6 +38,7 @@
         },
         "Grammar 300":
         {
+            "ignore": true,
             "in_dir": "dev_gr300",
             "bolinas_chart_filters": 
             [
