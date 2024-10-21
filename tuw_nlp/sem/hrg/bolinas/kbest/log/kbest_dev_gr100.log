@@ -1,0 +1,41 @@
+Execution start: 2024-10-20 14:25:01.764563
+{
+    "preproc_dir": "dev_preproc",
+    "model_dir": "dev_gr100",
+    "arg_permutation": false,
+    "filters": {
+        "basic": {
+            "ignore": false,
+            "chart_filter": "basic",
+            "k": 10
+        },
+        "max": {
+            "ignore": false,
+            "chart_filter": "max",
+            "k": 10
+        },
+        "prec": {
+            "ignore": false,
+            "pr_metric": "prec"
+        },
+        "rec": {
+            "ignore": false,
+            "pr_metric": "rec"
+        },
+        "f1": {
+            "ignore": false,
+            "pr_metric": "f1"
+        }
+    }
+}
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-10-20 15:49:45.761088
+Elapsed time: 85 min 44 sec
+
+Number of sentences: 2250
+Sum of score disorders: 0
+Average score disorders: 0.0
+
