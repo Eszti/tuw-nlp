@@ -188,7 +188,7 @@ class KBestBolinasScript(BolinasScript):
         sum_score_disorder = sum([val[0] for val in score_disorder_collector.values()])
         log_to_console_and_log_lines(f"Sum of score disorders: {sum_score_disorder}", self.log_lines)
 
-        avg_str = f"Average score disorders: {round(sum_score_disorder / float(num_sem), 2)}\n"
+        avg_str = f"Average score disorders: {round(sum_score_disorder / float(num_sem), 2)}"
         log_to_console_and_log_lines(avg_str, self.log_lines)
 
 

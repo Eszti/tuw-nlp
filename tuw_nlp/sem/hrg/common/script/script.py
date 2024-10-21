@@ -23,5 +23,5 @@ class Script(ABC):
         pass
 
     @abstractmethod
-    def after_loop(self,  *args, **kwargs):
+    def after_loop(self):
         pass
