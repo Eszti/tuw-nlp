@@ -1,11 +1,12 @@
 {
+    "test": true,
     "gold_fn": "gold_dev.json",
     "extractions_dir": "dev_extractions",
     "models":
     {
-        "Grammar 100 - arg perm":
+        "Top estimations (with cheat)":
         {
-            "in_dir": "dev_gr100_ap",
+            "in_dir": "dev_best",
             "bolinas_chart_filters": 
             [
                 "prec",
@@ -14,63 +15,7 @@
             ],
             "postprocess": 
             [
-                "keep"
-            ]
-        },
-        "Grammar 100":
-        {
-            "in_dir": "dev_gr100",
-            "bolinas_chart_filters": 
-            [
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
-            ]
-        },
-        "Grammar 200":
-        {
-            "in_dir": "dev_gr200",
-            "bolinas_chart_filters": 
-            [
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
-            ]
-        },
-        "Grammar 200 - arg perm":
-        {
-            "in_dir": "dev_gr200_ap",
-            "bolinas_chart_filters": 
-            [
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
-            ]
-        },
-        "Grammar 300":
-        {
-            "in_dir": "dev_gr300",
-            "bolinas_chart_filters": 
-            [
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
+                ""
             ]
         }
     }

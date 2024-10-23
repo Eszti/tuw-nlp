@@ -77,8 +77,6 @@ def predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir):
                 f.write(match_graph.to_dot())
 
             for pp in config["postprocess"]:
-                if pp == "arg_perm" and chart_filter in ["prec", "rec", "f1"]:
-                    continue
                 extracted_labels = json.loads(labels_str)
                 pp_dir = f"{chart_filter_dir}/{pp}"
                 if not os.path.exists(pp_dir):
@@ -87,9 +85,9 @@ def predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir):
                     extracted_labels,
                     pos_tags,
                     top_order,
-                    arg_perm=(pp == "arg_perm"),
+                    arg_perm=False,
                 )
-                assert len(extracted_labels_all_permutations) == 1  # Todo
+                assert len(extracted_labels_all_permutations) == 1
                 extracted_labels = extracted_labels_all_permutations[0]
                 save_predicted_conll(
                     orig_conll,
@@ -102,7 +100,7 @@ def predict_sen(config, predict_dir_root, preproc_dir_root, sen_dir):
                     sen_id=int(sen_dir),
                     k=k,
                     score=score,
-                    extractor=predict_dir_root.split("/")[-1].split("_")[1],
+                    extractor=f"{predict_dir_root.split('/')[-1].split('dev_')[1]}_{chart_filter}_{pp}",
                     pred_res=pred_res,
                 ))
                 update_graph_labels(

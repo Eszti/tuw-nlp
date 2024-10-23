@@ -1,3 +1,4 @@
+import copy
 import json
 import os
 from collections import defaultdict, Counter
@@ -39,8 +40,6 @@ class MergeScript(Script):
                 break
             all_ex_list = {}
             for sen, items in d.items():
-                for item in items:
-                    item["extractor"] = item["extractor"].split("_")[0] + f"_k{ki}"
                 all_ex_list[sen] = sorted(list(items), key=lambda x: x["k"])
 
             out_fn_dir = f"{self.data_dir}/{self.config['out_dir']}/{self.config['in_dir']}"
@@ -85,10 +84,14 @@ class MergeScript(Script):
         all_extractions.sort(key=lambda x: x["k"])
         for i, ex in enumerate(all_extractions):
             wire_ex = WiReEx(ex)
-            all_ex_set[0][sen].add(wire_ex)
+            ex_to_add = copy.copy(wire_ex)
+            ex_to_add["extractor"] += "_all"
+            all_ex_set[0][sen].add(ex_to_add)
             assert i + 1 == wire_ex["k"]
             for j in range(i + 1, k + 1):
-                all_ex_set[j][sen].add(wire_ex)
+                ex_to_add = copy.copy(wire_ex)
+                ex_to_add["extractor"] += f"_k{j}"
+                all_ex_set[j][sen].add(ex_to_add)
         for i in range(k + 1):
             ex_stat[i][len(all_ex_set[i][sen])] += 1
 

@@ -17,11 +17,11 @@ def calculate_table(files, gold, report, p, r, mode, debug, temp_dir):
               "rec",
               "F1"]]
 
-    for file in files:
+    for file in sorted(files):
         all_predictions = json.load(open(file))
 
         predictions_by_model = split_tuples_by_extractor(gold.keys(), all_predictions)
-        for model, system_extractions in predictions_by_model.items():
+        for model, system_extractions in sorted(predictions_by_model.items()):
             metrics, raw_match_scores, exact_matches, matches = eval_system(gold, system_extractions)
 
             prec, rec = metrics['precision'], metrics['recall']
