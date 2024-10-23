@@ -4,9 +4,8 @@ import sys
 import stanza
 
 from tuw_nlp.common.vocabulary import Vocabulary
-from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, check_args
+from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, check_args, save_conll
 from tuw_nlp.sem.hrg.common.io import create_sen_dir, parse_doc, save_as_dot
-from tuw_nlp.sem.hrg.preproc.preproc import save_conll
 from tuw_nlp.text.utils import gen_tsv_sens
 
 

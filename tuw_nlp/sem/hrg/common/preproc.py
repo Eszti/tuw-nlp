@@ -73,3 +73,18 @@ def get_gold_labels(preproc_dir, sen_idx):
         with open(f"{preproc_path}/{fn}") as f:
             gold_labels.append(json.load(f))
     return gold_labels
+
+
+def save_conll(sen, fn):
+    with open(fn, 'w') as f:
+        for line in sen:
+            line[0] = str(int(line[0]) + 1)
+            f.write("\t".join(line))
+            f.write("\n")
+
+
+def add_node_labels(bolinas_graph):
+    for node, data in bolinas_graph.G.nodes(data=True):
+        name = data['name']
+        if not name:
+            data["name"] = node

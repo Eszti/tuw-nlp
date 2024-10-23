@@ -14,7 +14,6 @@ class Script(ABC):
         self.run_loop()
         self.after_loop()
 
-    @abstractmethod
     def before_loop(self):
         pass
 
@@ -22,6 +21,5 @@ class Script(ABC):
     def run_loop(self):
         pass
 
-    @abstractmethod
     def after_loop(self):
         pass

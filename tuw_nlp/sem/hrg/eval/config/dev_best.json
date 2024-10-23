@@ -3,6 +3,20 @@
     "extractions_dir": "dev_extractions",
     "models":
     {
+        "Grammar 100 - arg perm":
+        {
+            "in_dir": "dev_gr100_ap",
+            "bolinas_chart_filters": 
+            [
+                "prec",
+                "rec",
+                "f1"
+            ],
+            "postprocess": 
+            [
+                "keep"
+            ]
+        },
         "Grammar 100":
         {
             "in_dir": "dev_gr100",
@@ -31,9 +45,22 @@
                 "keep"
             ]
         },
+        "Grammar 200 - arg perm":
+        {
+            "in_dir": "dev_gr200_ap",
+            "bolinas_chart_filters": 
+            [
+                "prec",
+                "rec",
+                "f1"
+            ],
+            "postprocess": 
+            [
+                "keep"
+            ]
+        },
         "Grammar 300":
         {
-            "ignore": true,
             "in_dir": "dev_gr300",
             "bolinas_chart_filters": 
             [

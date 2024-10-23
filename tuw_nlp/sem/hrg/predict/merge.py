@@ -92,12 +92,6 @@ class MergeScript(Script):
         for i in range(k + 1):
             ex_stat[i][len(all_ex_set[i][sen])] += 1
 
-    def after_loop(self):
-        pass
-
-    def before_loop(self):
-        pass
-
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to merge predicted wire jsons.")
