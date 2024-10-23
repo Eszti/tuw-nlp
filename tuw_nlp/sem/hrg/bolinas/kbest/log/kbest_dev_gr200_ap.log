@@ -1,8 +1,8 @@
-Execution start: 2024-10-21 10:15:26.793668
+Execution start: 2024-10-21 14:25:35.553549
 {
     "preproc_dir": "dev_preproc",
-    "model_dir": "dev_gr300",
-    "arg_permutation": false,
+    "model_dir": "dev_gr200_ap",
+    "arg_permutation": true,
     "filters": {
         "basic": {
             "ignore": false,
@@ -28,14 +28,13 @@ Execution start: 2024-10-21 10:15:26.793668
         }
     }
 }
+Number of sentences: 2266
+Sum of score disorders: 0
+Average score disorders: 0.0
 
 First sentence to process: 0
 Last sentence to process: 5267
 
-Execution finish: 2024-10-22 07:25:08.718076
-Elapsed time: 1270 min 42 sec
-
-Number of sentences: 2267
-Sum of score disorders: 0
-Average score disorders: 0.0
+Execution finish: 2024-10-21 21:02:18.687967
+Elapsed time: 397 min 43 sec
 

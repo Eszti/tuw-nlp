@@ -6,7 +6,7 @@
     {
         "Grammar 100":
         {
-            "in_dir": "dev_gr100",
+            "in_dir": "dev_gr100_ap",
             "bolinas_chart_filters": 
             [
                 "max",
@@ -22,7 +22,7 @@
         },
         "Grammar 200":
         {
-            "in_dir": "dev_gr200",
+            "in_dir": "dev_gr200_ap",
             "bolinas_chart_filters": 
             [
                 "max",
@@ -34,35 +34,6 @@
             "postprocess": 
             [
                 "keep"
-            ]
-        },
-        "Grammar 300":
-        {
-            "in_dir": "dev_gr300",
-            "bolinas_chart_filters": 
-            [
-                "max",
-                "basic",
-                "prec",
-                "rec",
-                "f1"
-            ],
-            "postprocess": 
-            [
-                "keep"
-            ]
-        },
-        "Random":
-        {
-            "in_dir": "dev_random",
-            "bolinas_chart_filters": 
-            [
-                "boa",
-                "argidx"
-            ],
-            "postprocess": 
-            [
-                ""
             ]
         }
     }
