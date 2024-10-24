@@ -6,40 +6,47 @@ from tuw_nlp.sem.hrg.bolinas.common.grammar import Grammar
 from tuw_nlp.sem.hrg.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.bolinas.parser_basic.parser import Parser
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_rule import VoRule
-from tuw_nlp.sem.hrg.common.io import get_range, log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.bolinas_script import BolinasScript
+from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
+from tuw_nlp.sem.hrg.common.script.time_logged_loop_script import TimeLoggedLoopScript
 
 
-class ParseBolinasScript(BolinasScript):
+class ParseBolinasScript(TimeLoggedLoopScript):
 
-    def __init__(self, data_dir, config_json, log_file_prefix):
-        super().__init__(data_dir, config_json, log_file_prefix)
+    def __init__(self, data_dir, config_json):
+        super().__init__(data_dir, config_json)
         self.grammar = None
         self.parser = None
 
-    def run_loop(self):
+    def before_loop(self):
         self._load_grammar()
         self.parser = Parser(self.grammar)
 
-        in_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
-        out_dir = f"{self.data_dir}/{self.config['model_dir']}"
+    def _load_grammar(self):
+        logprob = True
+        nodelabels = True
+        backward = False
 
-        for sen_idx in get_range(in_dir, self.first, self.last):
-            if self.first_sen_to_proc is None:
-                self.first_sen_to_proc = sen_idx
+        grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))}//train/grammar/"
+        grammar_file = f"{grammar_dir}/{self.config['grammar_file']}"
 
-            print(f"\nProcessing sen {sen_idx}\n")
-            preproc_dir = f"{in_dir}/{str(sen_idx)}/preproc"
-            graph_file = f"{preproc_dir}/pos_edge.graph"
+        with open(grammar_file) as f:
+            self.grammar = Grammar.load_from_file(f, VoRule, backward, nodelabels=nodelabels, logprob=logprob)
 
-            bolinas_dir = f"{out_dir}/{str(sen_idx)}/bolinas"
-            if not os.path.exists(bolinas_dir):
-                os.makedirs(bolinas_dir)
-            chart_file = f"{bolinas_dir}/sen{str(sen_idx)}_chart.pickle"
-            sen_log_file = f"{bolinas_dir}/sen{str(sen_idx)}_parse.log"
+        rhs2_type = f"-to-{self.grammar.rhs2_type}" if self.grammar.rhs2_type else ''
+        log_to_console_and_log_lines(
+            f"\nLoaded {self.grammar.rhs1_type}{rhs2_type} grammar with {len(self.grammar)} rules.",
+            self.log_lines
+        )
 
-            self._parse_sen(graph_file, chart_file, sen_log_file)
-            self.last_sen_to_proc = sen_idx
+    def run_loop(self, sen_idx, preproc_dir):
+        bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
+        if not os.path.exists(bolinas_dir):
+            os.makedirs(bolinas_dir)
+        self._parse_sen(
+            graph_file=f"{preproc_dir}/pos_edge.graph",
+            chart_file=f"{bolinas_dir}/sen{str(sen_idx)}_chart.pickle",
+            sen_log_file=f"{bolinas_dir}/sen{str(sen_idx)}_parse.log",
+        )
 
     def _parse_sen(self, graph_file, chart_file, sen_log_file):
         sen_log_lines = []
@@ -62,27 +69,11 @@ class ParseBolinasScript(BolinasScript):
         with open(sen_log_file, "w") as f:
             f.writelines(sen_log_lines)
 
-    def _load_grammar(self):
-        logprob = True
-        nodelabels = True
-        backward = False
-
-        grammar_dir = f"{os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))}//train/grammar/"
-        grammar_file = f"{grammar_dir}/{self.config['grammar_file']}"
-
-        with open(grammar_file) as f:
-            self.grammar = Grammar.load_from_file(f, VoRule, backward, nodelabels=nodelabels, logprob=logprob)
-
-        rhs2_type = f"-to-{self.grammar.rhs2_type}" if self.grammar.rhs2_type else ''
-        log_str = f"\nLoaded {self.grammar.rhs1_type}{rhs2_type} grammar with {len(self.grammar)} rules."
-        log_to_console_and_log_lines(log_str, self.log_lines)
-
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to parse graph inputs and save parsed chars.")
     script = ParseBolinasScript(
         args.data_dir,
         args.config,
-        log_file_prefix=f"{os.path.dirname(os.path.realpath(__file__))}/log/parse_"
     )
     script.run()
