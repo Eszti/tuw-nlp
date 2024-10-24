@@ -1,6 +1,6 @@
 {
     "preproc_dir": "dev_preproc",
-    "model_dir": "dev_gr300",
+    "out_dir": "dev_gr200",
     "arg_permutation": false,
     "filters":
     {
