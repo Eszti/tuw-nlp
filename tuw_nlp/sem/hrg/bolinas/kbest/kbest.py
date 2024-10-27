@@ -13,7 +13,7 @@ from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
 from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.time_logged_loop_script import TimeLoggedLoopScript
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
 
 
 def get_k_best_unique_derivation(chart, k):
@@ -68,17 +68,17 @@ def get_gold_labels(preproc_dir):
     return gold_labels
 
 
-class KBestBolinasScript(TimeLoggedLoopScript):
+class KBestBolinasScript(LoopScriptOnPreprocessed):
 
     def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json)
+        super().__init__(data_dir, config_json, log_time=True)
         self.logprob = True
         self.score_disorder_collector = {}
 
-    def before_loop(self):
+    def _before_loop(self):
         pass
 
-    def run_loop(self, sen_idx, preproc_dir):
+    def _do_for_sen(self, sen_idx, preproc_dir):
         bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
         chart_file = f"{bolinas_dir}/sen{sen_idx}_chart.pickle"
         if not os.path.exists(chart_file):
@@ -186,7 +186,7 @@ class KBestBolinasScript(TimeLoggedLoopScript):
                 ]
             )
 
-    def after_loop(self):
+    def _after_loop(self):
         num_sem = len(self.score_disorder_collector.keys())
         log_to_console_and_log_lines(f"Number of sentences: {num_sem}", self.log_lines)
 
@@ -195,7 +195,7 @@ class KBestBolinasScript(TimeLoggedLoopScript):
 
         avg_str = f"Average score disorders: {round(sum_score_disorder / float(num_sem), 2)}"
         log_to_console_and_log_lines(avg_str, self.log_lines)
-        super().after_loop()
+        super()._after_loop()
 
 
 if __name__ == "__main__":

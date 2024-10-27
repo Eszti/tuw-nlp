@@ -7,17 +7,17 @@ from tuw_nlp.sem.hrg.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.bolinas.parser_basic.parser import Parser
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_rule import VoRule
 from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.time_logged_loop_script import TimeLoggedLoopScript
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
 
 
-class ParseBolinasScript(TimeLoggedLoopScript):
+class ParseBolinasScript(LoopScriptOnPreprocessed):
 
     def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json)
+        super().__init__(data_dir, config_json, log_time=True)
         self.grammar = None
         self.parser = None
 
-    def before_loop(self):
+    def _before_loop(self):
         self._load_grammar()
         self.parser = Parser(self.grammar)
 
@@ -38,7 +38,7 @@ class ParseBolinasScript(TimeLoggedLoopScript):
             self.log_lines
         )
 
-    def run_loop(self, sen_idx, preproc_dir):
+    def _do_for_sen(self, sen_idx, preproc_dir):
         bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
         if not os.path.exists(bolinas_dir):
             os.makedirs(bolinas_dir)

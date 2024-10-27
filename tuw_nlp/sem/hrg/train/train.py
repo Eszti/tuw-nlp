@@ -1,63 +1,97 @@
-import argparse
-import sys
-
-import stanza
+import json
+import logging
+import os
 
 from tuw_nlp.common.vocabulary import Vocabulary
-from tuw_nlp.sem.hrg.common.preproc import get_ud_graph, get_pred_and_args, check_args, save_conll
-from tuw_nlp.sem.hrg.common.io import create_sen_dir, parse_doc, save_as_dot
-from tuw_nlp.text.utils import gen_tsv_sens
+from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
+from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args, log_to_console_and_log_lines
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
+from tuw_nlp.sem.hrg.common.triplet import Triplet
+from tuw_nlp.sem.hrg.train.generation.per_word import get_rules_per_word
 
 
-def get_args():
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument("-f", "--first", type=int)
-    parser.add_argument("-l", "--last", type=int)
-    parser.add_argument("-m", "--method", default="per_word", type=str, help="Either 'per_word' or 'per_arg'")
-    parser.add_argument("-o", "--out-dir", default="out", type=str)
-    return parser.parse_args()
+def get_argument_graphs(triplet_graph, arguments, log):
+    a_graphs = {}
+    for arg, nodes in arguments.items():
+        try:
+            a_graph = triplet_graph.G.subgraph(nodes)
+            a_graphs[arg] = a_graph
+        except UnconnectedGraphError:
+            log.write(
+                f"unconnected argument ({nodes})\n"
+            )
+            a_graphs[arg] = None
+    return a_graphs
 
 
-def main(first=None, last=None, method="per_word", out_dir="out"):
-    nlp = stanza.Pipeline(
-        lang="en",
-        processors="tokenize,mwt,pos,lemma,depparse",
-        tokenize_pretokenized=True,
-    )
-    vocab = Vocabulary(first_id=1000)
-    for sen_idx, sen in enumerate(gen_tsv_sens(sys.stdin)):
-        if first is not None and sen_idx < first:
-            continue
-        if last is not None and last < sen_idx:
-            break
-        sen_dir = create_sen_dir(out_dir, sen_idx)
-        print(f"processing sentence {sen_idx}, writing to {sen_dir}/sen{sen_idx}.log")
-        log = open(f"{sen_dir}/sen{sen_idx}.log", "w")
+class TrainScript(LoopScriptOnPreprocessed):
+    def __init__(self, data_dir, config_json):
+        super().__init__(data_dir, config_json, log_time=True)
+        self.method = self.config["method"]
+        self.out_dir += f"_{self.method}"
+        vocab_file = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/preproc/vocab/" \
+                     f"{self.config['vocab_file']}"
+        self.vocab = Vocabulary.from_file(vocab_file)
+        self.unconnected_args = []
+        self.no_rule = []
 
-        save_conll(sen, f"{sen_dir}/sen{sen_idx}.conll")
-        parsed_doc = parse_doc(nlp, sen, sen_dir, log)
-        ud_graph = get_ud_graph(parsed_doc)
-        save_as_dot(f"{sen_dir}/sen{sen_idx}_ud.dot", ud_graph, log)
+    def _do_for_sen(self, sen_idx, preproc_dir):
+        graph_files = sorted([f"{preproc_dir}/{fn}" for fn in os.listdir(preproc_dir) if fn.endswith("_triplet.graph")])
+        for graph_file in graph_files:
+            exact_sen_idx = int(graph_file.split("/")[-1].split("_triplet.graph")[0].split("sen")[-1])
+            hrg_dir = f"{self.out_dir}/{str(exact_sen_idx)}"
+            if not os.path.exists(hrg_dir):
+                os.makedirs(hrg_dir)
+            log = open(f"{hrg_dir}/sen{exact_sen_idx}.log", "w")
+            print(f"Processing sen {exact_sen_idx}")
 
-        args, pred, _ = get_pred_and_args(sen, sen_idx, log)
-        arg_graphs, all_args_connected = check_args(args, log, sen_idx, ud_graph, vocab)
+            with open(graph_file) as f:
+                lines = f.readlines()
+                assert len(lines) == 1
+                graph_str = lines[0].strip()
+            triplet_graph = Graph.from_bolinas(graph_str)
+            triplet = Triplet.from_file(f"{preproc_dir}/sen{exact_sen_idx}_triplet.txt")
 
-        if not all_args_connected:
-            log.write(f"sentence {sen_idx} had unconnected arguments, skipping\n")
-            continue
+            arg_graphs = get_argument_graphs(triplet_graph, triplet.arguments, log)
 
-        if method == "per_word":
-            from tuw_nlp.sem.hrg.train.generation.per_word import create_rules_and_graph
-            create_rules_and_graph(sen_idx, ud_graph, pred, args, vocab, log, sen_dir)
-        elif method == "per_arg":
-            from tuw_nlp.sem.hrg.train.generation.per_arg import create_rules_and_graph
-            create_rules_and_graph(sen_idx, ud_graph, pred, args, arg_graphs, vocab, log, sen_dir)
+            if None in arg_graphs.values():
+                log.write(f"sentence {exact_sen_idx} had unconnected arguments, skipping\n")
+                self.unconnected_args.append(exact_sen_idx)
+                continue
 
-    vocab_fn = "vocab.txt"
-    vocab.to_file(f"{vocab_fn}")
-    print(f"saved vocabulary to {vocab_fn}")
+            initial_rule = ""
+            rules = []
+            if self.method == "per_word":
+                initial_rule, rules = get_rules_per_word(triplet_graph, triplet, log)
+            # Todo: per_arg
+            if not initial_rule:
+                assert len(rules) == 0
+                self.no_rule.append(exact_sen_idx)
+            else:
+                with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
+                    f.write(f"{initial_rule}")
+                    for rule in sorted(rules):
+                        f.write(f"{rule}")
+
+    def _after_loop(self):
+        log_to_console_and_log_lines(
+            f"\nNumber of unconnected arguments: {len(self.unconnected_args)}\n"
+            f"{json.dumps(self.unconnected_args)}",
+            self.log_lines
+        )
+        log_to_console_and_log_lines(
+            f"\nNumber of no rules: {len(self.no_rule)}\n"
+            f"{json.dumps(self.no_rule)}",
+            self.log_lines
+        )
+        super()._after_loop()
 
 
 if __name__ == "__main__":
-    args = get_args()
-    main(args.first, args.last, args.method, args.out_dir)
+    logging.getLogger('penman').setLevel(logging.ERROR)
+    args = get_data_dir_and_config_args("Script to create hrg rules on preprocessed train data.")
+    script = TrainScript(
+        args.data_dir,
+        args.config,
+    )
+    script.run()

@@ -11,26 +11,23 @@ def create_sen_dir(out_dir, sen_id):
     return sen_dir
 
 
-def parse_doc(nlp, sen, out_dir, log, save=True):
+def parse_doc(nlp, sen, out_dir, save=True):
     parsed_doc = nlp(" ".join(t[1] for t in sen))
     if save:
         fn = f"{out_dir}/parsed.conll"
         CoNLL.write_doc2conll(parsed_doc, fn)
-        log.write(f"wrote parse to {fn}\n")
     return parsed_doc
 
 
-def save_bolinas_str(fn, graph, log, add_names=False):
+def save_bolinas_str(fn, graph, add_names=False):
     bolinas_graph = graph.to_bolinas(add_names=add_names)
     with open(fn, "w") as f:
         f.write(f"{bolinas_graph}\n")
-    log.write(f"wrote graph to {fn}\n")
 
 
-def save_as_dot(fn, graph, log):
+def save_as_dot(fn, graph):
     with open(fn, "w") as f:
         f.write(graph.to_dot())
-    log.write(f"wrote graph to {fn}\n")
 
 
 def get_range(in_dir, first=None, last=None):

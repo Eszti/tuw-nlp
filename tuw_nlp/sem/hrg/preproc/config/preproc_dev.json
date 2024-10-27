@@ -1,0 +1,4 @@
+{
+    "in_file": "lsoie_data/lsoie_wiki_dev.conll",
+    "out_dir": "dev_preproc"
+}
