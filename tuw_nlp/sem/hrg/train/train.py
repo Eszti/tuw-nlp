@@ -5,7 +5,7 @@ import os
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
 from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args, log_to_console_and_log_lines
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 from tuw_nlp.sem.hrg.train.generation.per_word import get_rules_per_word
 
@@ -24,7 +24,7 @@ def get_argument_graphs(triplet_graph, arguments, log):
     return a_graphs
 
 
-class TrainScript(LoopScriptOnPreprocessed):
+class Train(LoopOnSenDirs):
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json, log_time=True)
         self.method = self.config["method"]
@@ -35,8 +35,8 @@ class TrainScript(LoopScriptOnPreprocessed):
         self.unconnected_args = []
         self.no_rule = []
 
-    def _do_for_sen(self, sen_idx, preproc_dir):
-        graph_files = sorted([f"{preproc_dir}/{fn}" for fn in os.listdir(preproc_dir) if fn.endswith("_triplet.graph")])
+    def _do_for_sen(self, sen_idx, sen_dir):
+        graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
         for graph_file in graph_files:
             exact_sen_idx = int(graph_file.split("/")[-1].split("_triplet.graph")[0].split("sen")[-1])
             hrg_dir = f"{self.out_dir}/{str(exact_sen_idx)}"
@@ -50,7 +50,7 @@ class TrainScript(LoopScriptOnPreprocessed):
                 assert len(lines) == 1
                 graph_str = lines[0].strip()
             triplet_graph = Graph.from_bolinas(graph_str)
-            triplet = Triplet.from_file(f"{preproc_dir}/sen{exact_sen_idx}_triplet.txt")
+            triplet = Triplet.from_file(f"{sen_dir}/sen{exact_sen_idx}_triplet.txt")
 
             arg_graphs = get_argument_graphs(triplet_graph, triplet.arguments, log)
 
@@ -90,7 +90,7 @@ class TrainScript(LoopScriptOnPreprocessed):
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
     args = get_data_dir_and_config_args("Script to create hrg rules on preprocessed train data.")
-    script = TrainScript(
+    script = Train(
         args.data_dir,
         args.config,
     )

@@ -13,7 +13,7 @@ from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
 from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
 
 
 def get_k_best_unique_derivation(chart, k):
@@ -68,7 +68,7 @@ def get_gold_labels(preproc_dir):
     return gold_labels
 
 
-class KBestBolinasScript(LoopScriptOnPreprocessed):
+class KBest(LoopOnSenDirs):
 
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json, log_time=True)
@@ -78,7 +78,7 @@ class KBestBolinasScript(LoopScriptOnPreprocessed):
     def _before_loop(self):
         pass
 
-    def _do_for_sen(self, sen_idx, preproc_dir):
+    def _do_for_sen(self, sen_idx, sen_dir):
         bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
         chart_file = f"{bolinas_dir}/sen{sen_idx}_chart.pickle"
         if not os.path.exists(chart_file):
@@ -91,11 +91,11 @@ class KBestBolinasScript(LoopScriptOnPreprocessed):
             print("No derivation found")
             return
 
-        gold_labels = get_gold_labels(preproc_dir)
+        gold_labels = get_gold_labels(sen_dir)
         top_order = json.load(open(
-            f"{preproc_dir}/pos_edge_graph_top_order.json"
+            f"{sen_dir}/pos_edge_graph_top_order.json"
         ))
-        pos_tags = get_pos_tags(f"{preproc_dir}/parsed.conll")
+        pos_tags = get_pos_tags(f"{sen_dir}/parsed.conll")
 
         for name, c in sorted(self.config["filters"].items()):
             if c.get("ignore", False):
@@ -188,7 +188,7 @@ class KBestBolinasScript(LoopScriptOnPreprocessed):
 
     def _after_loop(self):
         num_sem = len(self.score_disorder_collector.keys())
-        log_to_console_and_log_lines(f"Number of sentences: {num_sem}", self.log_lines)
+        log_to_console_and_log_lines(f"\nNumber of sentences: {num_sem}", self.log_lines)
 
         sum_score_disorder = sum([val[0] for val in self.score_disorder_collector.values()])
         log_to_console_and_log_lines(f"Sum of score disorders: {sum_score_disorder}", self.log_lines)
@@ -200,7 +200,7 @@ class KBestBolinasScript(LoopScriptOnPreprocessed):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to search k best derivations in parsed charts.")
-    script = KBestBolinasScript(
+    script = KBest(
         args.data_dir,
         args.config,
     )

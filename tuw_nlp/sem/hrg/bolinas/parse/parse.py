@@ -7,10 +7,10 @@ from tuw_nlp.sem.hrg.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.bolinas.parser_basic.parser import Parser
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_rule import VoRule
 from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnPreprocessed
+from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
 
 
-class ParseBolinasScript(LoopScriptOnPreprocessed):
+class Parse(LoopOnSenDirs):
 
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json, log_time=True)
@@ -38,12 +38,12 @@ class ParseBolinasScript(LoopScriptOnPreprocessed):
             self.log_lines
         )
 
-    def _do_for_sen(self, sen_idx, preproc_dir):
+    def _do_for_sen(self, sen_idx, sen_dir):
         bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
         if not os.path.exists(bolinas_dir):
             os.makedirs(bolinas_dir)
         self._parse_sen(
-            graph_file=f"{preproc_dir}/pos_edge.graph",
+            graph_file=f"{sen_dir}/pos_edge.graph",
             chart_file=f"{bolinas_dir}/sen{str(sen_idx)}_chart.pickle",
             sen_log_file=f"{bolinas_dir}/sen{str(sen_idx)}_parse.log",
         )
@@ -72,7 +72,7 @@ class ParseBolinasScript(LoopScriptOnPreprocessed):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to parse graph inputs and save parsed chars.")
-    script = ParseBolinasScript(
+    script = Parse(
         args.data_dir,
         args.config,
     )
