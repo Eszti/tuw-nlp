@@ -7,10 +7,11 @@ from tuw_nlp.text.utils import gen_tsv_sens
 
 
 class LoopOnSenDirs(Script):
-    def __init__(self, data_dir, config_json, log_time=False):
-        super().__init__(data_dir, config_json, log_time)
+    def __init__(self, data_dir, config_json, log=True):
+        super().__init__(data_dir, config_json, log)
         self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
-        self.out_dir = f"{self.data_dir}/{self.config['out_dir']}"
+        if "out_dir" in self.config:
+            self.out_dir = f"{self.data_dir}/{self.config['out_dir']}"
 
     def __get_range(self):
         first = self.config.get("first", None)
@@ -37,8 +38,8 @@ class LoopOnSenDirs(Script):
 
 
 class LoopScriptOnConll(Script):
-    def __init__(self, data_dir, config_json, log_time=True):
-        super().__init__(data_dir, config_json, log_time)
+    def __init__(self, data_dir, config_json, log=True):
+        super().__init__(data_dir, config_json, log)
         self.conll_file = f"{self.data_dir}/{self.config['in_file']}"
         self.out_dir = f"{self.data_dir}/{self.config['out_dir']}"
 

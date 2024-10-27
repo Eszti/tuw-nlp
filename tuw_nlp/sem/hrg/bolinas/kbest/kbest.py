@@ -71,7 +71,7 @@ def get_gold_labels(preproc_dir):
 class KBest(LoopOnSenDirs):
 
     def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log_time=True)
+        super().__init__(data_dir, config_json)
         self.logprob = True
         self.score_disorder_collector = {}
 
@@ -188,13 +188,10 @@ class KBest(LoopOnSenDirs):
 
     def _after_loop(self):
         num_sem = len(self.score_disorder_collector.keys())
-        log_to_console_and_log_lines(f"\nNumber of sentences: {num_sem}", self.log_lines)
-
+        self._log(f"\nNumber of sentences: {num_sem}")
         sum_score_disorder = sum([val[0] for val in self.score_disorder_collector.values()])
-        log_to_console_and_log_lines(f"Sum of score disorders: {sum_score_disorder}", self.log_lines)
-
-        avg_str = f"Average score disorders: {round(sum_score_disorder / float(num_sem), 2)}"
-        log_to_console_and_log_lines(avg_str, self.log_lines)
+        self._log(f"Sum of score disorders: {sum_score_disorder}")
+        self._log(f"Average score disorders: {round(sum_score_disorder / float(num_sem), 2)}")
         super()._after_loop()
 
 

@@ -31,13 +31,18 @@ python train/train.py -d $DATA_DIR -c train/config/train_per_word.json
 We create different cuts of this grammar (gr100, gr200 and gr300) using the top 100, 200 and 300 rules by keeping the original distribution of nonterminals and norming the weighs per nonterminal.
 
 ```bash
-# Merge (and cut) grammar
-# TBD
+python train/merge_hrg.py -d $DATA_DIR -c train/config/gr100.json
 ```
 
 ### Predict with the grammar on dev
 
-Using this grammar, first we [parse](bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 10.000 steps for gr100 and gr200 and above 50.000 steps for gr300. The parsing takes from 1 hour to one day (gr300), see more [here](bolinas/parse/log).
+We have to preprocess the dev data as well.
+
+```bash
+python preproc/preproc.py -d $DATA_DIR -c preproc/config/preproc_dev.json
+```
+
+Using the grammar, first we [parse](bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 10.000 steps for gr100 and gr200 and above 50.000 steps for gr300. The parsing takes from 1 hour to one day (gr300), see more [here](bolinas/parse/log).
 
 ```bash
  python bolinas/parse/parse.py -d $DATA_DIR -c bolinas/parse/config/parse_gr100.json

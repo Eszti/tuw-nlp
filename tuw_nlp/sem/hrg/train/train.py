@@ -4,7 +4,7 @@ import os
 
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args, log_to_console_and_log_lines
+from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 from tuw_nlp.sem.hrg.train.generation.per_word import get_rules_per_word
@@ -26,7 +26,7 @@ def get_argument_graphs(triplet_graph, arguments, log):
 
 class Train(LoopOnSenDirs):
     def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log_time=True)
+        super().__init__(data_dir, config_json, log=True)
         self.method = self.config["method"]
         self.out_dir += f"_{self.method}"
         vocab_file = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/preproc/vocab/" \
@@ -74,15 +74,13 @@ class Train(LoopOnSenDirs):
                         f.write(f"{rule}")
 
     def _after_loop(self):
-        log_to_console_and_log_lines(
+        self._log(
             f"\nNumber of unconnected arguments: {len(self.unconnected_args)}\n"
-            f"{json.dumps(self.unconnected_args)}",
-            self.log_lines
+            f"{json.dumps(self.unconnected_args)}"
         )
-        log_to_console_and_log_lines(
+        self._log(
             f"\nNumber of no rules: {len(self.no_rule)}\n"
             f"{json.dumps(self.no_rule)}",
-            self.log_lines
         )
         super()._after_loop()
 

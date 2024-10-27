@@ -4,15 +4,13 @@ import time
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines
-
 
 class Script(ABC):
-    def __init__(self, data_dir, config_json, log_time=False):
+    def __init__(self, data_dir, config_json, log=False):
         self.data_dir = data_dir
         self.config = json.load(open(config_json))
-        self.log_time = log_time
-        if log_time:
+        self.log = log
+        if log:
             self.start_time = time.time()
             self.log_lines = [f"Execution start: {datetime.now()}\n", f"{json.dumps(self.config, indent=4)}\n"]
 
@@ -36,17 +34,20 @@ class Script(ABC):
         raise NotImplemented
 
     def _after_loop(self):
-        if self.log_time:
-            log_to_console_and_log_lines(
+        if self.log:
+            self._log(
                 f"\nFirst sentence to process: {self.first_sen_to_proc}"
-                f"\nLast sentence to process: {self.last_sen_to_proc}",
-                self.log_lines
+                f"\nLast sentence to process: {self.last_sen_to_proc}"
             )
-            log_to_console_and_log_lines(f"\nExecution finish: {datetime.now()}", self.log_lines)
+            self._log(f"\nExecution finish: {datetime.now()}")
             elapsed_time = time.time() - self.start_time
-            log_to_console_and_log_lines(
-                f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n",
-                self.log_lines
-            )
+            self._log(f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n")
             with open(self.log_file, "w") as f:
                 f.writelines(self.log_lines)
+
+    def _log(self, line, log_lines=None):
+        if not log_lines:
+            self.log_lines.append(f"{line}\n")
+        else:
+            log_lines.append(f"{line}\n")
+        print(line)

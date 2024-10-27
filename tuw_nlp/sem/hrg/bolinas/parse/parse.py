@@ -13,7 +13,7 @@ from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
 class Parse(LoopOnSenDirs):
 
     def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log_time=True)
+        super().__init__(data_dir, config_json)
         self.grammar = None
         self.parser = None
 
@@ -60,10 +60,10 @@ class Parse(LoopOnSenDirs):
         for i, chart in enumerate(parse_generator):
             assert i == 0
             if "START" not in chart:
-                log_to_console_and_log_lines("No derivation found", sen_log_lines)
+                self._log("No derivation found", sen_log_lines)
                 continue
             else:
-                log_to_console_and_log_lines(f"Chart len: {len(chart)}", sen_log_lines)
+                self._log(f"Chart len: {len(chart)}", sen_log_lines)
                 with open(chart_file, "wb") as f:
                     pickle.dump(chart, f, -1)
         with open(sen_log_file, "w") as f:
