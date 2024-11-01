@@ -1,5 +1,4 @@
 import json
-import os
 from collections import defaultdict
 
 import networkx as nx
@@ -8,7 +7,7 @@ import stanza
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.ud_graph import UDGraph
 from tuw_nlp.sem.hrg.common.io import parse_doc, save_bolinas_str, save_as_dot, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopScriptOnConll
+from tuw_nlp.sem.hrg.common.script.loop_on_conll import LoopOnConll
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 
 
@@ -63,14 +62,11 @@ def add_node_labels(bolinas_graph):
             data["name"] = node
 
 
-class PreprocScript(LoopScriptOnConll):
+class Preproc(LoopOnConll):
 
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json)
-        vocab_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(config_json)))}/vocab"
-        if not os.path.exists(vocab_dir):
-            os.makedirs(vocab_dir)
-        self.vocab_file = f"{vocab_dir}/{config_json.split('/')[-1].split('.json')[0]}.txt"
+        self.vocab_file = f"{self._get_subdir('vocab', True)}/{self.config_name}.txt"
 
     def _before_loop(self):
         self.nlp = stanza.Pipeline(
@@ -112,7 +108,7 @@ class PreprocScript(LoopScriptOnConll):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to preprocess conll oie data.")
-    script = PreprocScript(
+    script = Preproc(
         args.data_dir,
         args.config,
     )

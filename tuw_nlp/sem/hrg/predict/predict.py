@@ -3,7 +3,7 @@ import logging
 import os
 from collections import defaultdict
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_text_from_conll_file
+from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_txt
 from tuw_nlp.sem.hrg.common.io import get_range, get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import postprocess
@@ -38,7 +38,7 @@ def get_preproc_input(preproc_dir_root, sen_dir):
     top_order = json.load(open(top_order_file))
 
     orig_conll = f"{preproc_dir}/sen{sen_dir}.conll"
-    sen_text = get_sen_text_from_conll_file(orig_conll)
+    sen_text = get_sen_txt(orig_conll)
     return sen_text, graph, pa_graph, gold_labels, pos_tags, top_order, orig_conll
 
 

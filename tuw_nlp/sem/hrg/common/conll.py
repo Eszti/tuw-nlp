@@ -1,12 +1,4 @@
-
-def get_labels_str(sen, model):
-    ret = []
-    for line in sen:
-        if model == "boa":
-            ret.append(line[-1][0])
-        elif model == "argidx":
-            ret.append(line[-1].split("-")[0])
-    return "_".join(ret)
+import os
 
 
 def get_pos_tags(fn):
@@ -21,11 +13,35 @@ def get_pos_tags(fn):
     return ret
 
 
-def get_sen_from_conll_sen(sen):
+def get_sen_text(sen):
     return " ".join([line[1] for line in sen])
 
 
-def get_sen_text_from_conll_file(conll):
-    with open(conll) as f:
+def get_sen_txt(fn):
+    with open(fn) as f:
         lines = f.readlines()
     return " ".join([line.strip().split("\t")[1] for line in lines])
+
+
+class ConllSen:
+    def __init__(self, sen_dir):
+        orig_fns = [f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.startswith('sen') and fn.endswith('.conll')]
+        self.parsed = ConllSen.read_conll(f"{sen_dir}/parsed.conll")
+        self.orig_oie_data = {
+            fn.split("/")[-1].split(".json")[0].split("sen")[-1]: ConllSen.read_conll(fn) for fn in orig_fns
+        }
+
+    @staticmethod
+    def read_conll(fn):
+        with open(fn) as f:
+            lines = f.readlines()
+        return [line.strip().split("\t") for line in lines if line.strip()]
+
+    def sen_text(self):
+        return get_sen_text(self.parsed)
+
+    def len(self):
+        return len(self.parsed)
+
+    def pos_tags(self):
+        return [line[3] for line in self.parsed]

@@ -8,18 +8,17 @@ from datetime import datetime
 class Script(ABC):
     def __init__(self, data_dir, config_json, log=False):
         self.data_dir = data_dir
+        self.parent_dir = os.path.dirname(os.path.dirname(os.path.realpath(config_json)))
+        self.config_name = config_json.split('/')[-1].split('.json')[0]
         self.config = json.load(open(config_json))
         self.log = log
         if log:
             self.start_time = time.time()
             self.log_lines = [f"Execution start: {datetime.now()}\n", f"{json.dumps(self.config, indent=4)}\n"]
-
-            log_dir = f"{os.path.dirname(os.path.dirname(os.path.realpath(config_json)))}/log"
-            if not os.path.exists(log_dir):
-                os.makedirs(log_dir)
-            self.log_file = f"{log_dir}/{config_json.split('/')[-1].split('.json')[0]}.log"
+            self.log_file = f"{self._get_subdir('log', True)}/{self.config_name}.log"
         self.first_sen_to_proc = None
         self.last_sen_to_proc = None
+        self.out_dir = f"{self.data_dir}/{self.config['out_dir']}" if "out_dir" in self.config else None
 
     def run(self):
         self._before_loop()
@@ -51,3 +50,12 @@ class Script(ABC):
         else:
             log_lines.append(f"{line}\n")
         print(line)
+
+    def _get_subdir(self, name, create=True):
+        subdir = f"{self.parent_dir}/{name}"
+        if not os.path.exists(subdir):
+            if create:
+                os.makedirs(subdir)
+            else:
+                raise RuntimeError(f"{subdir} does not exist")
+        return subdir

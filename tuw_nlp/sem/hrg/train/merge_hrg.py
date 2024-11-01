@@ -1,8 +1,8 @@
 import os
 from collections import Counter, defaultdict
 
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args, log_to_console_and_log_lines
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
+from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
+from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
 def write_rules(f, grammar, numeric_info=None):
@@ -45,10 +45,10 @@ class MergeHrg(LoopOnSenDirs):
     def _after_loop(self):
         self.__cut_grammar()
         self.__add_weights()
-        out_dir = f"{os.path.dirname(os.path.realpath(__file__))}/grammar"
-        with open(f"{out_dir}/{self.grammar_fn_name}.hrg", "w") as f:
+        grammar_dir = self._get_subdir("grammar", True)
+        with open(f"{grammar_dir}/{self.grammar_fn_name}.hrg", "w") as f:
             write_rules(f, self.grammar, "weight")
-        with open(f"{out_dir}/{self.grammar_fn_name}.stat", "w") as f:
+        with open(f"{grammar_dir}/{self.grammar_fn_name}.stat", "w") as f:
             write_rules(f, self.grammar, "cnt")
         self._log(f"\nUnique rules: {self.__get_total_number_of_rules()}")
         for nt, prods in self.grammar.items():

@@ -12,8 +12,8 @@ from tuw_nlp.sem.hrg.bolinas.common.output import print_shifted, format_derivati
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
-from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
+from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
+from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
 def get_k_best_unique_derivation(chart, k):
