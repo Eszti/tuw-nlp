@@ -66,7 +66,7 @@ class Preproc(LoopOnConll):
 
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json)
-        self.vocab_file = f"{self._get_subdir('vocab', True)}/{self.config_name}.txt"
+        self.vocab_file = f"{self._get_subdir('vocab')}/{self.config_name}.txt"
 
     def _before_loop(self):
         self.nlp = stanza.Pipeline(

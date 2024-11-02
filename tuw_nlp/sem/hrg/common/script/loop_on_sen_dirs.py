@@ -31,3 +31,11 @@ class LoopOnSenDirs(Script):
     @abstractmethod
     def _do_for_sen(self, sen_idx, sen_dir):
         raise NotImplemented
+
+    @staticmethod
+    def _add_filter_and_postprocess(name, chart_filter, postprocess, delim="/"):
+        if chart_filter:
+            name += f"{delim}{chart_filter}"
+        if postprocess:
+            name += f"{delim}{postprocess}"
+        return name

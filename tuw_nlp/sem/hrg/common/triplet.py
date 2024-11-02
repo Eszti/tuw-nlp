@@ -13,9 +13,10 @@ class Triplet:
                 self.node_to_label[n] = l
 
     def to_file(self, fn):
+        ordered_dict = OrderedDict(sorted(self.arguments.items()))
+        ordered_dict["P"] = self.predicate
         with open(fn, "w") as f:
-            f.write(f"{json.dumps(self.predicate)}\n")
-            f.write(f"{json.dumps(OrderedDict(sorted(self.arguments.items())))}\n")
+            f.write(json.dumps(ordered_dict))
 
     @staticmethod
     def from_file(fn):

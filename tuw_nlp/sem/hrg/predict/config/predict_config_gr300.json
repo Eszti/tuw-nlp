@@ -1,6 +1,6 @@
 {
     "preproc_dir": "dev_preproc",
-    "predict_dir_root": "dev_gr300",
+    "in_dir": "dev_gr300",
     "bolinas_chart_filters": 
     [
         "basic",

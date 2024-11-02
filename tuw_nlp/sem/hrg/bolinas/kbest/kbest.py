@@ -61,7 +61,7 @@ def save_output(outputs):
 
 def get_gold_labels(preproc_dir):
     gold_labels = []
-    files = [fn for fn in os.listdir(preproc_dir) if fn.endswith("_gold_labels.json")]
+    files = [fn for fn in os.listdir(preproc_dir) if fn.endswith("_triplet.txt")]
     for fn in files:
         with open(f"{preproc_dir}/{fn}") as f:
             gold_labels.append(json.load(f))
@@ -166,7 +166,7 @@ class KBest(LoopOnSenDirs):
                     else:
                         labels = get_labels(derivation)
                     labels_lines.append(
-                        f"{json.dumps(OrderedDict(sorted(labels.items(), key=lambda x: int(x[0]))))}\n")
+                        f"{json.dumps(OrderedDict(sorted(labels.items(), key=lambda x: int(x[0]))))};{n_score}\n")
                 except DerivationException as e:
                     print("Could not construct derivation: '%s'. Skipping." % e)
 

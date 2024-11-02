@@ -45,7 +45,7 @@ class MergeHrg(LoopOnSenDirs):
     def _after_loop(self):
         self.__cut_grammar()
         self.__add_weights()
-        grammar_dir = self._get_subdir("grammar", True)
+        grammar_dir = self._get_subdir("grammar")
         with open(f"{grammar_dir}/{self.grammar_fn_name}.hrg", "w") as f:
             write_rules(f, self.grammar, "weight")
         with open(f"{grammar_dir}/{self.grammar_fn_name}.stat", "w") as f:

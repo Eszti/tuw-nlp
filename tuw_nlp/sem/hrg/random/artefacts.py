@@ -13,7 +13,7 @@ class ArtefactsExtractor(LoopOnConll):
 
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json)
-        self.artefact_dir = f"{self._get_subdir('artefacts', True)}"
+        self.artefact_dir = f"{self._get_subdir('artefacts')}"
         self.sequences = defaultdict(list)
         self.nr_ex_stat = Counter()
         self.cnt = 1

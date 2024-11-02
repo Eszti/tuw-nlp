@@ -7,7 +7,7 @@ from tuw_nlp.sem.hrg.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.bolinas.parser_basic.parser import Parser
 from tuw_nlp.sem.hrg.bolinas.parser_basic.vo_rule import VoRule
 from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines, get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
+from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
 class Parse(LoopOnSenDirs):
@@ -39,9 +39,7 @@ class Parse(LoopOnSenDirs):
         )
 
     def _do_for_sen(self, sen_idx, sen_dir):
-        bolinas_dir = f"{self.out_dir}/{str(sen_idx)}/bolinas"
-        if not os.path.exists(bolinas_dir):
-            os.makedirs(bolinas_dir)
+        bolinas_dir = self._get_subdir("bolinas", parent_dir=f"{self.out_dir}/{str(sen_idx)}")
         self._parse_sen(
             graph_file=f"{sen_dir}/pos_edge.graph",
             chart_file=f"{bolinas_dir}/sen{str(sen_idx)}_chart.pickle",

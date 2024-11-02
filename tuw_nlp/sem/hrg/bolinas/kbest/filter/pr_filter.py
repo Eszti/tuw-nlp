@@ -15,7 +15,7 @@ def f1(prec, rec):
 def convert_label_dict(labels):
     ret = defaultdict(list)
     for n, l in labels.items():
-        ret[l].append(n)
+        ret[l].append(int(n))
     return ret
 
 
@@ -71,8 +71,7 @@ def filter_for_pr(derivations, gold_labels, metric, pos_tags, top_order, arg_per
 
         for permutation in all_permutations:
             pred = convert_label_dict(permutation)
-            for i, g in enumerate(gold_labels):
-                gold = convert_label_dict(g)
+            for i, gold in enumerate(gold_labels):
                 if not match(gold, pred):
                     continue
                 score = calculate_score(gold, pred, metric)
