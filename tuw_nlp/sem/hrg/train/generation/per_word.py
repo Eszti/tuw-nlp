@@ -8,10 +8,9 @@ def get_next_edges(G, root_word, triplet, log):
     root_pos = ""
     for _, v, e in G.edges(root_word, data=True):
         node_idx = int(v.split("n")[-1])
-        if node_idx in triplet.predicate:
-            next_edges['P'].append((e['color'], v))
-        elif node_idx in triplet.node_to_label:
-            next_edges['A'].append((e['color'], v))
+        label = triplet.get_label(node_idx)
+        if label:
+            next_edges[label[0]].append((e['color'], v))
         elif node_idx >= 1000:
             root_pos = e['color']
         else:

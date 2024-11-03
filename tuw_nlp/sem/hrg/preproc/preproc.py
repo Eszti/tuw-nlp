@@ -17,19 +17,16 @@ def get_ud_graph(parsed_doc):
 
 
 def get_triplet(sen):
-    arguments = defaultdict(list)
-    predicate = []
+    triplet_dict = defaultdict(list)
     for i, tok in enumerate(sen):
         label = tok[7].split("-")[0]
-        if label == "P":
-            predicate.append(i + 1)
-        elif label.startswith("A"):
-            arguments[label].append(i + 1)
-    return Triplet(predicate, arguments)
+        if label == "P" or label.startswith("A"):
+            triplet_dict[label].append(i + 1)
+    return Triplet(triplet_dict)
 
 
 def get_triplet_subgraph(ud_graph, triplet, vocab):
-    idx_to_keep = [n for nodes in triplet.arguments.values() for n in nodes] + triplet.predicate
+    idx_to_keep = list(triplet.node_to_label.keys())
     return ud_graph.subgraph(idx_to_keep, handle_unconnected="shortest_path").pos_edge_graph(vocab)
 
 

@@ -5,7 +5,7 @@ import os
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
 from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.common.script.loop_script import LoopOnSenDirs
+from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 from tuw_nlp.sem.hrg.train.generation.per_word import get_rules_per_word
 
@@ -52,7 +52,7 @@ class Train(LoopOnSenDirs):
             triplet_graph = Graph.from_bolinas(graph_str)
             triplet = Triplet.from_file(f"{sen_dir}/sen{exact_sen_idx}_triplet.txt")
 
-            arg_graphs = get_argument_graphs(triplet_graph, triplet.arguments, log)
+            arg_graphs = get_argument_graphs(triplet_graph, triplet.arguments(), log)
 
             if None in arg_graphs.values():
                 log.write(f"sentence {exact_sen_idx} had unconnected arguments, skipping\n")

@@ -7,7 +7,6 @@ from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import postprocess
-from tuw_nlp.sem.hrg.predict.utils import save_predicted_conll
 
 
 class Predict(LoopOnSenDirs):
@@ -54,7 +53,7 @@ class Predict(LoopOnSenDirs):
                     )
                     assert len(extracted_labels_all_permutations) == 1
                     extracted_labels = extracted_labels_all_permutations[0]
-                    save_predicted_conll(
+                    self.__save_predicted_conll(
                         orig_conll,
                         extracted_labels,
                         f"{out_dir}/sen{sen_idx}_extracted_k{i}.conll"
@@ -85,6 +84,28 @@ class Predict(LoopOnSenDirs):
         orig_conll = f"{preproc_dir}/sen{sen_idx}.conll"
         sen_text = get_sen_txt(orig_conll)
         return sen_text, pos_tags, top_order, orig_conll
+
+    def __save_predicted_conll(self, orig_conll, extracted_labels, extracted_conll):
+        output = []
+        with open(orig_conll) as f:
+            lines = f.readlines()
+        predicate = self.__get_predicate(extracted_labels)
+        for line in lines:
+            line = line.strip()
+            fields = line.split("\t")
+            output.append(fields[:2] + [predicate, extracted_labels.get(fields[0], "O"), str(1.0)])
+        with open(extracted_conll, "w") as f:
+            for line in output:
+                f.write("\t".join(line))
+                f.write("\n")
+
+    @staticmethod
+    def __get_predicate(extracted_labels):
+        predicates = []
+        for node, label in extracted_labels.items():
+            if label == "P":
+                predicates += [node]
+        return f"[{' '.join([p for p in predicates])}]"
 
 
 if __name__ == "__main__":

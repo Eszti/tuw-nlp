@@ -1,31 +1,33 @@
 import json
-from collections import OrderedDict
+from collections import defaultdict, OrderedDict
 
 
 class Triplet:
-    def __init__(self, predicate, arguments):
-        self.predicate = predicate
-        self.arguments = arguments
-        self.node_to_label = {p: "P" for p in self.predicate}
-        for l, nodes in self.arguments.items():
-            for n in nodes:
-                assert n not in self.node_to_label
-                self.node_to_label[n] = l
+    def __init__(self, triplet_dict, label_to_nodes=True):
+        if label_to_nodes:
+            self.label_to_nodes = {label: sorted([int(a) for a in args]) for label, args in triplet_dict.items()}
+            self.node_to_label = {n: label for label, nodes in self.label_to_nodes.items() for n in nodes}
+        else:
+            self.node_to_label = {int(node): label for node, label in triplet_dict.items()}
+            label_to_nodes_dict = defaultdict(list)
+            for node, label in self.node_to_label.items():
+                label_to_nodes_dict[label].append(node)
+            self.label_to_nodes = label_to_nodes_dict
 
     def to_file(self, fn):
-        ordered_dict = OrderedDict(sorted(self.arguments.items()))
-        ordered_dict["P"] = self.predicate
         with open(fn, "w") as f:
-            f.write(json.dumps(ordered_dict))
+            f.write(json.dumps(OrderedDict(sorted(self.label_to_nodes.items()))))
 
     @staticmethod
     def from_file(fn):
-        with open(fn) as f:
-            lines = f.readlines()
-        assert len(lines) == 2
-        predicate = json.loads(lines[0])
-        arguments = json.loads(lines[1])
-        return Triplet(predicate, arguments)
+        label_to_nodes_dict = json.load(open(fn))
+        return Triplet(label_to_nodes_dict)
 
     def get_label(self, node):
-        return self.node_to_label[node] if node in self.node_to_label else None
+        return self.node_to_label.get(node)
+
+    def arguments(self):
+        return {k: v for k, v in self.label_to_nodes.items() if k.startswith("A")}
+
+    def predicate(self):
+        return self.label_to_nodes["P"]

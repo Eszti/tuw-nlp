@@ -5,27 +5,7 @@ from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
-def write_rules(f, grammar, numeric_info=None):
-    for (prod, cnt, w) in grammar["S"]:
-        if not numeric_info:
-            f.write(f"{prod}\n")
-        elif numeric_info == "cnt":
-            f.write(f"{prod}\t{cnt}\n")
-        elif numeric_info == "weight":
-            f.write(f"{prod}\t{w}\n")
-    for nt, prods in grammar.items():
-        if nt == "S":
-            continue
-        for (prod, cnt, w) in prods:
-            if not numeric_info:
-                f.write(f"{prod}\n")
-            elif numeric_info == "cnt":
-                f.write(f"{prod}\t{cnt}\n")
-            elif numeric_info == "weight":
-                f.write(f"{prod}\t{w}\n")
-
-
-class MergeHrg(LoopOnSenDirs):
+class Hrg(LoopOnSenDirs):
     def __init__(self, data_dir, config_json):
         super().__init__(data_dir, config_json)
         self.size = self.config.get("size", None)
@@ -47,9 +27,9 @@ class MergeHrg(LoopOnSenDirs):
         self.__add_weights()
         grammar_dir = self._get_subdir("grammar")
         with open(f"{grammar_dir}/{self.grammar_fn_name}.hrg", "w") as f:
-            write_rules(f, self.grammar, "weight")
+            self.__write_rules(f, "weight")
         with open(f"{grammar_dir}/{self.grammar_fn_name}.stat", "w") as f:
-            write_rules(f, self.grammar, "cnt")
+            self.__write_rules(f, "cnt")
         self._log(f"\nUnique rules: {self.__get_total_number_of_rules()}")
         for nt, prods in self.grammar.items():
             self._log(f"{nt}: {len(prods)}\t({round(len(prods) / self.__get_total_number_of_rules(), 3)})")
@@ -80,10 +60,29 @@ class MergeHrg(LoopOnSenDirs):
                 new_grammar[nt].append((prod, cnt, w))
         self.grammar = new_grammar
 
+    def __write_rules(self, f, numeric_info=None):
+        for (prod, cnt, w) in self.grammar["S"]:
+            if not numeric_info:
+                f.write(f"{prod}\n")
+            elif numeric_info == "cnt":
+                f.write(f"{prod}\t{cnt}\n")
+            elif numeric_info == "weight":
+                f.write(f"{prod}\t{w}\n")
+        for nt, prods in self.grammar.items():
+            if nt == "S":
+                continue
+            for (prod, cnt, w) in prods:
+                if not numeric_info:
+                    f.write(f"{prod}\n")
+                elif numeric_info == "cnt":
+                    f.write(f"{prod}\t{cnt}\n")
+                elif numeric_info == "weight":
+                    f.write(f"{prod}\t{w}\n")
+
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to merge hrg rules into one grammar file of a given size.")
-    script = MergeHrg(
+    script = Hrg(
         args.data_dir,
         args.config,
     )
