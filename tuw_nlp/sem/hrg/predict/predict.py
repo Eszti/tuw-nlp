@@ -112,9 +112,5 @@ if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
 
     args = get_data_dir_and_config_args("Script to create wire jsons from predicted bolinas labels.")
-    script = Predict(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    Predict(args.data_dir, args.config).run()
 

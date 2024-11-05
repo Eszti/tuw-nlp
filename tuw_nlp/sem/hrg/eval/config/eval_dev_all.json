@@ -3,9 +3,9 @@
     "gold_fn": "gold_dev.json",
     "extractions_dir": "dev_extractions",
     "models":
-    {
-        "Grammar 100":
+    [
         {
+            "name": "Grammar 100",
             "in_dir": "dev_gr100",
             "bolinas_chart_filters": 
             [
@@ -20,8 +20,8 @@
                 "keep"
             ]
         },
-        "Grammar 200":
         {
+            "name": "Grammar 200",
             "in_dir": "dev_gr200",
             "bolinas_chart_filters": 
             [
@@ -36,8 +36,8 @@
                 "keep"
             ]
         },
-        "Grammar 300":
         {
+            "name": "Grammar 300",
             "in_dir": "dev_gr300",
             "bolinas_chart_filters": 
             [
@@ -52,8 +52,8 @@
                 "keep"
             ]
         },
-        "Random":
         {
+            "name": "Random",
             "in_dir": "dev_random",
             "bolinas_chart_filters": 
             [
@@ -65,5 +65,5 @@
                 ""
             ]
         }
-    }
+    ]
 }

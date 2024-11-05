@@ -197,8 +197,4 @@ class KBest(LoopOnSenDirs):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to search k best derivations in parsed charts.")
-    script = KBest(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    KBest(args.data_dir, args.config).run()

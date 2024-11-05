@@ -37,9 +37,5 @@ class ArtefactsExtractor(LoopOnConll):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to extract artefacts of the given dataset.")
-    script = ArtefactsExtractor(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    ArtefactsExtractor(args.data_dir, args.config).run()
 

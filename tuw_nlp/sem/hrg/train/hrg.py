@@ -82,8 +82,4 @@ class Hrg(LoopOnSenDirs):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to merge hrg rules into one grammar file of a given size.")
-    script = Hrg(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    Hrg(args.data_dir, args.config).run()

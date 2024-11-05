@@ -70,8 +70,4 @@ class Parse(LoopOnSenDirs):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to parse graph inputs and save parsed chars.")
-    script = Parse(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    Parse(args.data_dir, args.config).run()

@@ -3,9 +3,9 @@
     "gold_fn": "gold_dev.json",
     "extractions_dir": "dev_extractions",
     "models":
-    {
-        "Top estimations (with cheat)":
+    [
         {
+            "name": "Top estimations (with cheat)",
             "in_dir": "dev_best",
             "bolinas_chart_filters": 
             [
@@ -18,5 +18,5 @@
                 ""
             ]
         }
-    }
+    ]
 }

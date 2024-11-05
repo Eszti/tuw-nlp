@@ -94,8 +94,4 @@ class Merge(LoopOnSenDirs):
 
 if __name__ == "__main__":
     args = get_data_dir_and_config_args("Script to merge predicted wire jsons.")
-    script = Merge(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    Merge(args.data_dir, args.config).run()

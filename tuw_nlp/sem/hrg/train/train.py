@@ -88,8 +88,4 @@ class Train(LoopOnSenDirs):
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
     args = get_data_dir_and_config_args("Script to create hrg rules on preprocessed train data.")
-    script = Train(
-        args.data_dir,
-        args.config,
-    )
-    script.run()
+    Train(args.data_dir, args.config).run()
