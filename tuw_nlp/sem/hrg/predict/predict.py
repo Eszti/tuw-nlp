@@ -3,7 +3,6 @@ import logging
 import os
 from collections import defaultdict
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_txt
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import postprocess
@@ -11,8 +10,8 @@ from tuw_nlp.sem.hrg.postproc.postproc import postprocess
 
 class Predict(LoopOnSenDirs):
 
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log=True)
+    def __init__(self, description):
+        super().__init__(description, log=True)
         self.out_dir += self.in_dir
         self.preproc_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
         self.chart_filters = self.config["bolinas_chart_filters"]
@@ -110,7 +109,5 @@ class Predict(LoopOnSenDirs):
 
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
-
-    args = get_data_dir_and_config_args("Script to create wire jsons from predicted bolinas labels.")
-    Predict(args.data_dir, args.config).run()
+    Predict("Script to create wire jsons from predicted bolinas labels.").run()
 

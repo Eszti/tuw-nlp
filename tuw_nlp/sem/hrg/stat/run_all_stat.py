@@ -2,9 +2,9 @@ import json
 import os
 
 from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.dev_stat.k_stat import calc_k_stat
-from tuw_nlp.sem.hrg.dev_stat.pred_eval import evaluate_predicate_recognition
-from tuw_nlp.sem.hrg.dev_stat.rule_stat import calc_rule_stat
+from tuw_nlp.sem.hrg.stat.k_stat import calc_k_stat
+from tuw_nlp.sem.hrg.stat.pred_eval import evaluate_predicate_recognition
+from tuw_nlp.sem.hrg.stat.rule_stat import calc_rule_stat
 
 
 def main(data_dir, config_fn):

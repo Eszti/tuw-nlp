@@ -1,7 +1,6 @@
 import json
 from collections import defaultdict, Counter
 
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_conll import LoopOnConll
 
 
@@ -11,8 +10,8 @@ def get_labels_str(sen):
 
 class ArtefactsExtractor(LoopOnConll):
 
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json)
+    def __init__(self, description):
+        super().__init__(description)
         self.artefact_dir = f"{self._get_subdir('artefacts')}"
         self.sequences = defaultdict(list)
         self.nr_ex_stat = Counter()
@@ -36,6 +35,5 @@ class ArtefactsExtractor(LoopOnConll):
 
 
 if __name__ == "__main__":
-    args = get_data_dir_and_config_args("Script to extract artefacts of the given dataset.")
-    ArtefactsExtractor(args.data_dir, args.config).run()
+    ArtefactsExtractor("Script to extract artefacts of the given dataset.").run()
 

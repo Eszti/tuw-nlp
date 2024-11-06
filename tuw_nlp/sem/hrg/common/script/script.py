@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import time
@@ -6,11 +7,13 @@ from datetime import datetime
 
 
 class Script(ABC):
-    def __init__(self, data_dir, config_json, log):
-        self.data_dir = data_dir
-        self.parent_dir = os.path.dirname(os.path.dirname(os.path.realpath(config_json)))
-        self.config_name = config_json.split('/')[-1].split('.json')[0]
-        self.config = json.load(open(config_json))
+    def __init__(self, description, log):
+        args = self._get_data_dir_and_config_args(description)
+        self.config_json = args.config
+        self.data_dir = args.data_dir
+        self.parent_dir = os.path.dirname(os.path.dirname(os.path.realpath(self.config_json)))
+        self.config_name = self.config_json.split('/')[-1].split('.json')[0]
+        self.config = json.load(open(self.config_json))
         self.log = log
         if log:
             self.start_time = time.time()
@@ -60,3 +63,18 @@ class Script(ABC):
             else:
                 raise RuntimeError(f"{subdir} does not exist")
         return subdir
+
+    @staticmethod
+    def _add_filter_and_postprocess(name, chart_filter, postprocess, delim="/"):
+        if chart_filter:
+            name += f"{delim}{chart_filter}"
+        if postprocess:
+            name += f"{delim}{postprocess}"
+        return name
+
+    @staticmethod
+    def _get_data_dir_and_config_args(desc=""):
+        parser = argparse.ArgumentParser(description=desc)
+        parser.add_argument("-d", "--data-dir", type=str)
+        parser.add_argument("-c", "--config", type=str)
+        return parser.parse_args()

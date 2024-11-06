@@ -1,7 +1,6 @@
 import json
-import os
 
-from tuw_nlp.sem.hrg.common.io import get_merged_jsons, get_data_dir_and_config_args
+from tuw_nlp.sem.hrg.common.io import get_merged_jsons
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.common.script.loop_on_models import LoopOnModels
 from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_system, f1
@@ -9,21 +8,19 @@ from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_sys
 
 class Eval(LoopOnModels):
 
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json)
-        gold_path = f"{os.path.dirname(self.parent_dir)}/data/{self.config['gold_fn']}"
-        self.gold = json.load(open(gold_path))
+    def __init__(self, description):
+        super().__init__(description)
         self.test = self.config.get("test", False)
         self.pr_curve = self.config.get("pr_curve", False)
         self.debug = self.config.get("debug", False)
         if self.debug:
             self.temp_dir = self._get_subdir("temp")
-        self.eval_md_name = f"{config_json.split('/')[-1].split('.json')[0]}"
+        self.eval_md_name = f"{self.config_json.split('/')[-1].split('.json')[0]}"
+        self.p_list, self.r_list = [], []
+        self.pr_curve_names = []
 
     def _before_loop(self):
         self.report += "# Evaluation\n"
-        self.p_list, self.r_list = [], []
-        self.pr_curve_names = []
 
     def _do_for_model(self, model):
         model_name = model['name']
@@ -137,5 +134,4 @@ class Eval(LoopOnModels):
 
 
 if __name__ == "__main__":
-    args = get_data_dir_and_config_args("Script to evaluate systems.")
-    Eval(args.data_dir, args.config).run()
+    Eval("Script to evaluate systems.").run()

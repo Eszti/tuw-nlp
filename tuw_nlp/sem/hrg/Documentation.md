@@ -82,7 +82,7 @@ We [evaluate](eval/eval.py) our system using a slightly modified version of the 
 # TBD
 ```
 
-We calculate some [statistics](dev_stat/run_all_stat.py) on the dev set for quantitative and qualitative analysis.
+We calculate some [statistics](stat/run_all_stat.py) on the dev set for quantitative and qualitative analysis.
 
 ```python
 # TBD

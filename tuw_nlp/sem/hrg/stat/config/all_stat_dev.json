@@ -1,0 +1,5 @@
+{
+    "k_stat_config": "k_stat_dev.json",
+    "pred_eval_config": "pred_eval_dev.json",
+    "rule_stat_config": "rule_stat_dev.json"
+}

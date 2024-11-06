@@ -12,7 +12,6 @@ from tuw_nlp.sem.hrg.bolinas.common.output import print_shifted, format_derivati
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
 from tuw_nlp.sem.hrg.common.conll import get_pos_tags
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
@@ -70,8 +69,8 @@ def get_gold_labels(preproc_dir):
 
 class KBest(LoopOnSenDirs):
 
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json)
+    def __init__(self, description):
+        super().__init__(description)
         self.logprob = True
         self.score_disorder_collector = {}
 
@@ -196,5 +195,4 @@ class KBest(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    args = get_data_dir_and_config_args("Script to search k best derivations in parsed charts.")
-    KBest(args.data_dir, args.config).run()
+    KBest("Script to search k best derivations in parsed charts.").run()

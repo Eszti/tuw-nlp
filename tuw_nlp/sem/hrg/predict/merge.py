@@ -3,15 +3,14 @@ import json
 import os
 from collections import defaultdict, Counter
 
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.wire_extraction import WiReEx
 
 
 class Merge(LoopOnSenDirs):
 
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log=True)
+    def __init__(self, description):
+        super().__init__(description, log=True)
         self.out_dir += f"/{self.config['in_dir']}"
         self.chart_filters = self.config["bolinas_chart_filters"]
         self.postprocess = self.config["postprocess"]
@@ -93,5 +92,4 @@ class Merge(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    args = get_data_dir_and_config_args("Script to merge predicted wire jsons.")
-    Merge(args.data_dir, args.config).run()
+    Merge("Script to merge predicted wire jsons.").run()

@@ -5,8 +5,8 @@ from tuw_nlp.sem.hrg.common.script.script import Script
 
 
 class LoopOnSenDirs(Script):
-    def __init__(self, data_dir, config_json, log=True):
-        super().__init__(data_dir, config_json, log)
+    def __init__(self, description, log=True):
+        super().__init__(description, log)
         self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
 
     def __get_range(self):
@@ -31,11 +31,3 @@ class LoopOnSenDirs(Script):
     @abstractmethod
     def _do_for_sen(self, sen_idx, sen_dir):
         raise NotImplemented
-
-    @staticmethod
-    def _add_filter_and_postprocess(name, chart_filter, postprocess, delim="/"):
-        if chart_filter:
-            name += f"{delim}{chart_filter}"
-        if postprocess:
-            name += f"{delim}{postprocess}"
-        return name

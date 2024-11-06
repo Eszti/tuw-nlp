@@ -4,13 +4,6 @@ import os
 from stanza.utils.conll import CoNLL
 
 
-def create_sen_dir(out_dir, sen_id):
-    sen_dir = os.path.join(out_dir, str(sen_id))
-    if not os.path.exists(sen_dir):
-        os.makedirs(sen_dir)
-    return sen_dir
-
-
 def parse_doc(nlp, sen, out_dir, save=True):
     parsed_doc = nlp(" ".join(t[1] for t in sen))
     if save:
@@ -53,17 +46,6 @@ def get_merged_jsons(in_dir, chart_filter, pp, only_all=False):
         if k_files:
             files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
     return [f"{in_dir}/{f}" for f in files]
-
-
-def get_all_json(in_dir, chart_filter, pp):
-    if chart_filter:
-        in_dir += f"/{chart_filter}"
-    if pp:
-        in_dir += f"/{pp}"
-    files = [i for i in os.listdir(in_dir) if i.endswith("all.json")]
-    assert len(files) == 1
-    fn = f"{in_dir}/{files[0]}"
-    return fn
 
 
 def log_to_console_and_log_lines(line, sen_log_lines):

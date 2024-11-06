@@ -1,5 +1,5 @@
 {
-    "extractions_dir": "dev_extractions",
+    "in_dir": "dev_extractions",
     "gold_fn": "gold_dev.json",
     "models":
     [

@@ -4,7 +4,6 @@ import os
 
 from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 from tuw_nlp.sem.hrg.train.generation.per_word import get_rules_per_word
@@ -25,8 +24,8 @@ def get_argument_graphs(triplet_graph, arguments, log):
 
 
 class Train(LoopOnSenDirs):
-    def __init__(self, data_dir, config_json):
-        super().__init__(data_dir, config_json, log=True)
+    def __init__(self, description):
+        super().__init__(description, log=True)
         self.method = self.config["method"]
         self.out_dir += f"_{self.method}"
         vocab_file = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/preproc/vocab/" \
@@ -87,5 +86,4 @@ class Train(LoopOnSenDirs):
 
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
-    args = get_data_dir_and_config_args("Script to create hrg rules on preprocessed train data.")
-    Train(args.data_dir, args.config).run()
+    Train("Script to create hrg rules on preprocessed train data.").run()

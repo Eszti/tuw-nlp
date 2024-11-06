@@ -7,8 +7,8 @@ from tuw_nlp.text.utils import gen_tsv_sens
 
 
 class LoopOnConll(Script):
-    def __init__(self, data_dir, config_json, log=True):
-        super().__init__(data_dir, config_json, log)
+    def __init__(self, description, log=True):
+        super().__init__(description, log)
         self.conll_file = f"{self.data_dir}/{self.config['in_file']}"
 
     def _run_loop(self):
