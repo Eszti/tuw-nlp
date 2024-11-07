@@ -14,6 +14,7 @@ class LoopOnModels(Script):
         self.report_dir = self._get_subdir("reports")
         gold_path = f"{os.path.dirname(self.parent_dir)}/data/{self.config['gold_fn']}"
         self.gold = json.load(open(gold_path))
+        self.last = self.config.get("last", None)
 
     def _run_loop(self):
         for model in self.models:
@@ -25,3 +26,20 @@ class LoopOnModels(Script):
     @abstractmethod
     def _do_for_model(self, model):
         raise NotImplemented
+
+    def _get_merged_jsons(self, in_dir, chart_filter, pp, only_all=False):
+        in_dir = self._add_filter_and_postprocess(in_dir, chart_filter, pp)
+        files = [i for i in os.listdir(in_dir) if i.endswith(".json")]
+        if only_all:
+            files = [i for i in files if i.endswith("_all.json")]
+            assert len(files) == 1
+        else:
+            k_files = [i for i in files if i.split("_")[-1].startswith("k")]
+            if k_files:
+                files = sorted(k_files, key=lambda x: int(x.split('.')[0].split("_")[-1].split("k")[-1]))
+        return [f"{in_dir}/{f}" for f in files]
+
+    @staticmethod
+    def _get_all_sen_dirs(in_dir):
+        sen_dirs = sorted([int(fn.split('.')[0]) for fn in os.listdir(in_dir)])
+        return [f"{in_dir}/{sen_dir}" for sen_dir in sen_dirs]

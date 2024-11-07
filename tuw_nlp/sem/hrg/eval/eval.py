@@ -1,6 +1,5 @@
 import json
 
-from tuw_nlp.sem.hrg.common.io import get_merged_jsons
 from tuw_nlp.sem.hrg.common.report import save_pr_curve, find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.common.script.loop_on_models import LoopOnModels
 from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_system, f1
@@ -15,7 +14,6 @@ class Eval(LoopOnModels):
         self.debug = self.config.get("debug", False)
         if self.debug:
             self.temp_dir = self._get_subdir("temp")
-        self.eval_md_name = f"{self.config_json.split('/')[-1].split('.json')[0]}"
         self.p_list, self.r_list = [], []
         self.pr_curve_names = []
 
@@ -39,7 +37,7 @@ class Eval(LoopOnModels):
                     self.report += f"### {chart_filter} - {pp}\n"
 
                 in_dir = f"{self.in_dir}/{model['in_dir']}"
-                files = get_merged_jsons(
+                files = self._get_merged_jsons(
                     in_dir,
                     chart_filter,
                     pp,
@@ -124,11 +122,11 @@ class Eval(LoopOnModels):
                 self.p_list,
                 self.r_list,
                 self.pr_curve_names,
-                f"{self.report_dir}/pr_curve_{self.eval_md_name}.png"
+                f"{self.report_dir}/pr_curve_{self.config_name}.png"
             )
-            self.report += f"## P-R curve\n![](pr_curve_{self.eval_md_name}.png)"
+            self.report += f"## P-R curve\n![](pr_curve_{self.config_name}.png)"
 
-        with open(f"{self.report_dir}/{self.eval_md_name}.md", "w") as f:
+        with open(f"{self.report_dir}/{self.config_name}.md", "w") as f:
             f.writelines(self.report)
         super()._after_loop()
 
