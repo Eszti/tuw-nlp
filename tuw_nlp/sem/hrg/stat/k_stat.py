@@ -9,8 +9,8 @@ from tuw_nlp.sem.hrg.common.script.loop_on_models import LoopOnModels
 
 
 class KStat(LoopOnModels):
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to calculate k stat on merged extractions.", config=config)
         self.k_stat_dir = self._get_subdir(f"{self.config_name}", self.report_dir)
         self.sen_ids = []
         self.k_values = dict()
@@ -88,4 +88,4 @@ class KStat(LoopOnModels):
 
 
 if __name__ == "__main__":
-    KStat("Script to calculate k stat on merged extractions.").run()
+    KStat().run()

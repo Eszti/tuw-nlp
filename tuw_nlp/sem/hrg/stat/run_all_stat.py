@@ -1,23 +1,22 @@
-import json
-import os
-
-from tuw_nlp.sem.hrg.common.io import get_data_dir_and_config_args
-from tuw_nlp.sem.hrg.stat.k_stat import calc_k_stat
-from tuw_nlp.sem.hrg.stat.pred_eval import evaluate_predicate_recognition
-from tuw_nlp.sem.hrg.stat.rule_stat import calc_rule_stat
+from tuw_nlp.sem.hrg.common.script.script import Script
+from tuw_nlp.sem.hrg.stat.k_stat import KStat
+from tuw_nlp.sem.hrg.stat.pred_eval import PredEval
+from tuw_nlp.sem.hrg.stat.rule_stat import RuleStat
 
 
-def main(data_dir, config_fn):
-    config = json.load(open(config_fn))
-    config_dir = f"{os.path.dirname(os.path.realpath(__file__))}/config"
-    print("Calculate k stat")
-    calc_k_stat(data_dir, f"{config_dir}/{config['k_stat_config']}")
-    print("Evaluate predicate resolution")
-    evaluate_predicate_recognition(data_dir, f"{config_dir}/{config['pred_eval_config']}")
-    print("Calculate rule stat")
-    calc_rule_stat(data_dir, f"{config_dir}/{config['rule_stat_config']}")
+class RunAllStat(Script):
+    def __init__(self):
+        super().__init__(description="Script to run all dev statistics at once.", log=False)
+        self.config_dir = self._get_subdir("config", create=False)
+
+    def _run_loop(self):
+        print("Calculate k stat")
+        KStat(f"{self.config_dir}/{self.config['k_stat_config']}").run()
+        print("Evaluate predicate resolution")
+        PredEval(f"{self.config_dir}/{self.config['pred_eval_config']}").run()
+        print("Calculate rule stat")
+        RuleStat(f"{self.config_dir}/{self.config['rule_stat_config']}").run()
 
 
 if __name__ == "__main__":
-    args = get_data_dir_and_config_args("Script to run all dev statistics at once.")
-    main(args.data_dir, args.config)
+    RunAllStat().run()

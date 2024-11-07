@@ -7,9 +7,12 @@ from datetime import datetime
 
 
 class Script(ABC):
-    def __init__(self, description, log):
+    def __init__(self, description, log, config=None):
         args = self._get_data_dir_and_config_args(description)
-        self.config_json = args.config
+        if config is None:
+            self.config_json = args.config
+        else:
+            self.config_json = config
         self.data_dir = args.data_dir
         self.parent_dir = os.path.dirname(os.path.dirname(os.path.realpath(self.config_json)))
         self.config_name = self.config_json.split('/')[-1].split('.json')[0]
@@ -76,5 +79,5 @@ class Script(ABC):
     def _get_data_dir_and_config_args(desc=""):
         parser = argparse.ArgumentParser(description=desc)
         parser.add_argument("-d", "--data-dir", type=str)
-        parser.add_argument("-c", "--config", type=str)
+        parser.add_argument("-c", "--config", type=str, default="")
         return parser.parse_args()

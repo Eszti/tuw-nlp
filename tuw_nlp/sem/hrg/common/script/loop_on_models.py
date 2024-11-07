@@ -6,14 +6,16 @@ from tuw_nlp.sem.hrg.common.script.script import Script
 
 
 class LoopOnModels(Script):
-    def __init__(self, description, log=False):
-        super().__init__(description, log)
-        self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
+    def __init__(self, description, config=None):
+        super().__init__(description, log=False, config=config)
+        if "in_dir" in self.config:
+            self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
         self.models = self.config["models"]
         self.report = ""
         self.report_dir = self._get_subdir("reports")
-        gold_path = f"{os.path.dirname(self.parent_dir)}/data/{self.config['gold_fn']}"
-        self.gold = json.load(open(gold_path))
+        if "gold_fn" in self.config:
+            gold_path = f"{os.path.dirname(self.parent_dir)}/data/{self.config['gold_fn']}"
+            self.gold = json.load(open(gold_path))
         self.last = self.config.get("last", None)
 
     def _run_loop(self):

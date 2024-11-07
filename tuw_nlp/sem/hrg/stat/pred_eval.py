@@ -10,8 +10,8 @@ from tuw_nlp.sem.hrg.common.script.loop_on_models import LoopOnModels
 
 
 class PredEval(LoopOnModels):
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to evaluate predicate resolution.", config=config)
         self.pred_eval_dir = self._get_subdir(f"{self.config_name}", self.report_dir)
         self.preproc_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
 
@@ -171,7 +171,9 @@ class PredEval(LoopOnModels):
         df = df.fillna("no extraction")
         df.to_csv(f"{self.pred_eval_dir}/{name}_pred_res.tsv", sep="\t")
         df_sum = df.apply(lambda x: x.value_counts()).fillna(0).astype(int)
-        df_sum.loc["total"] = df_sum.iloc[:-1].sum()
+        df_sum.loc["total"] = df_sum.sum()
+        if "no_extraction" in df_sum:
+            df_sum.loc["total"] = df_sum["total"] - df_sum["no_extraction"]
         df_sum.to_csv(f"{self.pred_eval_dir}/{name}_pred_res_sum.tsv", sep="\t")
 
     @staticmethod
@@ -189,4 +191,4 @@ class PredEval(LoopOnModels):
 
 
 if __name__ == "__main__":
-    PredEval("Script to evaluate predicate resolution.").run()
+    PredEval().run()
