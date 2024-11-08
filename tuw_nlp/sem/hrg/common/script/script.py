@@ -40,10 +40,11 @@ class Script(ABC):
 
     def _after_loop(self):
         if self.log:
-            self._log(
-                f"\nFirst sentence to process: {self.first_sen_to_proc}"
-                f"\nLast sentence to process: {self.last_sen_to_proc}"
-            )
+            if self.first_sen_to_proc is not None or self.last_sen_to_proc is not None:
+                self._log(
+                    f"\nFirst sentence to process: {self.first_sen_to_proc}"
+                    f"\nLast sentence to process: {self.last_sen_to_proc}"
+                )
             self._log(f"\nExecution finish: {datetime.now()}")
             elapsed_time = time.time() - self.start_time
             self._log(f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n")

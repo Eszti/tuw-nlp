@@ -28,8 +28,7 @@ class Train(LoopOnSenDirs):
         super().__init__(description="Script to create hrg rules on preprocessed train data.", config=config)
         self.method = self.config["method"]
         self.out_dir += f"_{self.method}"
-        vocab_file = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/preproc/vocab/" \
-                     f"{self.config['vocab_file']}"
+        vocab_file = f"{os.path.dirname(self.parent_dir)}/preproc/vocab/{self.config['vocab_file']}"
         self.vocab = Vocabulary.from_file(vocab_file)
         self.unconnected_args = []
         self.no_rule = []
