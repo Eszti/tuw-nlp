@@ -4,7 +4,7 @@ from collections import defaultdict, Counter, OrderedDict
 import pandas as pd
 
 from tuw_nlp.common.eval import f1
-from tuw_nlp.sem.hrg.common.conll import get_pos_tags
+from tuw_nlp.sem.hrg.common.conll import ConllSen
 from tuw_nlp.sem.hrg.common.report import find_best_in_column, make_markdown_table
 from tuw_nlp.sem.hrg.common.script.loop_on_models import LoopOnModels
 
@@ -49,9 +49,8 @@ class PredEval(LoopOnModels):
     def __get_all_pos_tags(self):
         all_pos_tags = {}
         for sen_dir in self._get_all_sen_dirs(self.preproc_dir):
-            parsed_doc_file = f"{sen_dir}/parsed.conll"
             sen_idx = int(sen_dir.split("/")[-1])
-            all_pos_tags[sen_idx] = get_pos_tags(parsed_doc_file)
+            all_pos_tags[sen_idx] = ConllSen(sen_dir).pos_tags()
         return all_pos_tags
 
     def __calculate_eval_table(self, model_name, chart_filter, pp):
@@ -136,7 +135,7 @@ class PredEval(LoopOnModels):
                 for idx in rel_indexes:
                     while sen_id not in self.pos_tags:
                         sen_id -= 1
-                    cnt[self.pos_tags[sen_id][str(idx)]] += 1
+                    cnt[self.pos_tags[sen_id][idx-1]] += 1
         table = [[
             "POS tag",
             "number of pred words",

@@ -7,7 +7,7 @@ def resolve_pred(pred_labels, pos_tags, top_order):
     preds = [n for n, l in pred_labels.items() if l == "P"]
     if len(preds) > 0:
         return "X"
-    verbs = [n for n, t in pos_tags.items() if t == "VERB"]
+    verbs = [n+1 for n, t in enumerate(pos_tags) if t == "VERB"]
     if len(verbs) == 0:
         pred_labels[str(top_order[1])] = "P"
         return "A"

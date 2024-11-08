@@ -1,7 +1,6 @@
 import os
 from abc import abstractmethod
 
-from tuw_nlp.sem.hrg.common.conll import get_sen_text
 from tuw_nlp.sem.hrg.common.script.script import Script
 from tuw_nlp.text.utils import gen_tsv_sens
 
@@ -26,7 +25,7 @@ class LoopOnConll(Script):
                 break
 
             print(f"Processing sen {sen_idx}")
-            sen_txt = get_sen_text(sen)
+            sen_txt = " ".join([line[1] for line in sen])
 
             if self.out_dir:
                 if sen_txt != last_sen_txt:

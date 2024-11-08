@@ -11,7 +11,7 @@ from tuw_nlp.sem.hrg.bolinas.common.oie import get_rules, get_labels
 from tuw_nlp.sem.hrg.bolinas.common.output import print_shifted, format_derivation
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.bolinas.kbest.filter.size_filter import filter_for_size
-from tuw_nlp.sem.hrg.common.conll import get_pos_tags
+from tuw_nlp.sem.hrg.common.conll import ConllSen
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
@@ -94,7 +94,7 @@ class KBest(LoopOnSenDirs):
         top_order = json.load(open(
             f"{sen_dir}/pos_edge_graph_top_order.json"
         ))
-        pos_tags = get_pos_tags(f"{sen_dir}/parsed.conll")
+        pos_tags = ConllSen(sen_dir).pos_tags()
 
         for name, c in sorted(self.config["filters"].items()):
             if c.get("ignore", False):

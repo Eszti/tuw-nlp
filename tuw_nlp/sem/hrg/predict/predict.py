@@ -2,7 +2,7 @@ import json
 import logging
 import os
 from collections import defaultdict
-from tuw_nlp.sem.hrg.common.conll import get_pos_tags, get_sen_txt
+from tuw_nlp.sem.hrg.common.conll import ConllSen
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.wire_extraction import get_wire_extraction
 from tuw_nlp.sem.hrg.postproc.postproc import postprocess
@@ -74,14 +74,14 @@ class Predict(LoopOnSenDirs):
     def __get_preproc_input(self, sen_idx):
         preproc_dir = f"{self.preproc_dir}/{sen_idx}"
 
-        parsed_doc_file = f"{preproc_dir}/parsed.conll"
-        pos_tags = get_pos_tags(parsed_doc_file)
+        conll_sen = ConllSen(preproc_dir)
+        pos_tags = conll_sen.pos_tags()
+        sen_text = conll_sen.sen_text()
 
         top_order_file = f"{preproc_dir}/pos_edge_graph_top_order.json"
         top_order = json.load(open(top_order_file))
 
         orig_conll = f"{preproc_dir}/sen{sen_idx}.conll"
-        sen_text = get_sen_txt(orig_conll)
         return sen_text, pos_tags, top_order, orig_conll
 
     def __save_predicted_conll(self, orig_conll, extracted_labels, extracted_conll):
