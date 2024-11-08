@@ -10,8 +10,8 @@ from tuw_nlp.sem.hrg.postproc.postproc import postprocess
 
 class Predict(LoopOnSenDirs):
 
-    def __init__(self, description):
-        super().__init__(description, log=True)
+    def __init__(self, config=None):
+        super().__init__(description="Script to create wire jsons from predicted bolinas labels.", config=config)
         self.out_dir += self.in_dir
         self.preproc_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
         self.chart_filters = self.config["bolinas_chart_filters"]
@@ -109,5 +109,5 @@ class Predict(LoopOnSenDirs):
 
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
-    Predict("Script to create wire jsons from predicted bolinas labels.").run()
+    Predict().run()
 

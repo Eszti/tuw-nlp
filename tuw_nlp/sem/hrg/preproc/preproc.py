@@ -61,8 +61,8 @@ def add_node_labels(bolinas_graph):
 
 class Preproc(LoopOnConll):
 
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to preprocess conll oie data.", config=config)
         self.vocab_file = f"{self._get_subdir('vocab')}/{self.config_name}.txt"
 
     def _before_loop(self):
@@ -104,5 +104,5 @@ class Preproc(LoopOnConll):
 
 
 if __name__ == "__main__":
-    Preproc("Script to preprocess conll oie data.").run()
+    Preproc().run()
 

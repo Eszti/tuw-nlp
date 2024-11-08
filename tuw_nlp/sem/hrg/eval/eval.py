@@ -7,8 +7,8 @@ from tuw_nlp.sem.hrg.eval.wire_scorer import split_tuples_by_extractor, eval_sys
 
 class Eval(LoopOnModels):
 
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to evaluate systems.", config=config)
         self.test = self.config.get("test", False)
         self.pr_curve = self.config.get("pr_curve", False)
         self.debug = self.config.get("debug", False)
@@ -132,4 +132,4 @@ class Eval(LoopOnModels):
 
 
 if __name__ == "__main__":
-    Eval("Script to evaluate systems.").run()
+    Eval().run()

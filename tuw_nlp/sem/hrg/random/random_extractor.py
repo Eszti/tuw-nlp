@@ -13,8 +13,8 @@ random.seed(10)
 
 class RandomExtractor(LoopOnSenDirs):
 
-    def __init__(self, description):
-        super().__init__(description, log=True)
+    def __init__(self, config=None):
+        super().__init__(description="Script to generate random extractions.", config=config)
         self.artefact_dir = self._get_subdir("artefacts")
         self.artefact_prefix = self.config["artefact_prefix"]
         self.k_max = self.config.get("k_max", 10)
@@ -113,4 +113,4 @@ class RandomExtractor(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    RandomExtractor("Script to generate random extractions.").run()
+    RandomExtractor().run()

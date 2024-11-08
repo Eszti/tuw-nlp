@@ -24,8 +24,8 @@ def get_argument_graphs(triplet_graph, arguments, log):
 
 
 class Train(LoopOnSenDirs):
-    def __init__(self, description):
-        super().__init__(description, log=True)
+    def __init__(self, config=None):
+        super().__init__(description="Script to create hrg rules on preprocessed train data.", config=config)
         self.method = self.config["method"]
         self.out_dir += f"_{self.method}"
         vocab_file = f"{os.path.dirname(os.path.dirname(os.path.realpath(__file__)))}/preproc/vocab/" \
@@ -86,4 +86,4 @@ class Train(LoopOnSenDirs):
 
 if __name__ == "__main__":
     logging.getLogger('penman').setLevel(logging.ERROR)
-    Train("Script to create hrg rules on preprocessed train data.").run()
+    Train().run()

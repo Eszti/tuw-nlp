@@ -69,8 +69,8 @@ def get_gold_labels(preproc_dir):
 
 class KBest(LoopOnSenDirs):
 
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to search k best derivations in parsed charts.", config=config)
         self.logprob = True
         self.score_disorder_collector = {}
 
@@ -195,4 +195,4 @@ class KBest(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    KBest("Script to search k best derivations in parsed charts.").run()
+    KBest().run()

@@ -10,8 +10,8 @@ def get_labels_str(sen):
 
 class ArtefactsExtractor(LoopOnConll):
 
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to extract artefacts of the given dataset.", config=config)
         self.artefact_dir = f"{self._get_subdir('artefacts')}"
         self.sequences = defaultdict(list)
         self.nr_ex_stat = Counter()
@@ -35,5 +35,5 @@ class ArtefactsExtractor(LoopOnConll):
 
 
 if __name__ == "__main__":
-    ArtefactsExtractor("Script to extract artefacts of the given dataset.").run()
+    ArtefactsExtractor().run()
 

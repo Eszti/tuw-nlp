@@ -5,8 +5,8 @@ from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 
 class Hrg(LoopOnSenDirs):
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to merge hrg rules into one grammar file of a given size.", config=config)
         self.size = self.config.get("size", None)
         self.grammar = defaultdict(Counter)
         self.grammar_fn_name = f"{self.config_json.split('/')[-1].split('.json')[0]}"
@@ -80,4 +80,4 @@ class Hrg(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    Hrg("Script to merge hrg rules into one grammar file of a given size.").run()
+    Hrg().run()

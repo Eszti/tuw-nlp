@@ -12,8 +12,8 @@ from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 
 class Parse(LoopOnSenDirs):
 
-    def __init__(self, description):
-        super().__init__(description)
+    def __init__(self, config=None):
+        super().__init__(description="Script to parse graph inputs and save parsed chars.", config=config)
         self.grammar = None
         self.parser = None
 
@@ -69,4 +69,4 @@ class Parse(LoopOnSenDirs):
 
 
 if __name__ == "__main__":
-    Parse("Script to parse graph inputs and save parsed chars.").run()
+    Parse().run()

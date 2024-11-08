@@ -5,8 +5,8 @@ from tuw_nlp.sem.hrg.common.script.script import Script
 
 
 class LoopOnSenDirs(Script):
-    def __init__(self, description, log=True):
-        super().__init__(description, log)
+    def __init__(self, description, log=True, config=None):
+        super().__init__(description, log, config)
         self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
 
     def __get_range(self):
