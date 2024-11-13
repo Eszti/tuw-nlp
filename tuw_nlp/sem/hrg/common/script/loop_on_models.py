@@ -12,9 +12,8 @@ class LoopOnModels(Script):
             self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
         self.models = self.config["models"]
         self.report = ""
-        self.report_dir = self._get_subdir("reports")
         if "gold_fn" in self.config:
-            gold_path = f"{os.path.dirname(self.parent_dir)}/data/{self.config['gold_fn']}"
+            gold_path = f"{os.path.dirname(self.pipeline_dir)}/data/{self.config['gold_fn']}"
             self.gold = json.load(open(gold_path))
         self.last = self.config.get("last", None)
 

@@ -14,14 +14,17 @@ class Script(ABC):
         else:
             self.config_json = config
         self.data_dir = args.data_dir
-        self.parent_dir = os.path.dirname(os.path.dirname(os.path.realpath(self.config_json)))
+        self.pipeline_dir = os.path.dirname(os.path.dirname(os.path.realpath(self.config_json)))
+        self.script_output_root = f"{self.pipeline_dir}/output"
         self.config_name = self.config_json.split('/')[-1].split('.json')[0]
         self.config = json.load(open(self.config_json))
         self.log = log
         if log:
+            self.log_file = f"{self._get_subdir('log', parent_dir=self.pipeline_dir)}/{self.config_name}.log"
+            if os.path.exists(self.log_file):
+                os.remove(self.log_file)
             self.start_time = time.time()
-            self.log_lines = [f"Execution start: {datetime.now()}\n", f"{json.dumps(self.config, indent=4)}\n"]
-            self.log_file = f"{self._get_subdir('log')}/{self.config_name}.log"
+            self._log(f"Execution start: {datetime.now()}\n{json.dumps(self.config, indent=4)}\n")
         self.first_sen_to_proc = None
         self.last_sen_to_proc = None
         self.out_dir = f"{self.data_dir}/{self.config['out_dir']}" if "out_dir" in self.config else None
@@ -48,18 +51,19 @@ class Script(ABC):
             self._log(f"\nExecution finish: {datetime.now()}")
             elapsed_time = time.time() - self.start_time
             self._log(f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n")
-            with open(self.log_file, "w") as f:
-                f.writelines(self.log_lines)
 
     def _log(self, line, log_lines=None):
+        new_line = f"{line}\n"
         if not log_lines:
-            log_lines = self.log_lines
-        log_lines.append(f"{line}\n")
+            with open(self.log_file, "a") as f:
+                f.write(new_line)
+        else:
+            log_lines.append(new_line)
         print(line)
 
     def _get_subdir(self, name, parent_dir=None, create=True):
         if parent_dir is None:
-            parent_dir = self.parent_dir
+            parent_dir = self.script_output_root
         subdir = f"{parent_dir}/{name}"
         if not os.path.exists(subdir):
             if create:

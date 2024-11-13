@@ -1,8 +1,0 @@
-{
-    "in_file": "lsoie_data/lsoie_wiki_train.conll",
-    "models": 
-    [
-        "boa",
-        "argidx"
-    ]
-}
