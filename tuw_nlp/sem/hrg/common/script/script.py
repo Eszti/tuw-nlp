@@ -28,6 +28,8 @@ class Script(ABC):
         self.first_sen_to_proc = None
         self.last_sen_to_proc = None
         self.out_dir = f"{self.data_dir}/{self.config['out_dir']}" if "out_dir" in self.config else None
+        self.first = self.config.get("first", None)
+        self.last = self.config.get("last", None)
 
     def run(self):
         self._before_loop()

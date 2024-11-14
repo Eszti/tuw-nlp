@@ -1,5 +1,5 @@
 {
-    "preproc_dir": "train_preproc",
+    "in_dir": "train_preproc",
     "method": "per_word",
     "out_dir": "hrg",
     "vocab_file": "preproc_train.txt"

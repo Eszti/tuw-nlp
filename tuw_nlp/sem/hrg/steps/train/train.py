@@ -62,7 +62,7 @@ class Train(LoopOnSenDirs):
             if self.method == "per_word":
                 initial_rule, rules = get_rules_per_word(triplet_graph, triplet, log)
             # Todo: per_arg
-            if not initial_rule:
+            if initial_rule is None:
                 assert len(rules) == 0
                 self.no_rule.append(exact_sen_idx)
             else:

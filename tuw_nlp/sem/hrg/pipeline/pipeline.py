@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from tuw_nlp.sem.hrg.common.script.script import Script
 from tuw_nlp.sem.hrg.steps.bolinas.kbest.kbest import KBest
 from tuw_nlp.sem.hrg.steps.bolinas.parse.parse import Parse
@@ -35,10 +37,15 @@ class Pipeline(Script):
         for step in self.steps:
             step_name = step['step_name']
             script_name = step['script_name']
-            self._log(f"Processing step {step_name}")
+            self._log(f"Processing step {step_name}: {datetime.now()}")
             step_class = self.name_to_class[script_name]
             config = f"{self.pipeline_dir}/config/{step['config']}"
-            step_class(config=config).run()
+            step = step_class(config=config)
+            if self.first is not None:
+                step.first = self.first
+            if self.last is not None:
+                step.last = self.last
+            step.run()
 
 
 if __name__ == "__main__":

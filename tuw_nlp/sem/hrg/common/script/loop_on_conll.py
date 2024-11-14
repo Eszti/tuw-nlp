@@ -11,17 +11,15 @@ class LoopOnConll(Script):
         self.conll_file = f"{self.data_dir}/{self.config['in_file']}"
 
     def _run_loop(self):
-        first = self.config.get("first", None)
-        last = self.config.get("last", None)
         last_sen_txt = ""
         sen_dir = ""
 
         for sen_idx, sen in enumerate(gen_tsv_sens(open(self.conll_file))):
             if self.first_sen_to_proc is None:
                 self.first_sen_to_proc = sen_idx
-            if first is not None and sen_idx < first:
+            if self.first is not None and sen_idx < self.first:
                 continue
-            if last is not None and last < sen_idx:
+            if self.last is not None and self.last < sen_idx:
                 break
 
             print(f"Processing sen {sen_idx}")

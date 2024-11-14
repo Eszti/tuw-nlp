@@ -1,0 +1,21 @@
+{
+    "name": "train_pipeline",
+    "steps":
+    [
+        {
+            "step_name": "preproc",
+            "script_name": "preproc",
+            "config": "preproc_train.json"
+        },
+        {
+            "step_name": "train",
+            "script_name": "train",
+            "config": "train_per_word.json"
+        },
+        {
+            "step_name": "hrg",
+            "script_name": "hrg",
+            "config": "hrg.json"
+        }
+    ]
+}

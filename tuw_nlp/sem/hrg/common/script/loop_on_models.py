@@ -15,7 +15,6 @@ class LoopOnModels(Script):
         if "gold_fn" in self.config:
             gold_path = f"{os.path.dirname(self.pipeline_dir)}/data/{self.config['gold_fn']}"
             self.gold = json.load(open(gold_path))
-        self.last = self.config.get("last", None)
 
     def _run_loop(self):
         for model in self.models:

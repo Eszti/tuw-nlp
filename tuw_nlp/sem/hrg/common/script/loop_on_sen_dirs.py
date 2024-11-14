@@ -10,8 +10,8 @@ class LoopOnSenDirs(Script):
         self.in_dir = f"{self.data_dir}/{self.config['in_dir']}"
 
     def __get_range(self):
-        first = self.config.get("first", None)
-        last = self.config.get("last", None)
+        first = self.first
+        last = self.last
         sen_dirs = sorted([int(fn.split(".")[0]) for fn in os.listdir(f"{self.in_dir}")])
         if first is None or first < sen_dirs[0]:
             first = sen_dirs[0]

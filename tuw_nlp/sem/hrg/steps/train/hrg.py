@@ -28,14 +28,14 @@ class Hrg(LoopOnSenDirs):
         grammar_dir = self._get_subdir("grammar")
         for name, grammar in self.grammar.items():
             if name == "all":
-                name = ""
+                file_name = self.grammar_fn_prefix
             else:
-                name = f"_{name}"
-            with open(f"{grammar_dir}/{self.grammar_fn_prefix}{name}.hrg", "w") as f:
+                file_name = f"{self.grammar_fn_prefix}_{name}"
+            with open(f"{grammar_dir}/{file_name}.hrg", "w") as f:
                 self.__write_rules(f, grammar, "weight")
-            with open(f"{grammar_dir}/{self.grammar_fn_prefix}{name}.stat", "w") as f:
+            with open(f"{grammar_dir}/{file_name}.stat", "w") as f:
                 self.__write_rules(f, grammar, "cnt")
-            self._log(f"\nUnique rules for {name}: {self.__get_total_number_of_rules(grammar)}")
+            self._log(f"\nUnique rules for {file_name}: {self.__get_total_number_of_rules(grammar)}")
             for nt, prods in grammar.items():
                 self._log(f"{nt}: {len(prods)}\t({round(len(prods) / self.__get_total_number_of_rules(grammar), 3)})")
         super()._after_loop()

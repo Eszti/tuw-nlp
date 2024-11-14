@@ -8,7 +8,11 @@ Our system on the 23rd of Oct. 2024:
 
 ### Train a grammar
 
- We [train](train/train.py) a hyperedge replacement [grammar](train/grammar) (HRG) using the [lsoie dataset](https://github.com/Jacobsolawetz/large-scale-oie/tree/master/dataset_creation/lsoie_data) on the triplet induced sub-graphs of the UD graph of a sentence. We create one rule per word and use the nonterminals `S`, `A`, `P` and `X` (no label). 
+ We [train](steps/train/train.py) a hyperedge replacement [grammar](pipeline/output/grammar) (HRG) using the [lsoie dataset](https://github.com/Jacobsolawetz/large-scale-oie/tree/master/dataset_creation/lsoie_data) on the triplet induced sub-graphs of the UD graph of a sentence. We create one rule per word and use the nonterminals `S`, `A`, `P` and `X` (no label). 
+
+We [create](steps/train/hrg.py) different cuts of this grammar using the top 100, 200 and 300 rules by keeping the original distribution of nonterminals and norming the weighs per nonterminal.
+
+#### Run the whole train pipeline
 
 ```bash
 # Get the data
@@ -16,33 +20,19 @@ export DATA_DIR=$HOME/data
 mkdir $DATA_DIR
 cd $DATA_DIR
 # Download and unzip the lsoie data into a folder called lsoie_data
-```
 
-```bash
-# Preprocess data
-python preproc/preproc.py -d $DATA_DIR -c preproc/config/preproc_train.json
-```
-
-```bash
-# Train grammar
-python train/train.py -d $DATA_DIR -c train/config/train_per_word.json
-```
-
-We create different cuts of this grammar (gr100, gr200 and gr300) using the top 100, 200 and 300 rules by keeping the original distribution of nonterminals and norming the weighs per nonterminal.
-
-```bash
-python train/merge_hrg.py -d $DATA_DIR -c train/config/gr100.json
+python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_train.json
 ```
 
 ### Predict with the grammar on dev
 
-We have to preprocess the dev data as well.
+First, we [preprocess](steps/preproc/preproc.py) the dev data as well.
 
 ```bash
 python preproc/preproc.py -d $DATA_DIR -c preproc/config/preproc_dev.json
 ```
 
-Using the grammar, first we [parse](bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 10.000 steps for gr100 and gr200 and above 50.000 steps for gr300. The parsing takes from 1 hour to one day (gr300), see more [here](bolinas/parse/log).
+Using the grammar, first we [parse](steps/bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 10.000 steps for gr100 and gr200 and above 50.000 steps for gr300. The parsing takes from 1 hour to one day (gr300), see more [here](pipeline/log).
 
 ```bash
  python bolinas/parse/parse.py -d $DATA_DIR -c bolinas/parse/config/parse_gr100.json
