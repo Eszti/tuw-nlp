@@ -1,0 +1,16 @@
+Execution start: 2024-11-14 15:26:56.870978
+{
+    "steps": [
+        {
+            "step_name": "preproc",
+            "script_name": "preproc",
+            "config": "preproc_dev.json"
+        }
+    ]
+}
+
+Processing step preproc: 2024-11-14 15:26:56.871153
+
+Execution finish: 2024-11-14 16:17:38.632683
+Elapsed time: 51 min 42 sec
+

@@ -1,0 +1,13 @@
+Execution start: 2024-11-14 15:26:56.871762
+{
+    "in_file": "lsoie_data/lsoie_wiki_dev.conll",
+    "out_dir": "dev_preproc"
+}
+
+
+First sentence to process: 0
+Last sentence to process: 5268
+
+Execution finish: 2024-11-14 16:17:38.632003
+Elapsed time: 51 min 42 sec
+
