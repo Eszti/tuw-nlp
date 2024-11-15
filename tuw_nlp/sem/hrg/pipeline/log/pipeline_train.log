@@ -1,0 +1,24 @@
+Execution start: 2024-11-14 15:28:44.884347
+{
+    "steps": [
+        {
+            "step_name": "preproc",
+            "script_name": "preproc",
+            "config": "preproc_train.json"
+        },
+        {
+            "step_name": "train",
+            "script_name": "train",
+            "config": "train_per_word.json"
+        },
+        {
+            "step_name": "hrg",
+            "script_name": "hrg",
+            "config": "hrg.json"
+        }
+    ]
+}
+
+Processing step preproc: 2024-11-14 15:28:44.884523
+Processing step train: 2024-11-14 18:14:33.951502
+Processing step hrg: 2024-11-14 18:15:40.546903

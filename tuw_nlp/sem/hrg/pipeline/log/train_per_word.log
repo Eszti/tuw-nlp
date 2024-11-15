@@ -1,0 +1,21 @@
+Execution start: 2024-11-14 18:14:33.952576
+{
+    "in_dir": "train_preproc",
+    "method": "per_word",
+    "out_dir": "hrg",
+    "vocab_file": "preproc_train.txt"
+}
+
+
+Number of unconnected arguments: 0
+[]
+
+Number of no rules: 0
+[]
+
+First sentence to process: 0
+Last sentence to process: 46015
+
+Execution finish: 2024-11-14 18:15:40.544216
+Elapsed time: 1 min 7 sec
+

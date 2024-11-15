@@ -1,0 +1,42 @@
+Execution start: 2024-11-15 01:37:38.184346
+{
+    "in_dir": "hrg_per_word",
+    "sizes": [
+        100,
+        200,
+        300
+    ],
+    "size": 100
+}
+
+
+Unique rules for hrg: 2669
+S: 222	(0.083)
+A: 1561	(0.585)
+P: 245	(0.092)
+X: 641	(0.24)
+
+Unique rules for hrg_100: 99
+S: 8	(0.081)
+A: 58	(0.586)
+P: 9	(0.091)
+X: 24	(0.242)
+
+Unique rules for hrg_200: 200
+S: 17	(0.085)
+A: 117	(0.585)
+P: 18	(0.09)
+X: 48	(0.24)
+
+Unique rules for hrg_300: 300
+S: 25	(0.083)
+A: 175	(0.583)
+P: 28	(0.093)
+X: 72	(0.24)
+
+First sentence to process: 0
+Last sentence to process: 46015
+
+Execution finish: 2024-11-15 01:37:40.103425
+Elapsed time: 0 min 2 sec
+

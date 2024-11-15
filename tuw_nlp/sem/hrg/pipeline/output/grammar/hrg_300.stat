@@ -1,0 +1,300 @@
+S -> (. :A$ :A$ :VERB .);	10424
+S -> (. :A$ :A$ :A$ :VERB .);	5109
+S -> (. :A$ :P$ :VERB .);	4664
+S -> (. :A$ :VERB .);	4469
+S -> (. :A$ :X$ :VERB .);	3667
+S -> (. :A$ :P$ :NOUN .);	2306
+S -> (. :A$ :A$ :A$ :A$ :VERB .);	1518
+S -> (. :A$ :A$ :P$ :VERB .);	1453
+S -> (. :A$ :A$ :P$ :NOUN .);	1203
+S -> (. :P$ :NOUN .);	1003
+S -> (. :A$ :A$ :X$ :VERB .);	966
+S -> (. :X$ :X$ :VERB .);	724
+S -> (. :P$ :X$ :VERB .);	708
+S -> (. :A$ :A$ :NOUN .);	574
+S -> (. :A$ :A$ :A$ :P$ :VERB .);	511
+S -> (. :A$ :X$ :NOUN .);	507
+S -> (. :A$ :A$ :A$ :A$ :A$ :VERB .);	416
+S -> (. :A$ :A$ :A$ :P$ :NOUN .);	399
+S -> (. :A$ :P$ :ADJ .);	337
+S -> (. :X$ :VERB .);	318
+S -> (. :A$ :A$ :A$ :NOUN .);	297
+S -> (. :A$ :NOUN .);	288
+S -> (. :A$ :A$ :A$ :X$ :VERB .);	270
+S -> (. :A$ :P$ :X$ :VERB .);	240
+S -> (. :A$ :P$ :PROPN .);	208
+A -> (. :det (. :DET .));	32498
+A -> (. :case (. :ADP .));	29650
+A -> (. :amod (. :ADJ .));	24119
+A -> (. :compound (. :NOUN .));	10638
+A -> (. :cc (. :CCONJ .));	10286
+A -> (. :obj (. :A$ :NOUN .));	8792
+A -> (. :punct (. :PUNCT .));	8420
+A -> (. :obl (. :A$ :A$ :NOUN .));	7909
+A -> (. :obj (. :A$ :A$ :NOUN .));	7509
+A -> (. :advmod (. :ADV .));	7357
+A -> (. :compound (. :PROPN .));	6824
+A -> (. :nmod (. :A$ :A$ :NOUN .));	6743
+A -> (. :obl (. :A$ :A$ :A$ :NOUN .));	6611
+A -> (. :nsubj (. :A$ :NOUN .));	6338
+A -> (. :flat (. :PROPN .));	6192
+A -> (. :nmod_poss (. :PRON .));	5247
+A -> (. :mark (. :PART .));	5205
+A -> (. :nummod (. :NUM .));	5114
+A -> (. :nsubj (. :PROPN .));	4929
+A -> (. :mark (. :SCONJ .));	4544
+A -> (. :nmod (. :A$ :A$ :A$ :NOUN .));	4393
+A -> (. :nsubj (. :A$ :A$ :NOUN .));	4144
+A -> (. :nsubj (. :PRON .));	3769
+A -> (. :case (. :PART .));	3601
+A -> (. :nmod (. :A$ :NOUN .));	3563
+A -> (. :obl (. :A$ :NOUN .));	3404
+A -> (. :obj (. :NOUN .));	3310
+A -> (. :nmod (. :A$ :PROPN .));	3294
+A -> (. :conj (. :A$ :NOUN .));	3100
+A -> (. :aux (. :AUX .));	2995
+A -> (. :obj (. :A$ :A$ :A$ :NOUN .));	2715
+A -> (. :obl (. :A$ :A$ :A$ :A$ :NOUN .));	2652
+A -> (. :nsubj_pass (. :A$ :NOUN .));	2638
+A -> (. :nsubj (. :A$ :PROPN .));	2570
+A -> (. :obl (. :A$ :PROPN .));	2453
+A -> (. :amod (. :VERB .));	2447
+A -> (. :aux_pass (. :AUX .));	2130
+A -> (. :cop (. :AUX .));	2126
+A -> (. :nmod (. :A$ :A$ :PROPN .));	2040
+A -> (. :nsubj (. :NOUN .));	1944
+A -> (. :obl (. :A$ :A$ :PROPN .));	1853
+A -> (. :conj (. :A$ :A$ :NOUN .));	1841
+A -> (. :xcomp (. :A$ :A$ :VERB .));	1838
+A -> (. :nsubj_pass (. :A$ :A$ :NOUN .));	1790
+A -> (. :nmod_poss (. :A$ :PROPN .));	1734
+A -> (. :advcl (. :A$ :A$ :VERB .));	1731
+A -> (. :acl (. :A$ :VERB .));	1710
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :NOUN .));	1702
+A -> (. :amod (. :A$ :ADJ .));	1686
+A -> (. :obl (. :A$ :NUM .));	1607
+A -> (. :nmod (. :A$ :A$ :A$ :PROPN .));	1504
+A -> (. :advcl (. :A$ :A$ :A$ :VERB .));	1453
+A -> (. :nsubj (. :A$ :A$ :A$ :NOUN .));	1446
+A -> (. :compound (. :A$ :NOUN .));	1319
+A -> (. :compound (. :A$ :PROPN .));	1316
+A -> (. :conj (. :A$ :PROPN .));	1307
+A -> (. :fixed (. :ADP .));	1293
+A -> (. :conj (. :A$ :A$ :A$ :NOUN .));	1276
+A -> (. :obl (. :A$ :A$ :A$ :PROPN .));	1249
+A -> (. :nsubj (. :A$ :A$ :PROPN .));	1206
+A -> (. :nummod (. :A$ :NUM .));	1181
+A -> (. :acl (. :A$ :A$ :VERB .));	1144
+A -> (. :xcomp (. :A$ :A$ :A$ :VERB .));	1109
+A -> (. :obj (. :PRON .));	1069
+A -> (. :appos (. :A$ :PROPN .));	1050
+A -> (. :obj (. :PROPN .));	1049
+A -> (. :conj (. :A$ :ADJ .));	966
+A -> (. :nmod_poss (. :A$ :A$ :NOUN .));	960
+A -> (. :conj (. :A$ :A$ :PROPN .));	920
+A -> (. :xcomp (. :A$ :VERB .));	833
+A -> (. :compound_prt (. :ADP .));	789
+A -> (. :obj (. :A$ :PROPN .));	766
+A -> (. :advmod (. :A$ :ADV .));	753
+A -> (. :obl (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	729
+A -> (. :acl_relcl (. :A$ :A$ :VERB .));	726
+A -> (. :acl_relcl (. :A$ :A$ :A$ :VERB .));	717
+A -> (. :appos (. :PROPN .));	701
+A -> (. :conj (. :A$ :A$ :A$ :A$ :NOUN .));	700
+A -> (. :nsubj_pass (. :PROPN .));	698
+A -> (. :ccomp (. :A$ :A$ :A$ :A$ :VERB .));	697
+A -> (. :ccomp (. :A$ :A$ :A$ :VERB .));	692
+A -> (. :advmod (. :PART .));	686
+A -> (. :obl_tmod (. :A$ :NOUN .));	684
+A -> (. :nsubj_pass (. :NOUN .));	669
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :PROPN .));	666
+A -> (. :advcl (. :A$ :A$ :A$ :A$ :VERB .));	663
+A -> (. :obj (. :A$ :A$ :A$ :A$ :NOUN .));	650
+A -> (. :nsubj_pass (. :A$ :A$ :A$ :NOUN .));	641
+A -> (. :appos (. :A$ :A$ :PROPN .));	637
+A -> (. :nmod (. :A$ :NUM .));	630
+A -> (. :nsubj_pass (. :PRON .));	622
+A -> (. :nsubj (. :A$ :A$ :A$ :PROPN .));	615
+A -> (. :advcl (. :A$ :VERB .));	608
+A -> (. :conj (. :A$ :A$ :VERB .));	579
+A -> (. :obl (. :NOUN .));	535
+A -> (. :obj (. :A$ :A$ :PROPN .));	529
+A -> (. :conj (. :A$ :A$ :A$ :VERB .));	524
+A -> (. :obl (. :A$ :A$ :A$ :A$ :PROPN .));	523
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	517
+A -> (. :case (. :VERB .));	513
+A -> (. :nmod_poss (. :A$ :A$ :PROPN .));	510
+A -> (. :obl (. :PROPN .));	508
+A -> (. :acl (. :A$ :A$ :A$ :VERB .));	488
+A -> (. :obl (. :A$ :PRON .));	481
+A -> (. :flat (. :A$ :PROPN .));	479
+A -> (. :ccomp (. :A$ :A$ :A$ :A$ :A$ :VERB .));	474
+A -> (. :case (. :A$ :ADJ .));	457
+A -> (. :conj (. :A$ :A$ :A$ :PROPN .));	454
+A -> (. :compound (. :NUM .));	430
+A -> (. :acl_relcl (. :A$ :A$ :A$ :A$ :VERB .));	423
+A -> (. :nsubj (. :A$ :A$ :A$ :A$ :NOUN .));	414
+A -> (. :nsubj_pass (. :A$ :PROPN .));	401
+A -> (. :obl_tmod (. :NOUN .));	401
+A -> (. :xcomp (. :ADJ .));	370
+A -> (. :case (. :A$ :ADP .));	367
+A -> (. :xcomp (. :A$ :ADJ .));	356
+A -> (. :ccomp (. :A$ :A$ :VERB .));	356
+A -> (. :obl (. :A$ :A$ :NUM .));	320
+A -> (. :appos (. :A$ :A$ :A$ :NOUN .));	310
+A -> (. :conj (. :A$ :VERB .));	309
+A -> (. :conj (. :A$ :A$ :A$ :A$ :VERB .));	307
+A -> (. :amod (. :A$ :VERB .));	301
+A -> (. :xcomp (. :A$ :A$ :A$ :A$ :VERB .));	294
+A -> (. :appos (. :A$ :A$ :NOUN .));	282
+A -> (. :nmod (. :A$ :A$ :P$ :NOUN .));	279
+A -> (. :cc_preconj (. :CCONJ .));	268
+A -> (. :appos (. :A$ :A$ :A$ :PROPN .));	265
+A -> (. :nmod (. :A$ :PRON .));	261
+A -> (. :nmod (. :PROPN .));	258
+A -> (. :conj (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	258
+A -> (. :conj (. :A$ :A$ :A$ :A$ :PROPN .));	249
+A -> (. :nsubj_pass (. :A$ :A$ :PROPN .));	237
+A -> (. :nmod (. :NOUN .));	236
+A -> (. :advcl (. :A$ :A$ :A$ :A$ :A$ :VERB .));	236
+A -> (. :conj (. :A$ :NUM .));	235
+A -> (. :expl (. :PRON .));	229
+A -> (. :nmod (. :A$ :P$ :NOUN .));	226
+A -> (. :obj (. :A$ :A$ :A$ :PROPN .));	225
+A -> (. :nsubj (. :A$ :A$ :A$ :A$ :PROPN .));	224
+A -> (. :nmod (. :A$ :A$ :A$ :A$ :A$ :PROPN .));	223
+A -> (. :amod (. :A$ :A$ :ADJ .));	221
+A -> (. :nmod_poss (. :PROPN .));	218
+A -> (. :obl_npmod (. :A$ :NOUN .));	217
+A -> (. :compound (. :A$ :A$ :PROPN .));	212
+A -> (. :nmod_poss (. :A$ :NOUN .));	200
+A -> (. :det_predet (. :DET .));	200
+A -> (. :ccomp (. :A$ :A$ :A$ :A$ :A$ :A$ :VERB .));	193
+A -> (. :obj (. :A$ :A$ :A$ :A$ :A$ :NOUN .));	187
+A -> (. :nmod (. :A$ :ADJ .));	183
+A -> (. :obl (. :A$ :A$ :ADJ .));	180
+A -> (. :conj (. :A$ :A$ :A$ :A$ :A$ :VERB .));	177
+A -> (. :nmod_tmod (. :NUM .));	177
+A -> (. :appos (. :A$ :A$ :A$ :A$ :NOUN .));	173
+A -> (. :obl (. :A$ :A$ :A$ :A$ :A$ :A$ :NOUN .));	168
+A -> (. :obl (. :A$ :A$ :A$ :A$ :A$ :PROPN .));	167
+A -> (. :conj (. :NOUN .));	163
+A -> (. :obj (. :A$ :ADJ .));	162
+A -> (. :nummod (. :A$ :A$ :NUM .));	159
+A -> (. :compound (. :A$ :A$ :NOUN .));	159
+A -> (. :nmod_tmod (. :NOUN .));	157
+A -> (. :advmod (. :A$ :ADJ .));	156
+A -> (. :obl_tmod (. :A$ :A$ :NOUN .));	154
+A -> (. :obj (. :A$ :PRON .));	154
+A -> (. :appos (. :A$ :NOUN .));	153
+A -> (. :flat (. :A$ :A$ :PROPN .));	152
+A -> (. :xcomp (. :A$ :A$ :ADJ .));	149
+A -> (. :xcomp (. :A$ :A$ :A$ :NOUN .));	147
+A -> (. :obl (. :ADP .));	147
+A -> (. :nmod_poss (. :A$ :A$ :A$ :NOUN .));	142
+A -> (. :conj (. :A$ :A$ :ADJ .));	142
+A -> (. :fixed (. :ADV .));	142
+A -> (. :acl_relcl (. :A$ :A$ :A$ :A$ :A$ :VERB .));	140
+A -> (. :conj (. :PROPN .));	140
+A -> (. :obj (. :A$ :P$ :NOUN .));	139
+A -> (. :obj (. :A$ :A$ :A$ :A$ :PROPN .));	139
+P -> (. :acl (. :A$ :VERB .));	2849
+P -> (. :advcl (. :A$ :VERB .));	2488
+P -> (. :acl_relcl (. :A$ :VERB .));	1774
+P -> (. :conj (. :A$ :VERB .));	1694
+P -> (. :amod (. :VERB .));	1583
+P -> (. :xcomp (. :A$ :VERB .));	1548
+P -> (. :case (. :VERB .));	998
+P -> (. :aux (. :AUX .));	948
+P -> (. :advcl (. :A$ :A$ :VERB .));	877
+P -> (. :acl (. :VERB .));	696
+P -> (. :xcomp (. :A$ :A$ :VERB .));	677
+P -> (. :acl_relcl (. :A$ :A$ :VERB .));	674
+P -> (. :conj (. :A$ :A$ :VERB .));	628
+P -> (. :acl (. :A$ :A$ :VERB .));	612
+P -> (. :conj (. :VERB .));	576
+P -> (. :advcl (. :VERB .));	572
+P -> (. :xcomp (. :VERB .));	494
+P -> (. :acl_relcl (. :VERB .));	423
+P -> (. :ccomp (. :A$ :VERB .));	369
+P -> (. :ccomp (. :A$ :A$ :VERB .));	231
+P -> (. :compound (. :NOUN .));	210
+P -> (. :parataxis (. :A$ :VERB .));	150
+P -> (. :conj (. :A$ :A$ :A$ :VERB .));	131
+P -> (. :xcomp (. :A$ :A$ :A$ :VERB .));	124
+P -> (. :advcl (. :A$ :A$ :A$ :VERB .));	123
+P -> (. :acl_relcl (. :A$ :A$ :A$ :VERB .));	115
+P -> (. :amod (. :A$ :VERB .));	103
+P -> (. :amod (. :ADJ .));	102
+X -> (. :advcl (. :X$ :VERB .));	618
+X -> (. :obj (. :X$ :NOUN .));	607
+X -> (. :obl (. :X$ :NOUN .));	606
+X -> (. :conj (. :X$ :VERB .));	581
+X -> (. :advcl (. :A$ :VERB .));	566
+X -> (. :advcl (. :P$ :VERB .));	529
+X -> (. :obj (. :A$ :NOUN .));	528
+X -> (. :obl (. :A$ :NOUN .));	518
+X -> (. :nsubj (. :A$ :NOUN .));	512
+X -> (. :conj (. :P$ :VERB .));	511
+X -> (. :conj (. :A$ :VERB .));	468
+X -> (. :obl (. :P$ :NOUN .));	422
+X -> (. :acl_relcl (. :P$ :VERB .));	422
+X -> (. :acl (. :A$ :VERB .));	407
+X -> (. :xcomp (. :P$ :VERB .));	400
+X -> (. :obj (. :P$ :NOUN .));	380
+X -> (. :acl_relcl (. :X$ :VERB .));	357
+X -> (. :xcomp (. :X$ :VERB .));	346
+X -> (. :nmod (. :X$ :NOUN .));	335
+X -> (. :acl (. :P$ :VERB .));	334
+X -> (. :acl_relcl (. :A$ :VERB .));	316
+X -> (. :nmod (. :A$ :NOUN .));	315
+X -> (. :acl (. :X$ :VERB .));	301
+X -> (. :nmod (. :P$ :NOUN .));	269
+X -> (. :nsubj (. :X$ :NOUN .));	268
+X -> (. :ccomp (. :X$ :VERB .));	241
+X -> (. :ccomp (. :P$ :VERB .));	220
+X -> (. :xcomp (. :A$ :VERB .));	198
+X -> (. :ccomp (. :A$ :VERB .));	168
+X -> (. :nsubj (. :A$ :PROPN .));	139
+X -> (. :conj (. :X$ :NOUN .));	138
+X -> (. :parataxis (. :X$ :VERB .));	131
+X -> (. :conj (. :A$ :NOUN .));	122
+X -> (. :nsubj (. :P$ :NOUN .));	118
+X -> (. :nmod (. :A$ :PROPN .));	114
+X -> (. :conj (. :P$ :NOUN .));	113
+X -> (. :conj (. :A$ :A$ :VERB .));	112
+X -> (. :nsubj_pass (. :A$ :NOUN .));	110
+X -> (. :appos (. :X$ :NOUN .));	110
+X -> (. :obl (. :A$ :PROPN .));	100
+X -> (. :parataxis (. :P$ :VERB .));	96
+X -> (. :advcl (. :A$ :P$ :VERB .));	87
+X -> (. :appos (. :P$ :NOUN .));	84
+X -> (. :nmod (. :X$ :PROPN .));	83
+X -> (. :advcl (. :A$ :A$ :VERB .));	83
+X -> (. :parataxis (. :A$ :VERB .));	79
+X -> (. :appos (. :A$ :NOUN .));	75
+X -> (. :obl (. :X$ :PROPN .));	73
+X -> (. :acl_relcl (. :A$ :P$ :VERB .));	66
+X -> (. :nsubj_pass (. :X$ :NOUN .));	64
+X -> (. :obl (. :A$ :A$ :NOUN .));	63
+X -> (. :conj (. :P$ :ADJ .));	63
+X -> (. :obj (. :A$ :A$ :NOUN .));	62
+X -> (. :nmod (. :P$ :PROPN .));	62
+X -> (. :conj (. :A$ :PROPN .));	61
+X -> (. :nsubj (. :X$ :PROPN .));	60
+X -> (. :amod (. :P$ :ADJ .));	58
+X -> (. :conj (. :A$ :P$ :VERB .));	56
+X -> (. :appos (. :A$ :PROPN .));	53
+X -> (. :acl_relcl (. :A$ :A$ :VERB .));	50
+X -> (. :obl (. :A$ :A$ :A$ :NOUN .));	48
+X -> (. :xcomp (. :P$ :NOUN .));	45
+X -> (. :xcomp (. :A$ :ADJ .));	43
+X -> (. :xcomp (. :P$ :ADJ .));	43
+X -> (. :obj (. :A$ :PROPN .));	42
+X -> (. :acl (. :A$ :A$ :VERB .));	42
+X -> (. :xcomp (. :X$ :ADJ .));	41
+X -> (. :xcomp (. :A$ :P$ :VERB .));	39
+X -> (. :ccomp (. :A$ :P$ :VERB .));	39
+X -> (. :nmod (. :A$ :A$ :A$ :NOUN .));	39
+X -> (. :flat (. :A$ :PROPN .));	39
+X -> (. :nmod (. :A$ :A$ :NOUN .));	38
