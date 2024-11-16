@@ -2,8 +2,10 @@ import json
 import logging
 import os
 
+import networkx as nx
+
 from tuw_nlp.common.vocabulary import Vocabulary
-from tuw_nlp.graph.graph import Graph, UnconnectedGraphError
+from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
 from tuw_nlp.sem.hrg.steps.train.rule_generation.per_word import get_rules_per_word
@@ -12,10 +14,13 @@ from tuw_nlp.sem.hrg.steps.train.rule_generation.per_word import get_rules_per_w
 def get_argument_graphs(triplet_graph, arguments, log):
     a_graphs = {}
     for arg, nodes in arguments.items():
-        try:
-            a_graph = triplet_graph.G.subgraph(nodes)
+        nodes = [f"n{n}" for n in nodes]
+        for n in nodes:
+            assert n in triplet_graph.G.nodes()
+        a_graph = triplet_graph.G.subgraph(nodes)
+        if nx.is_weakly_connected(a_graph):
             a_graphs[arg] = a_graph
-        except UnconnectedGraphError:
+        else:
             log.write(
                 f"unconnected argument ({nodes})\n"
             )
