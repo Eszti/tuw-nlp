@@ -1,0 +1,10 @@
+{
+    "steps":
+    [
+        {
+            "step_name": "preproc",
+            "script_name": "preproc",
+            "config": "preproc_dev.json"
+        }
+    ]
+}
