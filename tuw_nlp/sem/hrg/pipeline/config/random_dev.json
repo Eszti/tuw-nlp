@@ -1,5 +1,7 @@
 {
+    "in_dir": "dev_preproc",
     "out_dir": "dev_random",
+    "artefact_prefix": "artefacts_train",
     "models": 
     [
         "boa",

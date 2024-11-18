@@ -63,7 +63,7 @@ python steps/predict/predict.py -d $DATA_DIR -c pipeline/config/predict_100.json
 Once all sentences are predicted, we [merge](steps/predict/merge.py) them into one json per model.
 
 ```bash
- python steps/predict/merge.py -d $DATA_DIR -c pipeline/config/merge_100.json
+python steps/predict/merge.py -d $DATA_DIR -c pipeline/config/merge_100.json
 ```
 
 #### Run the whole predict pipeline on dev
@@ -81,10 +81,20 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_300.jso
 
 ### Create a random predictions for comparison
 
-We implement a [random extractor](random/random_extractor.py) that uses the [artefacts](random/train_stat) of the training dataset (distribution of the number of extractions per sentence, and distribution of labels per length of the sentence) and assures that the predicate is a verb.  
+We implement a [random extractor](steps/random/random_extractor.py) that uses the [artefacts](pipeline/output/artefacts) of the training dataset (distribution of the number of extractions per sentence, and distribution of labels per length of the sentence) and assures that the predicate is a verb.  
 
 ```bash
-# TBD
+# Extract artefacts
+python steps/random/artefacts.py -d $DATA_DIR -c pipeline/config/artefacts_train.json
+
+# Get random extractions
+python steps/random/random_extractor.py -d $DATA_DIR -c pipeline/config/random_dev.json
+
+# Merge the extractions
+python steps/predict/merge.py -d $DATA_DIR -c pipeline/config/merge_dev_random.json
+
+# Or run as a pipeline
+python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_random.json
 ```
 
 ### Evaluate the predictions

@@ -1,0 +1,20 @@
+{
+    "steps":
+    [
+        {
+            "step_name": "artefacts",
+            "script_name": "artefacts",
+            "config": "artefacts_train.json"
+        },
+        {
+            "step_name": "random",
+            "script_name": "random",
+            "config": "random_dev.json"
+        },
+        {
+            "step_name": "merge_random",
+            "script_name": "merge",
+            "config": "merge_dev_random.json"
+        }
+    ]
+}
