@@ -1,4 +1,4 @@
-Execution start: 2024-11-15 01:37:38.184346
+Execution start: 2024-11-18 14:18:47.628323
 {
     "in_dir": "hrg_per_word",
     "sizes": [
@@ -37,6 +37,6 @@ X: 72	(0.24)
 First sentence to process: 0
 Last sentence to process: 46015
 
-Execution finish: 2024-11-15 01:37:40.103425
+Execution finish: 2024-11-18 14:18:49.723957
 Elapsed time: 0 min 2 sec
 
