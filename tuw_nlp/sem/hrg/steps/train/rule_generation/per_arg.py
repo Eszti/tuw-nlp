@@ -6,6 +6,23 @@ import penman as pn
 from tuw_nlp.sem.hrg.common.io import save_bolinas_str, save_as_dot
 
 
+def get_argument_graphs(triplet_graph, arguments, log):
+    a_graphs = {}
+    for arg, nodes in arguments.items():
+        nodes = [f"n{n}" for n in nodes]
+        for n in nodes:
+            assert n in triplet_graph.G.nodes()
+        a_graph = triplet_graph.G.subgraph(nodes)
+        if nx.is_weakly_connected(a_graph):
+            a_graphs[arg] = a_graph
+        else:
+            log.write(
+                f"unconnected argument ({nodes})\n"
+            )
+            a_graphs[arg] = None
+    return a_graphs
+
+
 def get_pred_graph(ud_graph, pred, args, log):
 
     G_u = ud_graph.G.to_undirected()
