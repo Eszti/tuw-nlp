@@ -12,7 +12,6 @@ class Predict(LoopOnSenDirs):
 
     def __init__(self, config=None):
         super().__init__(description="Script to create wire jsons from predicted bolinas labels.", config=config)
-        self.out_dir += self.in_dir
         self.preproc_dir = f"{self.data_dir}/{self.config['preproc_dir']}"
         self.chart_filters = self.config["bolinas_chart_filters"]
         self.postprocess = self.config["postprocess"]

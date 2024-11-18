@@ -131,6 +131,8 @@ class KBest(LoopOnSenDirs):
                     top_order,
                     self.config["arg_permutation"],
                 )
+                if len(k_best_unique_derivations) == 0:
+                    sen_log_lines.append("No matches\n")
             else:
                 print("Neither 'k' nor 'pr_metric' is set")
                 continue

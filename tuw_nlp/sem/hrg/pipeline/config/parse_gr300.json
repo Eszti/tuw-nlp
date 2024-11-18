@@ -1,6 +1,0 @@
-{
-    "in_dir": "dev_preproc",
-    "grammar_file": "grammar_300.hrg",
-    "out_dir": "dev_gr300",
-    "max_steps": 50000
-}

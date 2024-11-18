@@ -1,8 +1,6 @@
-import os.path
 import fileinput
 import pickle
 
-from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.steps.bolinas.common.grammar import Grammar
 from tuw_nlp.sem.hrg.steps.bolinas.common.hgraph.hgraph import Hgraph
