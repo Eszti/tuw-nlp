@@ -79,7 +79,7 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_200.jso
 python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_300.json
 ```
 
-### Create a random predictions for comparison
+### Create random predictions for comparison
 
 We implement a [random extractor](steps/random/random_extractor.py) that uses the [artefacts](pipeline/output/artefacts) of the training dataset (distribution of the number of extractions per sentence, and distribution of labels per length of the sentence) and assures that the predicate is a verb.  
 
@@ -99,16 +99,16 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_random.
 
 ### Evaluate the predictions
 
-We [evaluate](eval/eval.py) our system using a slightly modified version of the [scorer](eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](eval/reports/dev_all.md) our systems and a filtered table for the [top estimation](eval/reports/dev_best.md).
+We [evaluate](steps/eval/eval.py) our system using a slightly modified version of the [scorer](steps/eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](eval/reports/dev_all.md) our systems and a filtered table for the [top estimation](eval/reports/dev_best.md).
 
-```python
+```bash
 # TBD
 ```
 
-We calculate some [statistics](stat/run_all_stat.py) on the dev set for quantitative and qualitative analysis.
+We calculate some [statistics](steps/stat/run_all_stat.py) (distribution of extractions per sentence, predicate recognition, rule usage) for quantitative and qualitative analysis. See output [here](pipeline/output/stat).
 
-```python
-# TBD
+```bash
+python steps/stat/run_all_stat.py -d $DATA_DIR -c pipeline/config/stat_dev.json
 ```
 
 ### Compare the results with baselines on the test set

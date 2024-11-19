@@ -2,8 +2,8 @@
     "models":
     [
         {
-            "grammar_file": "grammar_100.hrg",
-            "in_dir": "dev_gr100",
+            "grammar_file": "hrg_100.hrg",
+            "in_dir": "dev_100",
             "bolinas_filters":
             [
                 "basic",
@@ -14,8 +14,8 @@
             ]
         },
         {
-            "grammar_file": "grammar_200.hrg",
-            "in_dir": "dev_gr200",
+            "grammar_file": "hrg_200.hrg",
+            "in_dir": "dev_200",
             "bolinas_filters":
             [
                 "basic",
@@ -26,8 +26,8 @@
             ]
         },
         {
-            "grammar_file": "grammar_300.hrg",
-            "in_dir": "dev_gr300",
+            "grammar_file": "hrg_300.hrg",
+            "in_dir": "dev_300",
             "bolinas_filters":
             [
                 "basic",

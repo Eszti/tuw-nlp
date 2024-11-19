@@ -5,7 +5,7 @@
     "models":
     [
         {
-            "name": "dev_gr100",
+            "name": "dev_100",
             "bolinas_chart_filters": 
             [
                 "max",
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "name": "dev_gr200",
+            "name": "dev_200",
             "bolinas_chart_filters": 
             [
                 "max",
@@ -35,7 +35,7 @@
             ]
         },
         {
-            "name": "dev_gr300",
+            "name": "dev_300",
             "bolinas_chart_filters": 
             [
                 "max",
