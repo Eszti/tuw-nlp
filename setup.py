@@ -1,7 +1,3 @@
-import os
-import subprocess
-import sys
-
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 from setuptools.command.egg_info import egg_info

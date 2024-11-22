@@ -9,8 +9,7 @@ from copy import copy
 from tuw_nlp.sem.hrg.common.conll import ConllSen
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import DerivationException
-from tuw_nlp.sem.hrg.steps.bolinas.common.oie import get_rules, get_labels
-from tuw_nlp.sem.hrg.steps.bolinas.common.output import print_shifted, format_derivation
+from tuw_nlp.sem.hrg.steps.bolinas.common.oie import get_labels, extract_for_kth_derivation
 from tuw_nlp.sem.hrg.steps.bolinas.kbest.filter.pr_filter import filter_for_pr
 from tuw_nlp.sem.hrg.steps.bolinas.kbest.filter.size_filter import filter_for_size
 
@@ -31,24 +30,6 @@ def get_k_best_unique_derivation(chart, k):
     if len(kbest_unique_derivations) < k:
         print(f"Found only {len(kbest_unique_derivations)} derivations.")
     return kbest_unique_derivations
-
-
-def extract_for_kth_derivation(derivation, n_score, matches_lines, rules_lines, sen_log_lines, ki):
-    shifted_derivation = print_shifted(derivation)
-    matches_lines.append(f"%s;%g\n" % (shifted_derivation, n_score))
-
-    formatted_derivation = format_derivation(derivation)
-    rules_lines.append("%s\t#%g\n" % (formatted_derivation, n_score))
-    rules = get_rules(derivation)
-    for grammar_nr, rule_str in sorted(rules.items()):
-        prob = rule_str.split(';')[1].strip()
-        rule = rule_str.split(';')[0].strip()
-        rules_lines.append("%s\t%.2f\t%s\n" % (grammar_nr, float(prob), rule))
-    rules_lines.append("\n")
-
-    final_item = derivation[1]["START"][0]
-    nodes = sorted(list(final_item.nodeset), key=lambda node: int(node[1:]))
-    sen_log_lines.append("\nk%d:\t%s" % (ki, nodes))
 
 
 def save_output(outputs):
@@ -73,6 +54,9 @@ class KBest(LoopOnSenDirs):
         super().__init__(description="Script to search k best derivations in parsed charts.", config=config)
         self.logprob = True
         self.score_disorder_collector = {}
+        grammar_file = f"{self._get_subdir('grammar', create=False)}/{self.config['grammar_file']}"
+        with open(grammar_file) as f:
+            self.grammar_lines = f.readlines()
 
     def _before_loop(self):
         pass
@@ -154,14 +138,15 @@ class KBest(LoopOnSenDirs):
                 last_score = new_score
 
                 try:
-                    extract_for_kth_derivation(
+                    shifted_derivation, used_rules, matched_nodes = extract_for_kth_derivation(
                         derivation,
                         n_score,
-                        matches_lines,
-                        rules_lines,
-                        sen_log_lines,
                         ki,
+                        self.grammar_lines,
                     )
+                    matches_lines.append(shifted_derivation)
+                    rules_lines.append(f"{used_rules}\n")
+                    sen_log_lines.append(matched_nodes)
                     if "pr_metric" in c:
                         labels = labels_with_arg_idx[i]
                     else:
