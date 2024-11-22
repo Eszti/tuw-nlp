@@ -1,0 +1,34 @@
+Execution start: 2024-11-18 20:07:45.129843
+{
+    "steps": [
+        {
+            "step_name": "parse",
+            "script_name": "parse",
+            "config": "parse_300.json"
+        },
+        {
+            "step_name": "kbest",
+            "script_name": "kbest",
+            "config": "kbest_300.json"
+        },
+        {
+            "step_name": "predict",
+            "script_name": "predict",
+            "config": "predict_300.json"
+        },
+        {
+            "step_name": "merge",
+            "script_name": "merge",
+            "config": "merge_300.json"
+        }
+    ]
+}
+
+Processing step parse: 2024-11-18 20:07:45.130074
+Processing step kbest: 2024-11-19 05:31:34.003768
+Processing step predict: 2024-11-20 12:28:47.549847
+Processing step merge: 2024-11-20 12:29:09.680794
+
+Execution finish: 2024-11-20 12:29:29.330833
+Elapsed time: 2422 min 44 sec
+

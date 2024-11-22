@@ -1,0 +1,324 @@
+Execution start: 2024-11-21 02:58:18.487710
+{
+    "in_dir": "dev_100",
+    "k": 10,
+    "bolinas_chart_filters": [
+        "max",
+        "basic",
+        "prec",
+        "rec",
+        "f1"
+    ],
+    "postprocess": [
+        "keep"
+    ],
+    "out_dir": "dev_extractions"
+}
+
+
+Keeping all extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 140 sen
+7 extraction(s): 19 sen
+8 extraction(s): 34 sen
+9 extraction(s): 46 sen
+10 extraction(s): 391 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_all.json
+
+
+Keeping top 1 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 2252 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k1.json
+
+
+Keeping top 2 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 1429 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k2.json
+
+
+Keeping top 3 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 1135 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k3.json
+
+
+Keeping top 4 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 860 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k4.json
+
+
+Keeping top 5 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 679 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k5.json
+
+
+Keeping top 6 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 630 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k6.json
+
+
+Keeping top 7 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 140 sen
+7 extraction(s): 490 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k7.json
+
+
+Keeping top 8 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 140 sen
+7 extraction(s): 19 sen
+8 extraction(s): 471 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k8.json
+
+
+Keeping top 9 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 140 sen
+7 extraction(s): 19 sen
+8 extraction(s): 34 sen
+9 extraction(s): 437 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k9.json
+
+
+Keeping top 10 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 823 sen
+2 extraction(s): 294 sen
+3 extraction(s): 275 sen
+4 extraction(s): 181 sen
+5 extraction(s): 49 sen
+6 extraction(s): 140 sen
+7 extraction(s): 19 sen
+8 extraction(s): 34 sen
+9 extraction(s): 46 sen
+10 extraction(s): 391 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/max/keep/dev_100_max_keep_k10.json
+
+
+Keeping all extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 10 sen
+7 extraction(s): 18 sen
+8 extraction(s): 7 sen
+9 extraction(s): 13 sen
+10 extraction(s): 2152 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_all.json
+
+
+Keeping top 1 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 2252 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k1.json
+
+
+Keeping top 2 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 2242 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k2.json
+
+
+Keeping top 3 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 2236 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k3.json
+
+
+Keeping top 4 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 2217 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k4.json
+
+
+Keeping top 5 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 2214 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k5.json
+
+
+Keeping top 6 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 2200 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k6.json
+
+
+Keeping top 7 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 10 sen
+7 extraction(s): 2190 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k7.json
+
+
+Keeping top 8 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 10 sen
+7 extraction(s): 18 sen
+8 extraction(s): 2172 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k8.json
+
+
+Keeping top 9 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 10 sen
+7 extraction(s): 18 sen
+8 extraction(s): 7 sen
+9 extraction(s): 2165 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k9.json
+
+
+Keeping top 10 extractions.
+0 extraction(s): 14 sen
+1 extraction(s): 10 sen
+2 extraction(s): 6 sen
+3 extraction(s): 19 sen
+4 extraction(s): 3 sen
+5 extraction(s): 14 sen
+6 extraction(s): 10 sen
+7 extraction(s): 18 sen
+8 extraction(s): 7 sen
+9 extraction(s): 13 sen
+10 extraction(s): 2152 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/basic/keep/dev_100_basic_keep_k10.json
+
+
+Keeping all extractions.
+0 extraction(s): 322 sen
+1 extraction(s): 1056 sen
+2 extraction(s): 574 sen
+3 extraction(s): 212 sen
+4 extraction(s): 74 sen
+5 extraction(s): 20 sen
+6 extraction(s): 7 sen
+7 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/prec/keep/dev_100_prec_keep_all.json
+
+
+Keeping all extractions.
+0 extraction(s): 322 sen
+1 extraction(s): 1063 sen
+2 extraction(s): 570 sen
+3 extraction(s): 215 sen
+4 extraction(s): 69 sen
+5 extraction(s): 19 sen
+6 extraction(s): 8 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/rec/keep/dev_100_rec_keep_all.json
+
+
+Keeping all extractions.
+0 extraction(s): 322 sen
+1 extraction(s): 1054 sen
+2 extraction(s): 574 sen
+3 extraction(s): 213 sen
+4 extraction(s): 74 sen
+5 extraction(s): 21 sen
+6 extraction(s): 7 sen
+7 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_100/f1/keep/dev_100_f1_keep_all.json
+
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-11-21 02:58:32.946106
+Elapsed time: 0 min 14 sec
+

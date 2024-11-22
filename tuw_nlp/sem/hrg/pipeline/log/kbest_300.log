@@ -1,0 +1,37 @@
+Execution start: 2024-11-19 05:31:34.004805
+{
+    "in_dir": "dev_preproc",
+    "out_dir": "dev_300",
+    "arg_permutation": false,
+    "filters": {
+        "basic": {
+            "chart_filter": "basic",
+            "k": 10
+        },
+        "max": {
+            "chart_filter": "max",
+            "k": 10
+        },
+        "prec": {
+            "pr_metric": "prec"
+        },
+        "rec": {
+            "pr_metric": "rec"
+        },
+        "f1": {
+            "pr_metric": "f1"
+        }
+    }
+}
+
+
+Number of sentences: 2266
+Sum of score disorders: 0
+Average score disorders: 0.0
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-11-20 12:28:47.536587
+Elapsed time: 1857 min 14 sec
+

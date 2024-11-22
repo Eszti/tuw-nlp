@@ -1,0 +1,17 @@
+Execution start: 2024-11-18 15:11:32.970453
+{
+    "in_dir": "dev_preproc",
+    "grammar_file": "hrg_100.hrg",
+    "out_dir": "dev_100",
+    "max_steps": 50000
+}
+
+
+Loaded hypergraph grammar with 99 rules.
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-11-18 19:27:40.083312
+Elapsed time: 256 min 7 sec
+

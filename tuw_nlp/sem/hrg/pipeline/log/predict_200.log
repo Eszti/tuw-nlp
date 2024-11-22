@@ -1,0 +1,23 @@
+Execution start: 2024-11-21 21:32:14.855210
+{
+    "preproc_dir": "dev_preproc",
+    "in_dir": "dev_200",
+    "bolinas_chart_filters": [
+        "basic",
+        "max",
+        "prec",
+        "rec",
+        "f1"
+    ],
+    "postprocess": [
+        "keep"
+    ]
+}
+
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-11-21 21:32:30.192007
+Elapsed time: 0 min 15 sec
+

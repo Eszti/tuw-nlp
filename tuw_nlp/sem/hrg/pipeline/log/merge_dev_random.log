@@ -1,0 +1,257 @@
+Execution start: 2024-11-18 20:24:11.521788
+{
+    "in_dir": "dev_random",
+    "k": 10,
+    "bolinas_chart_filters": [
+        "boa",
+        "argidx"
+    ],
+    "postprocess": [
+        ""
+    ],
+    "out_dir": "dev_extractions"
+}
+
+
+Keeping all extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 81 sen
+6 extraction(s): 35 sen
+7 extraction(s): 14 sen
+8 extraction(s): 10 sen
+10 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_all.json
+
+
+Keeping top 1 extractions.
+1 extraction(s): 2266 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k1.json
+
+
+Keeping top 2 extractions.
+1 extraction(s): 802 sen
+2 extraction(s): 1464 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k2.json
+
+
+Keeping top 3 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 679 sen
+3 extraction(s): 788 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k3.json
+
+
+Keeping top 4 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 428 sen
+4 extraction(s): 370 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k4.json
+
+
+Keeping top 5 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 235 sen
+5 extraction(s): 139 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k5.json
+
+
+Keeping top 6 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 83 sen
+6 extraction(s): 58 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k6.json
+
+
+Keeping top 7 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 81 sen
+6 extraction(s): 36 sen
+7 extraction(s): 24 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k7.json
+
+
+Keeping top 8 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 81 sen
+6 extraction(s): 35 sen
+7 extraction(s): 14 sen
+8 extraction(s): 11 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k8.json
+
+
+Keeping top 9 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 81 sen
+6 extraction(s): 35 sen
+7 extraction(s): 14 sen
+8 extraction(s): 10 sen
+9 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k9.json
+
+
+Keeping top 10 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 669 sen
+3 extraction(s): 424 sen
+4 extraction(s): 233 sen
+5 extraction(s): 81 sen
+6 extraction(s): 35 sen
+7 extraction(s): 14 sen
+8 extraction(s): 10 sen
+10 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/boa/dev_random_boa_k10.json
+
+
+Keeping all extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 81 sen
+6 extraction(s): 34 sen
+7 extraction(s): 15 sen
+8 extraction(s): 10 sen
+10 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_all.json
+
+
+Keeping top 1 extractions.
+1 extraction(s): 2266 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k1.json
+
+
+Keeping top 2 extractions.
+1 extraction(s): 800 sen
+2 extraction(s): 1466 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k2.json
+
+
+Keeping top 3 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 674 sen
+3 extraction(s): 793 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k3.json
+
+
+Keeping top 4 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 423 sen
+4 extraction(s): 377 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k4.json
+
+
+Keeping top 5 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 240 sen
+5 extraction(s): 140 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k5.json
+
+
+Keeping top 6 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 82 sen
+6 extraction(s): 59 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k6.json
+
+
+Keeping top 7 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 81 sen
+6 extraction(s): 35 sen
+7 extraction(s): 25 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k7.json
+
+
+Keeping top 8 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 81 sen
+6 extraction(s): 34 sen
+7 extraction(s): 15 sen
+8 extraction(s): 11 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k8.json
+
+
+Keeping top 9 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 81 sen
+6 extraction(s): 34 sen
+7 extraction(s): 15 sen
+8 extraction(s): 10 sen
+9 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k9.json
+
+
+Keeping top 10 extractions.
+1 extraction(s): 799 sen
+2 extraction(s): 667 sen
+3 extraction(s): 420 sen
+4 extraction(s): 239 sen
+5 extraction(s): 81 sen
+6 extraction(s): 34 sen
+7 extraction(s): 15 sen
+8 extraction(s): 10 sen
+10 extraction(s): 1 sen
+Sum 2266 sens
+Output saved to /home/eiklodi/data/dev_extractions/dev_random/argidx/dev_random_argidx_k10.json
+
+
+First sentence to process: 0
+Last sentence to process: 5267
+
+Execution finish: 2024-11-18 20:24:17.305769
+Elapsed time: 0 min 6 sec
+
