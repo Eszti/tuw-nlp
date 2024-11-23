@@ -42,7 +42,7 @@ First, we [preprocess](steps/preproc/preproc.py) the dev data as well.
 python steps/preproc/preproc.py -d $DATA_DIR -c pipeline/config/preproc_dev.json
 ```
 
-Using the grammar, first we [parse](steps/bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 50.000 steps. The parsing takes from 1 hour to one day, see more [here](pipeline/log).
+Using the grammar, first we [parse](steps/bolinas/parse/parse.py) the UD graphs on the dev set, saving the resulting charts as an intermediary output. We prune the parsing above 50.000 steps. The parsing takes 4-10 hours, see more [here](pipeline/log).
 
 ```bash
 python steps/bolinas/parse/parse.py -d $DATA_DIR -c pipeline/config/parse_100.json
@@ -102,7 +102,7 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_random.
 We [evaluate](steps/eval/eval.py) our system using a slightly modified version of the [scorer](steps/eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](eval/reports/dev_all.md) our systems and a filtered table for the [top estimation](eval/reports/dev_best.md).
 
 ```bash
-# TBD
+python steps/eval/eval.py -d $DATA_DIR -c pipeline/config/eval_dev_all.json
 ```
 
 We calculate some [statistics](steps/stat/run_all_stat.py) (distribution of extractions per sentence, predicate recognition, rule usage) for quantitative and qualitative analysis. See output [here](pipeline/output/stat).

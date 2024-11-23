@@ -1,7 +1,7 @@
 {
     "pr_curve": true,
     "gold_fn": "gold_dev.json",
-    "extractions_dir": "dev_extractions",
+    "in_dir": "dev_extractions",
     "models":
     [
         {

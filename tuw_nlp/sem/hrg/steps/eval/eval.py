@@ -64,7 +64,7 @@ class Eval(LoopOnModels):
                   "rec",
                   "F1"]]
 
-        for file in sorted(files):
+        for file in files:
             all_predictions = json.load(open(file))
 
             predictions_by_model = split_tuples_by_extractor(self.gold.keys(), all_predictions)
