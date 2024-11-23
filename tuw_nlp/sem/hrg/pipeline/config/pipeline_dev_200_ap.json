@@ -1,0 +1,20 @@
+{
+    "steps":
+    [
+        {
+            "step_name": "kbest",
+            "script_name": "kbest",
+            "config": "kbest_200_ap.json"
+        },
+        {
+            "step_name": "predict",
+            "script_name": "predict",
+            "config": "predict_200_ap.json"
+        },
+        {
+            "step_name": "merge",
+            "script_name": "merge",
+            "config": "merge_200_ap.json"
+        }
+    ]
+}

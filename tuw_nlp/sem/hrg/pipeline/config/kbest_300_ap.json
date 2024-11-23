@@ -1,20 +1,10 @@
 {
     "in_dir": "dev_preproc",
-    "out_dir": "dev_300",
+    "out_dir": "dev_300_ap",
     "grammar_file": "hrg_300.hrg",
-    "arg_permutation": false,
+    "arg_permutation": true,
     "filters":
     {
-        "basic":
-        {
-            "chart_filter": "basic",
-            "k": 10
-        },
-        "max":
-        {
-            "chart_filter": "max",
-            "k": 10
-        },
         "prec":
         {
             "pr_metric": "prec"

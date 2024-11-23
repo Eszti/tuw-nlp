@@ -71,12 +71,18 @@ python steps/predict/merge.py -d $DATA_DIR -c pipeline/config/merge_100.json
 ```bash
 # Hrg - 100
 python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_100.json
+# Hrg - 100 - argument permutation
+python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_100_ap.json
 
 # Hrg - 200
 python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_200.json
+# Hrg - 200 - argument permutation
+python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_200_ap.json
 
 # Hrg - 300
 python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_300.json
+# Hrg - 300 - argument permutation
+python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_300_ap.json
 ```
 
 ### Create random predictions for comparison
@@ -99,7 +105,7 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_random.
 
 ### Evaluate the predictions
 
-We [evaluate](steps/eval/eval.py) our system using a slightly modified version of the [scorer](steps/eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](eval/reports/dev_all.md) our systems and a filtered table for the [top estimation](eval/reports/dev_best.md).
+We [evaluate](steps/eval/eval.py) our system using a slightly modified version of the [scorer](steps/eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](pipeline/output/eval/eval_dev_all.md) our systems and a filtered table for the [top estimation](pipeline/output/eval/eval_dev_best.md).
 
 ```bash
 # Eval all

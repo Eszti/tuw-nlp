@@ -1,0 +1,17 @@
+{
+    "in_dir": "dev_200_ap",
+    "k": 10,
+    "bolinas_chart_filters": 
+    [
+        "max",
+        "basic",
+        "prec",
+        "rec",
+        "f1"
+    ],
+    "postprocess": 
+    [
+        "keep"
+    ],
+    "out_dir": "dev_extractions"
+}
