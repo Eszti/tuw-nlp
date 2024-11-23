@@ -102,7 +102,11 @@ python pipeline/pipeline.py -d $DATA_DIR -c pipeline/config/pipeline_dev_random.
 We [evaluate](steps/eval/eval.py) our system using a slightly modified version of the [scorer](steps/eval/wire_scorer.py) from the [WiRe paper](https://aclanthology.org/W19-4002/) (since lsoie triples does not necessarily have a second argument, common words are only needed for predicates and first arguments in order for two triplets to match). We present the results of [all](eval/reports/dev_all.md) our systems and a filtered table for the [top estimation](eval/reports/dev_best.md).
 
 ```bash
+# Eval all
 python steps/eval/eval.py -d $DATA_DIR -c pipeline/config/eval_dev_all.json
+
+# Eval best
+python steps/eval/eval.py -d $DATA_DIR -c pipeline/config/eval_dev_best.json
 ```
 
 We calculate some [statistics](steps/stat/run_all_stat.py) (distribution of extractions per sentence, predicate recognition, rule usage) for quantitative and qualitative analysis. See output [here](pipeline/output/stat).

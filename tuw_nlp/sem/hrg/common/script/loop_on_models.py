@@ -29,7 +29,7 @@ class LoopOnModels(Script):
 
     def _get_merged_jsons(self, in_dir, chart_filter, pp, only_all=False):
         in_dir = self._add_filter_and_postprocess(in_dir, chart_filter, pp)
-        files = [i for i in os.listdir(in_dir) if i.endswith(".json")]
+        files = sorted([i for i in os.listdir(in_dir) if i.endswith(".json")])
         if only_all:
             files = [i for i in files if i.endswith("_all.json")]
             assert len(files) == 1
