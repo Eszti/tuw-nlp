@@ -1,7 +1,6 @@
 {
     "in_dir": "dev_preproc",
     "out_dir": "dev_200",
-    "grammar_file": "hrg_200.hrg",
     "arg_permutation": false,
     "filters":
     {

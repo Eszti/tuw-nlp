@@ -54,9 +54,6 @@ class KBest(LoopOnSenDirs):
         super().__init__(description="Script to search k best derivations in parsed charts.", config=config)
         self.logprob = True
         self.score_disorder_collector = {}
-        grammar_file = f"{self._get_subdir('grammar', create=False)}/{self.config['grammar_file']}"
-        with open(grammar_file) as f:
-            self.grammar_lines = f.readlines()
 
     def _before_loop(self):
         pass
@@ -142,7 +139,6 @@ class KBest(LoopOnSenDirs):
                         derivation,
                         n_score,
                         ki,
-                        self.grammar_lines,
                     )
                     matches_lines.append(shifted_derivation)
                     rules_lines.append(f"{used_rules}\n")

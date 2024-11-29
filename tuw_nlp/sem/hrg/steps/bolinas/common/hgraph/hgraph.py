@@ -491,8 +491,14 @@ class Hgraph(defaultdict):
                         return "%s." % (node if node in nodeids_to_print else "")
 
         def combiner(nodestr, childmap, depth):
-            childstr = " ".join(["\n%s %s %s" % (depth * "\t", ":%s" % rel if rel else "", child) for rel, child in
-                                 sorted(childmap.items())])
+            nt_children = sorted(
+                [child for child in childmap.items() if type(child[0]) == NonterminalLabel],
+                key=lambda x: str(x[0])
+            )
+            term_children = sorted([child for child in childmap.items() if type(child[0]) == str])
+            childmap_items = nt_children + term_children
+            childstr_list = ["\n%s %s %s" % (depth * "\t", ":%s" % rel if rel else "", child) for rel, child in childmap_items]
+            childstr = " ".join(childstr_list)
             return "(%s %s)" % (nodestr, childstr)
 
         def hedgecombiner(nodes):

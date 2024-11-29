@@ -28,7 +28,7 @@ class Train(LoopOnSenDirs):
             if not os.path.exists(hrg_dir):
                 os.makedirs(hrg_dir)
             log = open(f"{hrg_dir}/sen{exact_sen_idx}.log", "w")
-            print(f"Processing sen {exact_sen_idx}")
+            print(f"\nProcessing sen {exact_sen_idx}")
 
             with open(graph_file) as f:
                 lines = f.readlines()
@@ -49,6 +49,7 @@ class Train(LoopOnSenDirs):
                 grammar_lines = [f"{initial_rule}"]
                 for rule in sorted(rules):
                     grammar_lines.append(f"{rule}")
+                print(f"Grammar length: {len(grammar_lines)}")
 
                 log_from_validator, accepted = check_if_graph_accepted_by_hrg(grammar_lines, graph_str)
                 if not accepted:
