@@ -40,7 +40,7 @@ class Train(LoopOnSenDirs):
             initial_rule = ""
             rules = []
             if self.method == "per_word":
-                initial_rule, rules = get_rules_per_word(triplet_graph, triplet, log)
+                initial_rule, rules = get_rules_per_word(triplet_graph, triplet)
             # Todo: per_arg
             if initial_rule is None:
                 assert len(rules) == 0

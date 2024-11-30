@@ -3,7 +3,7 @@ from collections import defaultdict
 import networkx as nx
 
 
-def get_next_edges(G, root_word, triplet, log):
+def get_next_edges(G, root_word, triplet):
     next_edges = defaultdict(list)
     root_pos = ""
     for _, v, e in G.edges(root_word, data=True):
@@ -15,14 +15,13 @@ def get_next_edges(G, root_word, triplet, log):
             root_pos = e['color']
         else:
             next_edges['X'].append((e['color'], v))
-    log.write(f"next_edges: {next_edges}\n")
     return next_edges, root_pos
 
 
-def gen_subseq_rules(G, pred_edges, triplet, log):
+def gen_subseq_rules(G, pred_edges, triplet):
     for lhs, edges in pred_edges.items():
         for dep_rel, node in edges:
-            next_edges, root_pos = get_next_edges(G, node, triplet, log)
+            next_edges, root_pos = get_next_edges(G, node, triplet)
 
             rule = f'{lhs} -> (. :{dep_rel} (.'
             for non_term in next_edges:
@@ -30,7 +29,7 @@ def gen_subseq_rules(G, pred_edges, triplet, log):
             rule += f' :{root_pos} .));\n'
             yield rule
 
-            yield from gen_subseq_rules(G, next_edges, triplet, log)
+            yield from gen_subseq_rules(G, next_edges, triplet)
 
 
 def get_initial_rule(next_edges, root_pos):
@@ -43,12 +42,11 @@ def get_initial_rule(next_edges, root_pos):
     return rule
 
 
-def get_rules_per_word(triplet_graph, triplet, log):
+def get_rules_per_word(triplet_graph, triplet):
     root_word = next(nx.topological_sort(triplet_graph.G))
-    log.write(f"root word: {root_word}\n")
-    next_edges, root_pos = get_next_edges(triplet_graph.G, root_word, triplet, log)
+    next_edges, root_pos = get_next_edges(triplet_graph.G, root_word, triplet)
     initial_rule = get_initial_rule(next_edges, root_pos)
     rules = set()
-    for rule in gen_subseq_rules(triplet_graph.G, next_edges, triplet, log):
+    for rule in gen_subseq_rules(triplet_graph.G, next_edges, triplet):
         rules.add(rule)
     return initial_rule, rules
