@@ -3,8 +3,7 @@ from collections import defaultdict, deque
 
 from ordered_set import OrderedSet
 
-from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines
-from tuw_nlp.sem.hrg.steps.bolinas.common.cfg import Chart
+from tuw_nlp.sem.hrg.steps.bolinas.common.chart import Chart
 from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_item import HergItem
 
 
@@ -16,20 +15,24 @@ class Parser:
     a CKY parser).
     """
 
-    def __init__(self, grammar):
+    def __init__(self, grammar, stop_at_first=False, max_steps=None):
         self.grammar = grammar
         self.nodelabels = grammar.nodelabels
+        self.max_steps = max_steps
+        self.stop_at_first = stop_at_first
 
-    def parse_graphs(self, graph_iterator, log_lines, partial=False, max_steps=None):
+    def parse_graphs(self, graph_iterator, partial=False):
         """
         Parse all the graphs in graph_iterator.
         This is a generator.
         """
         for graph in graph_iterator:
-            raw_chart = self.parse(graph, log_lines, partial=partial, max_steps=max_steps)
-            yield get_cky_chart(raw_chart)
+            raw_chart, parse_log = self.parse(graph, partial=partial)
+            chart = get_cky_chart(raw_chart)
+            parse_log += chart.log_length()
+            yield chart, parse_log
 
-    def parse(self, graph, log_lines, partial=False, max_steps=None):
+    def parse(self, graph, partial=False):
         """
         Parses the given string and/or graph.
         """
@@ -43,6 +46,7 @@ class Parser:
 
         grammar = self.grammar
 
+        parse_log = ""
         start_time = time.time()
         graph_size = len(graph.triples(nodelabels=self.nodelabels))
 
@@ -78,7 +82,7 @@ class Parser:
 
         # parse
         while queue:
-            if max_steps and steps >= max_steps:
+            if self.max_steps and steps >= self.max_steps:
                 break
 
             steps += 1
@@ -94,6 +98,8 @@ class Parser:
                 # check if it's a complete derivation
                 if self.successful_parse(item, graph_size):
                     chart['START'].add((item,))
+                    if self.stop_at_first:
+                        break
                 elif partial and self.grammar.start_symbol == item.rule.symbol:
                     chart['START'].add((item,))
 
@@ -155,14 +161,14 @@ class Parser:
                         max_queue_diff_shift = after - before
 
         etime = time.time() - start_time
-        log_to_console_and_log_lines(f"Elapsed time for parsing: {round(etime, 2)} sec", log_lines)
-        log_to_console_and_log_lines(f"Max queue size: {max_queue_size}", log_lines)
-        log_to_console_and_log_lines(f"Max queue diff comp: {max_queue_diff_comp}", log_lines)
-        log_to_console_and_log_lines(f"Max queue diff outside nt: {max_queue_diff_outside_nt}", log_lines)
-        log_to_console_and_log_lines(f"Max queue diff shift: {max_queue_diff_shift}", log_lines)
-        log_to_console_and_log_lines(f"Steps: {steps}", log_lines)
+        parse_log += f"Elapsed time for parsing: {round(etime, 2)} sec\n"
+        parse_log += f"Max queue size: {max_queue_size}\n"
+        parse_log += f"Max queue diff comp: {max_queue_diff_comp}\n"
+        parse_log += f"Max queue diff outside nt: {max_queue_diff_outside_nt}\n"
+        parse_log += f"Max queue diff shift: {max_queue_diff_shift}\n"
+        parse_log += f"Steps: {steps}\n"
 
-        return chart
+        return chart, parse_log
 
     def successful_parse(self, item, graph_size):
         """

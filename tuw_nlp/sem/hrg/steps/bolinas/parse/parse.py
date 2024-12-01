@@ -49,13 +49,13 @@ class Parse(LoopOnSenDirs):
             max_steps=self.config.get("max_steps", 10000)
         )
 
-        for i, chart in enumerate(parse_generator):
+        for i, (chart, parse_logs) in enumerate(parse_generator):
             assert i == 0
             if "START" not in chart:
                 self._log("No derivation found", sen_log_lines)
                 continue
             else:
-                self._log(f"Chart len: {len(chart)}", sen_log_lines)
+                self._log(parse_logs, sen_log_lines)
                 with open(chart_file, "wb") as f:
                     pickle.dump(chart, f, -1)
         with open(sen_log_file, "w") as f:

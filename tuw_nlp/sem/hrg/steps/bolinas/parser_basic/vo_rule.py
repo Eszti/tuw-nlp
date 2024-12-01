@@ -1,5 +1,5 @@
-from tuw_nlp.sem.hrg.steps.bolinas.common.cfg import NonterminalLabel
 from tuw_nlp.sem.hrg.steps.bolinas.common.hgraph.hgraph import Hgraph
+from tuw_nlp.sem.hrg.steps.bolinas.common.nonterminal import NonterminalLabel
 from tuw_nlp.sem.hrg.steps.bolinas.common.rule import Rule
 
 

@@ -2,7 +2,7 @@ from collections import defaultdict, OrderedDict
 import re
 import sys
 
-from tuw_nlp.sem.hrg.steps.bolinas.common.cfg import NonterminalLabel
+from tuw_nlp.sem.hrg.steps.bolinas.common.nonterminal import NonterminalLabel
 
 
 class ListMap(defaultdict):

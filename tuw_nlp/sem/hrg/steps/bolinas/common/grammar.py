@@ -2,9 +2,9 @@ from collections import defaultdict
 import math
 from io import StringIO
 
-from tuw_nlp.sem.hrg.steps.bolinas.common.cfg import NonterminalLabel
 from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import GrammarError, ParserError
 from tuw_nlp.sem.hrg.steps.bolinas.common.hgraph.hgraph import Hgraph
+from tuw_nlp.sem.hrg.steps.bolinas.common.nonterminal import NonterminalLabel
 from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_rule import VoRule
 
 GRAPH_FORMAT = "hypergraph"
