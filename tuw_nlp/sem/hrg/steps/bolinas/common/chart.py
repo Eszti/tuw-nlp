@@ -3,8 +3,6 @@ import itertools
 import time
 from datetime import datetime
 
-from tuw_nlp.sem.hrg.common.io import log_to_console_and_log_lines
-
 
 class Chart(dict):
     """
@@ -21,8 +19,10 @@ class Chart(dict):
         else:
             derivations, steps = self._derivations(item, 0, max_steps, k_best)
         search_log += f"Finish search: {datetime.now()}\n"
-        search_log += f"Elapsed time for searching: {round(time.time() - start_time, 2)} sec"
-        search_log += f"Used steps: {steps}"
+        elapsed_time = round(time.time() - start_time, 2)
+        print(f"Elapsed time for search: {elapsed_time} sec")
+        search_log += f"Elapsed time for searching: {elapsed_time} sec\n"
+        search_log += f"Used steps: {steps}\n"
         return derivations, search_log
 
     def _derivations(self, item, done_steps, max_steps, k_best):

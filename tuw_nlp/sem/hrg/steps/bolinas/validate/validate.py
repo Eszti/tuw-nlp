@@ -12,7 +12,7 @@ def check_if_graph_accepted_by_hrg(grammar_lines, bolinas_graph):
     nodelabels = True
     backward = False
     grammar = Grammar.load_from_file(grammar_lines, VoRule, backward, nodelabels=nodelabels, logprob=logprob)
-    parser = Parser(grammar, stop_at_first=True)
+    parser = Parser(grammar, stop_at_first=True, permutations=False)
     parse_generator = parser.parse_graphs(
         [Hgraph.from_string(bolinas_graph)],
         log_lines,

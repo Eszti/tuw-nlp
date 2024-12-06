@@ -15,11 +15,12 @@ class Parser:
     a CKY parser).
     """
 
-    def __init__(self, grammar, stop_at_first=False, max_steps=None):
+    def __init__(self, grammar, stop_at_first=False, max_steps=None, permutations=False):
         self.grammar = grammar
         self.nodelabels = grammar.nodelabels
         self.max_steps = max_steps
         self.stop_at_first = stop_at_first
+        self.permutations = permutations
 
     def parse_graphs(self, graph_iterator, partial=False):
         """
@@ -27,10 +28,13 @@ class Parser:
         This is a generator.
         """
         for graph in graph_iterator:
+            log = ""
             raw_chart, parse_log = self.parse(graph, partial=partial)
-            chart = get_cky_chart(raw_chart)
-            parse_log += chart.log_length()
-            yield chart, parse_log
+            log += parse_log
+            chart, cky_log = get_cky_chart(raw_chart, self.permutations)
+            log += cky_log
+            log += chart.log_length()
+            yield chart, log
 
     def parse(self, graph, partial=False):
         """
@@ -160,8 +164,9 @@ class Parser:
                     if (after - before) > max_queue_diff_shift:
                         max_queue_diff_shift = after - before
 
-        etime = time.time() - start_time
-        parse_log += f"Elapsed time for parsing: {round(etime, 2)} sec\n"
+        elapsed_time = round(time.time() - start_time, 2)
+        print(f"Elapsed time for parsing: {elapsed_time} sec")
+        parse_log += f"Elapsed time for parsing: {elapsed_time} sec\n"
         parse_log += f"Max queue size: {max_queue_size}\n"
         parse_log += f"Max queue diff comp: {max_queue_diff_comp}\n"
         parse_log += f"Max queue diff outside nt: {max_queue_diff_outside_nt}\n"
@@ -180,16 +185,18 @@ class Parser:
         return len(item.shifted) == graph_size
 
 
-def get_cky_chart(chart):
+def get_cky_chart(chart, permutations):
     """
     Convert the chart returned by the parser into a standard parse chart.
     """
+    cky_log = ""
+    start_time = time.time()
 
     def search_productions(citem, chart):
         if len(chart[citem]) == 0:
-           return [] 
+            return []
         if citem == "START":
-           return [{"START":child[0]} for child in chart[citem]]
+            return [{"START": child[0]} for child in chart[citem]]
 
         prodlist = list(chart[citem])
 
@@ -206,11 +213,11 @@ def get_cky_chart(chart):
                 other_nts = search_productions(child[0], chart)
                 if other_nts:
                     for option in other_nts:
-                       d = dict(option)
-                       d[symbol] = child[1]
-                       result.append(d)
+                        d = dict(option)
+                        d[symbol] = child[1]
+                        result.append(d)
                 else:
-                   result.append(dict([(symbol, child[1])]))
+                    result.append(dict([(symbol, child[1])]))
             return result
         else:
             return search_productions(prodlist[0][0], chart)
@@ -233,6 +240,28 @@ def get_cky_chart(chart):
 
         prods = search_productions(item, chart)
         if prods:
-            cky_chart[item] = prods
+            if permutations:
+                cky_chart[item] = prods
+            else:
+                unique_prods = filter_permutations(prods)
+                cky_chart[item] = unique_prods
+    elapsed_time = round(time.time() - start_time, 2)
+    print(f"Elapsed time for cky convertion: {elapsed_time} sec")
+    cky_log += f"Elapsed time for cky convertion: {elapsed_time} sec\n"
+    return cky_chart, cky_log
 
-    return cky_chart
+
+def filter_permutations(prods):
+    unique_prods = []
+    seen_combinations = set()
+    for prod in prods:
+        rules = sorted([f"r{item.rule.rule_id}" for item in prod.values()])
+        nodes = []
+        for item in prod.values():
+            nodes += set(item.nodeset)
+        nodes = sorted(set(nodes))
+        combination = "_".join(rules + nodes)
+        if combination not in seen_combinations:
+            seen_combinations.add(combination)
+            unique_prods.append(prod)
+    return unique_prods
