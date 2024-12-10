@@ -135,7 +135,7 @@ class KBest(LoopOnSenDirs):
                 last_score = new_score
 
                 try:
-                    shifted_derivation, used_rules, matched_nodes = extract_for_kth_derivation(
+                    shifted_derivation, used_rules, matched_nodes, _, _ = extract_for_kth_derivation(
                         derivation,
                         n_score,
                         ki,

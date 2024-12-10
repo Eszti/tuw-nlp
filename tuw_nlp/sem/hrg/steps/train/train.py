@@ -19,6 +19,8 @@ class Train(LoopOnSenDirs):
         self.vocab = Vocabulary.from_file(vocab_file)
         self.no_rule = []
         self.not_validated = []
+        self.not_all_rules_used = []
+        self.not_all_nodes_covered = []
 
     def _do_for_sen(self, sen_idx, sen_dir):
         graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
@@ -51,9 +53,16 @@ class Train(LoopOnSenDirs):
                     grammar_lines.append(f"{rule}")
                 print(f"Grammar length: {len(grammar_lines)}")
 
-                log_from_validator, accepted = check_if_graph_accepted_by_hrg(grammar_lines, graph_str)
+                log_from_validator, accepted, all_rules_used, all_nodes_covered = check_if_graph_accepted_by_hrg(
+                    grammar_lines,
+                    graph_str
+                )
                 if not accepted:
-                    self.not_validated = sen_idx
+                    self.not_validated.append(exact_sen_idx)
+                if not all_rules_used:
+                    self.not_all_rules_used.append(exact_sen_idx)
+                if not all_nodes_covered:
+                    self.not_all_nodes_covered.append(exact_sen_idx)
                 log.writelines(log_from_validator)
 
                 with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
@@ -62,9 +71,13 @@ class Train(LoopOnSenDirs):
     def _after_loop(self):
         self._log(
             f"\nNumber of no rules: {len(self.no_rule)}\n"
-            f"{json.dumps(self.no_rule)}\n"
+            f"{json.dumps(self.no_rule)}"
             f"\nNumber of not validated: {len(self.not_validated)}\n"
-            f"{json.dumps(self.not_validated)}",
+            f"{json.dumps(self.not_validated)}"
+            f"\nNumber of not all rules used: {len(self.not_all_rules_used)}\n"
+            f"{json.dumps(self.not_all_rules_used)}"
+            f"\nNumber of not all nodes covered: {len(self.not_all_nodes_covered)}\n"
+            f"{json.dumps(self.not_all_nodes_covered)}",
         )
         super()._after_loop()
 

@@ -47,10 +47,11 @@ def extract_for_kth_derivation(derivation, n_score, ki):
             prob = 0
         rule = rule_str.split(';')[0].strip()
         used_rules += "%s\t%.2f\t%s\n" % (rule_id, float(prob), rule)
-    used_rules += f"Used rules counter: {sorted(rules_counter.items())}\n"
-    used_rules += f"Used rules sum: {sum(rules_counter.values())}\n"
+    used_rules += f"Used rules: {sorted(rules_counter.items())}\n"
+    used_rules += f"Different used rules: {len(rules_counter.keys())}\n"
+    used_rules += f"All used rules: {sum(rules_counter.values())}\n"
 
     final_item = derivation[1]["START"][0]
     nodes = sorted(list(final_item.nodeset), key=lambda node: int(node[1:]))
-    matched_nodes = "k%d:\t%s\n" % (ki, nodes)
-    return shifted_derivation, used_rules, matched_nodes
+    matched_nodes = f"k{ki}:\t{nodes} - {len(nodes)}"
+    return shifted_derivation, used_rules, matched_nodes, rules_counter, nodes
