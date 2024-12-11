@@ -131,10 +131,10 @@ def get_pred_graph_bolinas(pred_graph, arg_anchors, args, log, keep_node_labels=
     return bolinas_str, tail_anchors
 
 
-def get_rules_per_arg(sen_idx, ud_graph, pred, args, arg_graphs, vocab, log, out_dir):
+def get_rules_per_arg(sen_idx, ud_graph, pred, args, arg_graphs, log, out_dir):
 
     pred_graph_ud, arg_anchors = get_pred_graph(ud_graph, pred, args, log)
-    pred_graph = pred_graph_ud.pos_edge_graph(vocab)
+    pred_graph = pred_graph_ud.pos_edge_graph()
 
     with open(f"out/test{sen_idx}_pred.dot", "w") as f:
         f.write(pred_graph.to_dot())
@@ -160,12 +160,12 @@ def get_rules_per_arg(sen_idx, ud_graph, pred, args, arg_graphs, vocab, log, out
             f.write(f"A -> {agraph_bolinas};\n")
     log.write(f"wrote grammar to test{sen_idx}.hrg\n")
 
-    bolinas_graph = get_pred_arg_subgraph(ud_graph, pred, args, vocab, log)
+    bolinas_graph = get_pred_arg_subgraph(ud_graph, pred, args, log)
     save_as_dot(f"{out_dir}/sen{sen_idx}_graph.dot", bolinas_graph, log)
     save_bolinas_str(f"{out_dir}/sen{sen_idx}.graph", bolinas_graph, log)
 
 
-def get_pred_arg_subgraph(ud_graph, pred, args, vocab, log):
+def get_pred_arg_subgraph(ud_graph, pred, args, log):
     idx_to_keep = [n for nodes in args.values() for n in nodes] + pred
     log.write(f"idx_to_keep: {idx_to_keep}\n")
-    return ud_graph.subgraph(idx_to_keep, handle_unconnected="shortest_path").pos_edge_graph(vocab)
+    return ud_graph.subgraph(idx_to_keep, handle_unconnected="shortest_path").pos_edge_graph()

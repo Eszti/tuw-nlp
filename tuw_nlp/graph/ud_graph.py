@@ -156,17 +156,15 @@ class UDGraph(Graph):
         new_graph = UDGraph(self.stanza_sen, text=None, tokens=new_tokens, graph=H)
         return new_graph
 
-    def pos_edge_graph(self, vocab):
+    def pos_edge_graph(self):
         H = self.G.copy()
-        words = set()
         for u, v, d in H.edges(data=True):
             d["color"] = d["color"].lower()
         for node, data in self.G.nodes(data=True):
             word = data["name"]
-            if word in words:
-                word = f"{word}_"
-            words.add(word)
-            leaf_node_id = vocab.get_id(word, allow_new=True)
+            leaf_node_id = 1000
+            if "token_id" in data:
+                leaf_node_id += data["token_id"]
             H.add_node(leaf_node_id, name=word)
             H.add_edge(node, leaf_node_id, color=data["upos"])
             nx.set_node_attributes(H, {node: {"name": ""}})

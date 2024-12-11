@@ -15,8 +15,6 @@ class Train(LoopOnSenDirs):
         super().__init__(description="Script to create hrg rules on preprocessed train data.", config=config)
         self.method = self.config["method"]
         self.out_dir += f"_{self.method}"
-        vocab_file = f"{self.script_output_root}/vocab/{self.config['vocab_file']}"
-        self.vocab = Vocabulary.from_file(vocab_file)
         self.no_rule = []
         self.not_validated = []
         self.not_all_rules_used = []
