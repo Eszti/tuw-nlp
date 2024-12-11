@@ -1,10 +1,13 @@
 import logging
 import re
+import traceback
 from copy import deepcopy
 from itertools import chain, product
+from functools import partial
 
 import networkx as nx
 import penman as pn
+from anyascii import anyascii
 from networkx.algorithms.isomorphism import DiGraphMatcher
 
 from tuw_nlp import logger
@@ -48,35 +51,24 @@ class GraphFormulaPatternMatcher:
     """
 
     @staticmethod
-    def node_matcher_case_insensitive(n1, n2):
-        return GraphFormulaPatternMatcher.node_matcher(n1, n2, re.IGNORECASE)
+    def node_matcher(n1, n2, flags=0, attrs=None):
+        logger.debug(f"matchig these: {n1}, {n2}, {attrs=}")
+        attrs = ("name",) if attrs is None else attrs
+        for attr in attrs:
+            if not GraphFormulaPatternMatcher._node_matcher(n1, n2, flags, attr):
+                return False
+        return True
 
     @staticmethod
-    def node_matcher_case_sensitive(n1, n2):
-        return GraphFormulaPatternMatcher.node_matcher(n1, n2, 0)
-
-    @staticmethod
-    def node_matcher(n1, n2, flags):
-        logger.debug(f"matchig these: {n1}, {n2}")
-        if n1["name"] is None or n2["name"] is None:
+    def _node_matcher(n1, n2, flags, attr):
+        if n1[attr] is None or n2[attr] is None:
             return True
 
         return (
             True
-            if (
-                re.match(rf"\b({n2['name']})\b", n1["name"], flags)
-                or n2["name"] == n1["name"]
-            )
+            if (n2[attr] == n1[attr] or re.match(rf"\b({n2[attr]})\b", n1[attr], flags))
             else False
         )
-
-    @staticmethod
-    def edge_matcher_case_insensitive(n1, n2):
-        return GraphFormulaPatternMatcher.edge_matcher(n1, n2, re.IGNORECASE)
-
-    @staticmethod
-    def edge_matcher_case_sensitive(n1, n2):
-        return GraphFormulaPatternMatcher.edge_matcher(n1, n2, 0)
 
     @staticmethod
     def edge_matcher(e1, e2, flags):
@@ -88,35 +80,35 @@ class GraphFormulaPatternMatcher:
         )
 
     @staticmethod
-    def get_matcher(graph, neg_graph, case_sensitive):
-        if case_sensitive:
-            return DiGraphMatcher(
-                graph,
-                neg_graph,
-                node_match=GraphFormulaPatternMatcher.node_matcher_case_sensitive,
-                edge_match=GraphFormulaPatternMatcher.edge_matcher_case_sensitive,
-            )
-        else:
-            return DiGraphMatcher(
-                graph,
-                neg_graph,
-                node_match=GraphFormulaPatternMatcher.node_matcher_case_insensitive,
-                edge_match=GraphFormulaPatternMatcher.edge_matcher_case_insensitive,
-            )
+    def get_matcher(graph, neg_graph, case_sensitive, attrs=None):
+        flags = re.IGNORECASE if case_sensitive else 0
+        node_matcher = partial(
+            GraphFormulaPatternMatcher.node_matcher, flags=flags, attrs=attrs
+        )
+        edge_matcher = partial(GraphFormulaPatternMatcher.edge_matcher, flags=flags)
+
+        return DiGraphMatcher(
+            graph, neg_graph, node_match=node_matcher, edge_match=edge_matcher
+        )
 
     def __init__(self, patterns, converter, case_sensitive=False):
         self.case_sensitive = case_sensitive
-        self.reg_patterns = {
-            re.compile(r"^(\d+)\((.*),(.*)\)"): self.max_distance,
-            re.compile(r"^path\((.*),(.*)\)"): self.path_between,
-            re.compile(r"^undirected\((.*),(.*)\)"): self.undirected,
-        }
-        self.patts = []
+        if converter is None:
+            self.patts = patterns
+        else:
+            self.reg_patterns = {
+                re.compile(r"^(\d+)\((.*),(.*)\)"): self.max_distance,
+                re.compile(r"^path\((.*),(.*)\)"): self.path_between,
+                re.compile(r"^undirected\((.*),(.*)\)"): self.undirected,
+            }
+            self.patts = []
 
-        for patts, negs, key in patterns:
-            pos_patts = self.patt_list(patts, converter)
-            neg_graphs = self.patt_list(negs, converter)
-            self.patts.append((pos_patts, neg_graphs, key))
+            for patts, negs, key in patterns:
+                pos_patts = self.patt_list(patts, converter)
+                neg_graphs = self.patt_list(negs, converter)
+                self.patts.append((pos_patts, neg_graphs, key))
+
+        self.pattern_errors = set()
 
     def patt_list(self, patts, converter):
         patt_list = []
@@ -186,15 +178,19 @@ class GraphFormulaPatternMatcher:
         undirected_graph = graph.to_undirected().to_directed()
         return self.path_between(undirected_graph, nodes, subgraphs)
 
-    def digraph_matcher(self, graph, pattern, subgraphs):
+    def digraph_matcher(self, graph, pattern, subgraphs, attrs=None):
         matcher = GraphFormulaPatternMatcher.get_matcher(
-            graph, pattern, self.case_sensitive
+            graph, pattern, self.case_sensitive, attrs=attrs
         )
+
+        # logging.debug(f"matching this: {pattern}")
+        # logging.debug(f"matching this: {pattern.graph}")
 
         monomorphic_subgraphs = list(matcher.subgraph_monomorphisms_iter())
         if not len(monomorphic_subgraphs) == 0:
             for sub in monomorphic_subgraphs:
                 mapping = sub
+                logging.debug(f"{sub=}")
                 subgraph = graph.subgraph(mapping.keys()).copy()
                 # copying is essential, otherwise mapping gets overwritten if a node occurs in multiple matching subgraphs
                 nx.set_node_attributes(subgraph, mapping, name="mapping")
@@ -215,29 +211,45 @@ class GraphFormulaPatternMatcher:
                     return True
         return False
 
-    def match(self, graph, return_subgraphs=False):
+    def match(self, graph, return_subgraphs=False, attrs=None):
         for i, (patt, negs, key) in enumerate(self.patts):
-            logger.debug(f"matching this: {self.patts[i]}")
-            neg_match = self._neg_match(graph, negs)
+            logging.debug(
+                "matching these:"
+                + "\n".join(graph_to_pn(G, name_attr="name") for G in patt)
+            )
+            try:
+                neg_match = self._neg_match(graph, negs)
 
-            if not neg_match:
-                subgraphs = []
-                pos_match = True
-                for p in patt:
-                    if isinstance(p, tuple):
-                        if not p[0](graph, p[1], subgraphs):
-                            pos_match = False
-                            break
-                    else:
-                        if not self.digraph_matcher(graph, p, subgraphs):
-                            pos_match = False
-                            break
+                if not neg_match:
+                    subgraphs = []
+                    pos_match = True
+                    for p in patt:
+                        if isinstance(p, tuple):
+                            if not p[0](graph, p[1], subgraphs):
+                                pos_match = False
+                                break
+                        else:
+                            if not self.digraph_matcher(graph, p, subgraphs, attrs):
+                                pos_match = False
+                                break
 
-                if pos_match:
-                    if return_subgraphs:
-                        yield key, i, subgraphs
-                    else:
-                        yield key, i
+                    if pos_match:
+                        if return_subgraphs:
+                            logging.debug(
+                                "MATCH! Subgraphs:\n"
+                                + "\n".join(
+                                    graph_to_pn(G, name_attr="name") for G in subgraphs
+                                )
+                            )
+                            yield key, i, subgraphs
+                        else:
+                            yield key, i
+            except:
+                if i not in self.pattern_errors:
+                    logging.error(f"error matching {self.patts[i]=}")
+                    logging.error(f"\n{traceback.format_exc()}")
+                    logging.error("suppressing future errors caused by this pattern")
+                    self.pattern_errors.add(i)
 
 
 def gen_subgraphs(M, no_edges):
@@ -270,12 +282,16 @@ def gen_subgraphs(M, no_edges):
                 yield new_graph
 
 
-def pn_to_graph(raw_dl, edge_attr="color"):
+def pn_to_graph(raw_dl, edge_attr="color", node_attr="name"):
     """Convert penman to networkx format
     raw_dl: raw string of penman format
     example: (k_4<root> / like :2 (k_6 / eat :2 (k_7 / sausage)) :1 (k_3 / dog :2-of (u_12 / HAS :1 (k_1 / Adam))))
     edges marked with k_* are mapped to UD nodes, u_* are unknown in UD
     """
+    def postproc_name(name):
+        return name.replace("_PER_", "/")
+
+    node_attrs = node_attr.split("|")
 
     g = pn.decode(raw_dl)
     G = nx.DiGraph()
@@ -284,6 +300,10 @@ def pn_to_graph(raw_dl, edge_attr="color"):
 
     for i, trip in enumerate(g.instances()):
         node_id, name = trip[0], trip[2]
+
+        attrs = [postproc_name(attr) for attr in name.split("|")]
+        assert len(attrs) == len(node_attrs)
+        node_attr_dict = dict(zip(node_attrs, attrs))
 
         node_to_id[node_id] = i
 
@@ -298,11 +318,16 @@ def pn_to_graph(raw_dl, edge_attr="color"):
             raise ValueError(f"{ud_id} is not a number")
 
         if indicator == "k":
-            G.add_node(i, name=name, token_id=ud_id)
+            node_attr_dict["token_id"] = ud_id
         elif indicator == "u":
-            G.add_node(i, name=name, token_id=None)
+            node_attr_dict["token_id"] = None
         else:
             raise ValueError("Unknown indicator")
+
+        if "name" in node_attr_dict:
+            node_attr_dict["asciiname"] = anyascii(node_attr_dict["name"])
+
+        G.add_node(i, **node_attr_dict)
 
     for trip in g.edges():
         edge = trip[1].split(":")[1]
@@ -358,7 +383,8 @@ def bolinas_to_graph(bolinas_str, edge_attr="color"):
     return G, root_id
 
 
-def graph_to_bolinas(graph, name_attr="name", return_root=False, ext_node=None, keep_node_ids=True, add_names=False):
+def graph_to_bolinas(graph, name_attr="name", return_root=False, ext_node=None, keep_node_ids=True
+, add_names=False):
     nodes = {}
     pn_edges = []
 
@@ -385,7 +411,7 @@ def graph_to_bolinas(graph, name_attr="name", return_root=False, ext_node=None, 
     G = pn.Graph(pn_edges)
     bolinas_str = pn.encode(G, top=nodes[top_node], indent=0).replace("\n", " ")
     if not keep_node_ids:
-        bolinas_str = re.sub(r'n[0-9]*\.', ".", bolinas_str)
+        bolinas_str = re.sub(r"n[0-9]*\.", ".", bolinas_str)
     if return_root:
         return bolinas_str, top_node
     else:
@@ -393,13 +419,20 @@ def graph_to_bolinas(graph, name_attr="name", return_root=False, ext_node=None, 
 
 
 def graph_to_pn(graph, name_attr="name"):
+    def preproc_name(name):
+        return name.replace("/", "_PER_")
+
     nodes = {}
     pn_edges, pn_nodes = [], []
+
+    name_attrs = name_attr.split("|")
 
     for u, v, e in graph.edges(data=True):
         for node in u, v:
             if node not in nodes:
-                name = graph.nodes[node][name_attr]
+                name = preproc_name(
+                    "|".join(graph.nodes[node][attr] for attr in name_attrs)
+                )
                 pn_id = f"u_{node}"
                 nodes[node] = (pn_id, name)
                 pn_nodes.append((pn_id, ":instance", name))
@@ -408,7 +441,7 @@ def graph_to_pn(graph, name_attr="name"):
 
     for node in graph.nodes():
         if node not in nodes:
-            name = graph.nodes[node][name_attr]
+            name = "|".join(graph.nodes[node][attr] for attr in name_attrs)
             pn_id = f"u_{node}"
             nodes[node] = (pn_id, name)
             pn_nodes.append((pn_id, ":instance", name))

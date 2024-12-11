@@ -53,17 +53,25 @@ def normalize_whitespace(text):
     return " ".join([s for s in text.split() if s])
 
 
+def tuple_if_list(item):
+    if isinstance(item, list):
+        return tuple(item)
+    return item
+
+
 def load_parsed(fn):
     with open(fn) as f:
         parsed = json.load(f)
         return {
-            text: StanzaDocument(parse, text=text) for text, parse in parsed.items()
+            tuple_if_list(item["text"]): StanzaDocument(item["doc"]) for item in parsed
         }
 
 
 def save_parsed(parsed, fn):
     with open(fn, "w") as f:
-        json.dump({text: doc.to_dict() for text, doc in parsed.items()}, f)
+        json.dump(
+            [{"text": text, "doc": doc.to_dict()} for text, doc in parsed.items()], f
+        )
 
 
 def replace_emojis(text, with_what="EMOJI"):

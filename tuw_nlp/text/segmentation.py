@@ -11,7 +11,7 @@ class SsplitFixer(Processor):
     _requires = set(["tokenize"])
     _provides = set(["fix_ssplit"])
 
-    def __init__(self, config, pipeline, use_gpu):
+    def __init__(self, device, config, pipeline):
         pass
 
     def _set_up_model(self, *args):

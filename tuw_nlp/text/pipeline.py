@@ -8,18 +8,25 @@ from tuw_nlp.text.utils import load_parsed, save_parsed
 
 
 class CustomStanzaPipeline:
-    def __init__(self, lang="de", processors=None, package="default"):
+    def __init__(
+        self, lang="de", processors=None, package="default", pretokenized=False
+    ):
+        self.pretokenized = pretokenized
         if processors is None:
             processors = {}
         self.lang = lang
 
         if self.lang == "de":
             self.tokenizer = stanza.Pipeline(
-                lang="de", processors="tokenize,fix_ssplit"
+                lang="de",
+                processors="tokenize,fix_ssplit",
+                tokenize_pretokenized=pretokenized,
             )
         else:
             self.tokenizer = stanza.Pipeline(
-                lang=self.lang, processors="tokenize", package=package
+                lang=self.lang,
+                processors="tokenize",
+                package=package
             )
 
         self.additional = stanza.Pipeline(
@@ -27,14 +34,18 @@ class CustomStanzaPipeline:
             processors=processors,
             tokenize_no_ssplit=True,
             package=package,
+            tokenize_pretokenized=pretokenized
         )
 
     def ssplit(self, text):
         return [sen.text for sen in self.tokenizer(text).sentences]
 
     def process(self, text):
-        sens = self.ssplit(text)
-        return self.additional("\n\n".join(sens))
+        if self.pretokenized:
+            return self.additional(text)
+        else:
+            sens = self.ssplit(text)
+            return self.additional("\n\n".join(sens))
 
     def __call__(self, text):
         return self.process(text)
@@ -66,7 +77,8 @@ class CachedStanzaPipeline:
 
     def __call__(self, text, ssplit=True):
         if text not in self.parsed:
-            self.parsed[text] = self.parse(text, ssplit=ssplit)
+            to_parse = [list(text)] if isinstance(text, tuple) else text
+            self.parsed[text] = self.parse(to_parse, ssplit=ssplit)
             self.changed = True
 
         return self.parsed[text]
@@ -74,8 +86,11 @@ class CachedStanzaPipeline:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, exc_traceback):
+    def save_cache_if_changed(self):
         if self.changed:
             logger.info(f"saving NLP cache to {self.cache_path}...")
             save_parsed(self.parsed, self.cache_path)
             logger.info("done!")
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.save_cache_if_changed()

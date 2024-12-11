@@ -34,7 +34,7 @@ setup(
         "dict-recursive-update",
         "networkx",
         "penman",
-        "stanza==1.3.0",
+        "stanza>=1.3.0",
         "nltk",
         "graphviz",
         "conceptnet-lite",
@@ -48,6 +48,7 @@ setup(
         "scikit-learn",
         "matplotlib",
         "ordered-set",
+        "anyascii"
         #"ucca @ git+https://github.com/adaamko/ucca.git#egg=ucca",
     ],
     packages=find_packages(),
