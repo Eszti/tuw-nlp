@@ -1,4 +1,4 @@
-Execution start: 2024-11-14 15:28:44.885282
+Execution start: 2024-12-11 22:31:03.614100
 {
     "in_file": "lsoie_data/lsoie_wiki_train.conll",
     "out_dir": "train_preproc"
@@ -8,6 +8,6 @@ Execution start: 2024-11-14 15:28:44.885282
 First sentence to process: 0
 Last sentence to process: 46015
 
-Execution finish: 2024-11-14 18:14:33.947903
-Elapsed time: 166 min 49 sec
+Execution finish: 2024-12-12 00:42:12.165771
+Elapsed time: 131 min 9 sec
 
