@@ -2,10 +2,10 @@ import json
 import logging
 import os
 
-from tuw_nlp.common.vocabulary import Vocabulary
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
+from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import TooMuchStepsException
 from tuw_nlp.sem.hrg.steps.bolinas.validate.validate import check_if_graph_accepted_by_hrg
 from tuw_nlp.sem.hrg.steps.train.rule_generation.per_word import get_rules_per_word
 
@@ -19,6 +19,7 @@ class Train(LoopOnSenDirs):
         self.not_validated = []
         self.not_all_rules_used = []
         self.not_all_nodes_covered = []
+        self.parse_did_not_finish = []
 
     def _do_for_sen(self, sen_idx, sen_dir):
         graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
@@ -51,20 +52,29 @@ class Train(LoopOnSenDirs):
                     grammar_lines.append(f"{rule}")
                 print(f"Grammar length: {len(grammar_lines)}")
 
-                log_from_validator, accepted, all_rules_used, all_nodes_covered = check_if_graph_accepted_by_hrg(
-                    grammar_lines,
-                    graph_str
-                )
-                if not accepted:
-                    self.not_validated.append(exact_sen_idx)
-                if not all_rules_used:
-                    self.not_all_rules_used.append(exact_sen_idx)
-                if not all_nodes_covered:
-                    self.not_all_nodes_covered.append(exact_sen_idx)
-                log.writelines(log_from_validator)
+                try:
+                    log_from_validator, accepted, all_rules_used, all_nodes_covered = check_if_graph_accepted_by_hrg(
+                        grammar_lines,
+                        graph_str
+                    )
+                    if not accepted:
+                        self.not_validated.append(exact_sen_idx)
+                    if not all_rules_used:
+                        self.not_all_rules_used.append(exact_sen_idx)
+                    if not all_nodes_covered:
+                        self.not_all_nodes_covered.append(exact_sen_idx)
+                    log.writelines(log_from_validator)
 
-                with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
-                    f.writelines(grammar_lines)
+                    with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
+                        f.writelines(grammar_lines)
+                except TooMuchStepsException as e:
+                    self.parse_did_not_finish.append(exact_sen_idx)
+                    log.write(
+                        f"\nParse did not finish:\n"
+                        f"steps: {e.steps}\n"
+                        f"queue len: {e.queue_len}\n"
+                        f"attempted len:{e.attempted_len}\b"
+                    )
 
     def _after_loop(self):
         self._log(
@@ -75,7 +85,9 @@ class Train(LoopOnSenDirs):
             f"\nNumber of not all rules used: {len(self.not_all_rules_used)}\n"
             f"{json.dumps(self.not_all_rules_used)}"
             f"\nNumber of not all nodes covered: {len(self.not_all_nodes_covered)}\n"
-            f"{json.dumps(self.not_all_nodes_covered)}",
+            f"{json.dumps(self.not_all_nodes_covered)}"
+            f"\nNumber of parse did not finish: {len(self.parse_did_not_finish)}\n"
+            f"{json.dumps(self.parse_did_not_finish)}",
         )
         super()._after_loop()
 

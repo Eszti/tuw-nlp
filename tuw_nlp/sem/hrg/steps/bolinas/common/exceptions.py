@@ -20,3 +20,10 @@ class ParserError(Exception):
 
 class GrammarError(Exception):
     pass
+
+
+class TooMuchStepsException(Exception):
+    def __init__(self, steps, queue, attempted):
+        self.steps = steps
+        self.queue_len = len(queue)
+        self.attempted_len = len(attempted)

@@ -4,6 +4,7 @@ from collections import defaultdict, deque
 from ordered_set import OrderedSet
 
 from tuw_nlp.sem.hrg.steps.bolinas.common.chart import Chart
+from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import TooMuchStepsException
 from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_item import HergItem
 
 
@@ -88,6 +89,15 @@ class Parser:
         while queue:
             if self.max_steps and steps >= self.max_steps:
                 break
+            if steps % 5000 == 0:
+                print(f"\nstep {steps}")
+                print(f"len queue: {len(queue)}")
+                print(f"len pending: {len(pending)}")
+                print(f"len attempted: {len(attempted)}")
+                print(f"len visited: {len(visited)}")
+
+            if len(attempted) > 20000000 and len(queue) > 5000:
+                raise TooMuchStepsException(steps, queue, attempted)
 
             steps += 1
 
