@@ -22,8 +22,13 @@ class GrammarError(Exception):
     pass
 
 
-class TooMuchStepsException(Exception):
+class ParseTooLongException(Exception):
     def __init__(self, steps, queue, attempted):
         self.steps = steps
         self.queue_len = len(queue)
         self.attempted_len = len(attempted)
+
+
+class CkyTooLongException(Exception):
+    def __init__(self, steps):
+        self.steps = steps

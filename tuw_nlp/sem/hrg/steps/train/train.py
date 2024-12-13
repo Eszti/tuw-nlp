@@ -5,7 +5,7 @@ import os
 from tuw_nlp.graph.graph import Graph
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
 from tuw_nlp.sem.hrg.common.triplet import Triplet
-from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import TooMuchStepsException
+from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import ParseTooLongException, CkyTooLongException
 from tuw_nlp.sem.hrg.steps.bolinas.validate.validate import check_if_graph_accepted_by_hrg
 from tuw_nlp.sem.hrg.steps.train.rule_generation.per_word import get_rules_per_word
 
@@ -20,6 +20,7 @@ class Train(LoopOnSenDirs):
         self.not_all_rules_used = []
         self.not_all_nodes_covered = []
         self.parse_did_not_finish = []
+        self.cky_did_not_finish = []
 
     def _do_for_sen(self, sen_idx, sen_dir):
         graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
@@ -67,13 +68,19 @@ class Train(LoopOnSenDirs):
 
                     with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
                         f.writelines(grammar_lines)
-                except TooMuchStepsException as e:
+                except ParseTooLongException as e:
                     self.parse_did_not_finish.append(exact_sen_idx)
                     log.write(
-                        f"\nParse did not finish:\n"
-                        f"steps: {e.steps}\n"
-                        f"queue len: {e.queue_len}\n"
-                        f"attempted len:{e.attempted_len}\b"
+                        f"Parse did not finish:\n"
+                        f"- steps: {e.steps}\n"
+                        f"- queue len: {e.queue_len}\n"
+                        f"- attempted len:{e.attempted_len}\n"
+                    )
+                except CkyTooLongException as e:
+                    self.cky_did_not_finish.append(exact_sen_idx)
+                    log.write(
+                        f"Cky conversion did not finish:\n"
+                        f"- steps: {e.steps}\n"
                     )
 
     def _after_loop(self):
@@ -87,7 +94,9 @@ class Train(LoopOnSenDirs):
             f"\nNumber of not all nodes covered: {len(self.not_all_nodes_covered)}\n"
             f"{json.dumps(self.not_all_nodes_covered)}"
             f"\nNumber of parse did not finish: {len(self.parse_did_not_finish)}\n"
-            f"{json.dumps(self.parse_did_not_finish)}",
+            f"{json.dumps(self.parse_did_not_finish)}"
+            f"\nNumber of cky conversion did not finish: {len(self.cky_did_not_finish)}\n"
+            f"{json.dumps(self.cky_did_not_finish)}",
         )
         super()._after_loop()
 

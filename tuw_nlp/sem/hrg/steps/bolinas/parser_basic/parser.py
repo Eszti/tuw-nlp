@@ -4,7 +4,7 @@ from collections import defaultdict, deque
 from ordered_set import OrderedSet
 
 from tuw_nlp.sem.hrg.steps.bolinas.common.chart import Chart
-from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import TooMuchStepsException
+from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import ParseTooLongException, CkyTooLongException
 from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_item import HergItem
 
 
@@ -97,7 +97,7 @@ class Parser:
                 print(f"len visited: {len(visited)}")
 
             if len(attempted) > 20000000 and len(queue) > 5000:
-                raise TooMuchStepsException(steps, queue, attempted)
+                raise ParseTooLongException(steps, queue, attempted)
 
             steps += 1
 
@@ -195,14 +195,23 @@ class Parser:
         return len(item.shifted) == graph_size
 
 
+cky_steps = 0
+
+
 def get_cky_chart(chart, permutations):
     """
     Convert the chart returned by the parser into a standard parse chart.
     """
     cky_log = ""
     start_time = time.time()
+    global cky_steps
+    cky_steps = 0
 
     def search_productions(citem, chart):
+        global cky_steps
+        cky_steps += 1
+        if round(time.time() - start_time, 2) > 60:
+            raise CkyTooLongException(cky_steps)
         if len(chart[citem]) == 0:
             return []
         if citem == "START":
@@ -256,6 +265,8 @@ def get_cky_chart(chart, permutations):
                 unique_prods = filter_permutations(prods)
                 cky_chart[item] = unique_prods
     elapsed_time = round(time.time() - start_time, 2)
+    cky_log += f"Used steps for cky conversion: {cky_steps}\n"
+    print(f"Used steps for cky conversion: {cky_steps}")
     print(f"Elapsed time for cky convertion: {elapsed_time} sec")
     cky_log += f"Elapsed time for cky convertion: {elapsed_time} sec\n"
     return cky_chart, cky_log
