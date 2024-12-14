@@ -2,10 +2,8 @@ import fileinput
 import pickle
 
 from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
-from tuw_nlp.sem.hrg.steps.bolinas.common.grammar import Grammar
 from tuw_nlp.sem.hrg.steps.bolinas.common.hgraph.hgraph import Hgraph
 from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.parser import Parser
-from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_rule import VoRule
 
 
 class Parse(LoopOnSenDirs):
@@ -17,20 +15,7 @@ class Parse(LoopOnSenDirs):
 
     def _before_loop(self):
         self._load_grammar()
-        self.parser = Parser(self.grammar)
-
-    def _load_grammar(self):
-        logprob = True
-        nodelabels = True
-        backward = False
-
-        grammar_file = f"{self._get_subdir('grammar', create=False)}/{self.config['grammar_file']}"
-
-        with open(grammar_file) as f:
-            self.grammar = Grammar.load_from_file(f, VoRule, backward, nodelabels=nodelabels, logprob=logprob)
-
-        rhs2_type = f"-to-{self.grammar.rhs2_type}" if self.grammar.rhs2_type else ''
-        self._log(f"\nLoaded {self.grammar.rhs1_type}{rhs2_type} grammar with {len(self.grammar)} rules.")
+        self.parser = Parser(self.grammar, max_steps=self.config.get("max_steps", 10000))
 
     def _do_for_sen(self, sen_idx, sen_dir):
         bolinas_dir = self._get_subdir("bolinas", parent_dir=f"{self.out_dir}/{str(sen_idx)}")
@@ -44,9 +29,7 @@ class Parse(LoopOnSenDirs):
         sen_log_lines = []
         parse_generator = self.parser.parse_graphs(
             (Hgraph.from_string(x) for x in fileinput.input(graph_file)),
-            sen_log_lines,
             partial=True,
-            max_steps=self.config.get("max_steps", 10000)
         )
 
         for i, (chart, parse_logs) in enumerate(parse_generator):

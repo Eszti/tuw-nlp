@@ -34,7 +34,7 @@ class Parser:
             log += parse_log
             chart, cky_log = get_cky_chart(raw_chart, self.permutations)
             log += cky_log
-            log += chart.log_length()
+            log += f"\n{chart.log_length()}"
             yield chart, log
 
     def parse(self, graph, partial=False):
@@ -89,7 +89,7 @@ class Parser:
         while queue:
             if self.max_steps and steps >= self.max_steps:
                 break
-            if steps % 5000 == 0:
+            if steps % 5000 == 0 and steps > 0:
                 print(f"\nstep {steps}")
                 print(f"len queue: {len(queue)}")
                 print(f"len pending: {len(pending)}")
@@ -175,13 +175,13 @@ class Parser:
                         max_queue_diff_shift = after - before
 
         elapsed_time = round(time.time() - start_time, 2)
-        print(f"Elapsed time for parsing: {elapsed_time} sec")
-        parse_log += f"Elapsed time for parsing: {elapsed_time} sec\n"
+        parsing_summary = f"Parsing: {elapsed_time} sec, {steps} steps"
+        print(f"\n{parsing_summary}")
+        parse_log += f"{parsing_summary}\n"
         parse_log += f"Max queue size: {max_queue_size}\n"
         parse_log += f"Max queue diff comp: {max_queue_diff_comp}\n"
         parse_log += f"Max queue diff outside nt: {max_queue_diff_outside_nt}\n"
         parse_log += f"Max queue diff shift: {max_queue_diff_shift}\n"
-        parse_log += f"Steps: {steps}\n"
 
         return chart, parse_log
 
@@ -202,7 +202,6 @@ def get_cky_chart(chart, permutations):
     """
     Convert the chart returned by the parser into a standard parse chart.
     """
-    cky_log = ""
     start_time = time.time()
     global cky_steps
     cky_steps = 0
@@ -265,11 +264,9 @@ def get_cky_chart(chart, permutations):
                 unique_prods = filter_permutations(prods)
                 cky_chart[item] = unique_prods
     elapsed_time = round(time.time() - start_time, 2)
-    cky_log += f"Used steps for cky conversion: {cky_steps}\n"
-    print(f"Used steps for cky conversion: {cky_steps}")
-    print(f"Elapsed time for cky convertion: {elapsed_time} sec")
-    cky_log += f"Elapsed time for cky convertion: {elapsed_time} sec\n"
-    return cky_chart, cky_log
+    cky_summary = f"Cky conversion: {elapsed_time} sec, {cky_steps} steps"
+    print(cky_summary)
+    return cky_chart, f"\n{cky_summary}\n"
 
 
 def filter_permutations(prods):

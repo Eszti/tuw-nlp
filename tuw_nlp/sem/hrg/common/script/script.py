@@ -48,20 +48,25 @@ class Script(ABC):
             if self.first_sen_to_proc is not None or self.last_sen_to_proc is not None:
                 self._log(
                     f"\nFirst sentence to process: {self.first_sen_to_proc}"
-                    f"\nLast sentence to process: {self.last_sen_to_proc}"
+                    f"\nLast sentence to process: {self.last_sen_to_proc}",
+                    print_to_std=True,
                 )
-            self._log(f"\nExecution finish: {datetime.now()}")
+            self._log(f"\nExecution finish: {datetime.now()}", print_to_std=True)
             elapsed_time = time.time() - self.start_time
-            self._log(f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n")
+            self._log(
+                f"Elapsed time: {round(elapsed_time / 60)} min {round(elapsed_time % 60)} sec\n",
+                print_to_std=True
+            )
 
-    def _log(self, line, log_lines=None):
+    def _log(self, line, log_lines=None, print_to_std=False):
         new_line = f"{line}\n"
-        if not log_lines:
+        if log_lines is None:
             with open(self.log_file, "a") as f:
                 f.write(new_line)
         else:
             log_lines.append(new_line)
-        print(line)
+        if print_to_std:
+            print(line)
 
     def _get_subdir(self, name, parent_dir=None, create=True):
         if parent_dir is None:

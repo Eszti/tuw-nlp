@@ -36,8 +36,8 @@ def get_rules(derivation, cnt):
 
 
 def extract_for_kth_derivation(derivation, n_score, ki):
-    shifted_derivation = f"%s;%g\n" % (print_shifted(derivation), n_score)
-    used_rules = "%s\t#%g\n" % (format_derivation(derivation), n_score)
+    log = f"%s;%g\n\n" % (print_shifted(derivation), n_score)
+    log += "%s\t#%g\n\n" % (format_derivation(derivation), n_score)
     rules_counter = Counter()
     rules = get_rules(derivation, rules_counter)
     for rule_id in sorted(rules):
@@ -46,12 +46,12 @@ def extract_for_kth_derivation(derivation, n_score, ki):
         if not prob:
             prob = 0
         rule = rule_str.split(';')[0].strip()
-        used_rules += "%s\t%.2f\t%s\n" % (rule_id, float(prob), rule)
-    used_rules += f"Used rules: {sorted(rules_counter.items())}\n"
-    used_rules += f"Different used rules: {len(rules_counter.keys())}\n"
-    used_rules += f"All used rules: {sum(rules_counter.values())}\n"
+        log += "%s\t%.2f\t%s\n" % (rule_id, float(prob), rule)
+    log += f"\nUsed rules: {sorted(rules_counter.items())}\n"
+    log += f"Different used rules: {len(rules_counter.keys())}\n"
+    log += f"All used rules: {sum(rules_counter.values())}\n\n"
 
     final_item = derivation[1]["START"][0]
     nodes = sorted(list(final_item.nodeset), key=lambda node: int(node[1:]))
-    matched_nodes = f"k{ki}:\t{nodes} - {len(nodes)}"
-    return shifted_derivation, used_rules, matched_nodes, rules_counter, nodes
+    log += f"k{ki}:\t{nodes} - {len(nodes)}\n"
+    return log, rules_counter, nodes

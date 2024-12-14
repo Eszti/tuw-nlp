@@ -2,6 +2,8 @@ import os
 from abc import abstractmethod
 
 from tuw_nlp.sem.hrg.common.script.script import Script
+from tuw_nlp.sem.hrg.steps.bolinas.common.grammar import Grammar
+from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_rule import VoRule
 
 
 class LoopOnSenDirs(Script):
@@ -31,3 +33,12 @@ class LoopOnSenDirs(Script):
     @abstractmethod
     def _do_for_sen(self, sen_idx, sen_dir):
         raise NotImplemented
+
+    def _load_grammar(self):
+        grammar_file = f"{self._get_subdir('grammar', create=False)}/{self.config['grammar_file']}"
+
+        with open(grammar_file) as f:
+            self.grammar = Grammar.load_from_file(f, VoRule, reverse=False, nodelabels=True, logprob=True)
+
+        rhs2_type = f"-to-{self.grammar.rhs2_type}" if self.grammar.rhs2_type else ''
+        self._log(f"\nLoaded {self.grammar.rhs1_type}{rhs2_type} grammar with {len(self.grammar)} rules.")

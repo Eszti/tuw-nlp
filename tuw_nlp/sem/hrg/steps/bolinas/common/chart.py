@@ -1,7 +1,6 @@
 import heapq
 import itertools
 import time
-from datetime import datetime
 
 
 class Chart(dict):
@@ -10,20 +9,16 @@ class Chart(dict):
     """
 
     def derivations(self, item="START", only_first=False, max_steps=None, k_best=None):
-        search_log = ""
         start_time = time.time()
-        search_log += f"Start search: {datetime.now()}\n"
         if only_first:
             derivation, steps = self._first_derivation(item)
             derivations = [derivation]
         else:
             derivations, steps = self._derivations(item, 0, max_steps, k_best)
-        search_log += f"Finish search: {datetime.now()}\n"
         elapsed_time = round(time.time() - start_time, 2)
-        print(f"Elapsed time for search: {elapsed_time} sec")
-        search_log += f"Elapsed time for searching: {elapsed_time} sec\n"
-        search_log += f"Used steps: {steps}\n"
-        return derivations, search_log
+        search_summary = f"Search: {elapsed_time} sec, {steps} steps"
+        print(search_summary)
+        return derivations, f"{search_summary}\n"
 
     def _derivations(self, item, done_steps, max_steps, k_best):
         """

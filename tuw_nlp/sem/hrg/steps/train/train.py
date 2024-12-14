@@ -1,16 +1,18 @@
 import json
 import logging
-import os
 
 from tuw_nlp.graph.graph import Graph
-from tuw_nlp.sem.hrg.common.script.loop_on_sen_dirs import LoopOnSenDirs
-from tuw_nlp.sem.hrg.common.triplet import Triplet
-from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import ParseTooLongException, CkyTooLongException
-from tuw_nlp.sem.hrg.steps.bolinas.validate.validate import check_if_graph_accepted_by_hrg
+from tuw_nlp.sem.hrg.common.script.loop_on_triplets import LoopOnTriplets
+from tuw_nlp.sem.hrg.steps.bolinas.common.exceptions import ParseTooLongException, CkyTooLongException, \
+    NotAllNodesCoveredException
+from tuw_nlp.sem.hrg.steps.bolinas.common.grammar import Grammar
+from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.parser import Parser
+from tuw_nlp.sem.hrg.steps.bolinas.parser_basic.vo_rule import VoRule
+from tuw_nlp.sem.hrg.steps.bolinas.validate.check_membership import check_membership
 from tuw_nlp.sem.hrg.steps.train.rule_generation.per_word import get_rules_per_word
 
 
-class Train(LoopOnSenDirs):
+class Train(LoopOnTriplets):
     def __init__(self, config=None):
         super().__init__(description="Script to create hrg rules on preprocessed train data.", config=config)
         self.method = self.config["method"]
@@ -22,66 +24,46 @@ class Train(LoopOnSenDirs):
         self.parse_did_not_finish = []
         self.cky_did_not_finish = []
 
-    def _do_for_sen(self, sen_idx, sen_dir):
-        graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
-        for graph_file in graph_files:
-            exact_sen_idx = int(graph_file.split("/")[-1].split("_triplet.graph")[0].split("sen")[-1])
-            hrg_dir = f"{self.out_dir}/{str(exact_sen_idx)}"
-            if not os.path.exists(hrg_dir):
-                os.makedirs(hrg_dir)
-            log = open(f"{hrg_dir}/sen{exact_sen_idx}.log", "w")
-            print(f"\nProcessing sen {exact_sen_idx}")
+    def _do_for_triplet(self, sen_dir, triplet_idx, triplet_graph_str, triplet):
+        hrg_dir = self._get_subdir(str(triplet_idx), self.out_dir)
+        triplet_log = open(f"{hrg_dir}/sen{triplet_idx}.log", "w")
+        triplet_graph = Graph.from_bolinas(triplet_graph_str)
 
-            with open(graph_file) as f:
-                lines = f.readlines()
-                assert len(lines) == 1
-                graph_str = lines[0].strip()
-            triplet_graph = Graph.from_bolinas(graph_str)
-            triplet = Triplet.from_file(f"{sen_dir}/sen{exact_sen_idx}_triplet.txt")
+        initial_rule = ""
+        rules = []
+        if self.method == "per_word":
+            initial_rule, rules = get_rules_per_word(triplet_graph, triplet)
+        # Todo: per_arg
+        if initial_rule is None:
+            assert len(rules) == 0
+            self.no_rule.append(triplet_idx)
+        else:
+            grammar_lines = [f"{initial_rule}"]
+            for rule in sorted(rules):
+                grammar_lines.append(f"{rule}")
+            triplet_log.write(f"Grammar length: {len(grammar_lines)}\n")
+            grammar = Grammar.load_from_file(grammar_lines, VoRule, nodelabels=True, logprob=True)
+            parser = Parser(grammar, stop_at_first=True, permutations=False)
 
-            initial_rule = ""
-            rules = []
-            if self.method == "per_word":
-                initial_rule, rules = get_rules_per_word(triplet_graph, triplet)
-            # Todo: per_arg
-            if initial_rule is None:
-                assert len(rules) == 0
-                self.no_rule.append(exact_sen_idx)
-            else:
-                grammar_lines = [f"{initial_rule}"]
-                for rule in sorted(rules):
-                    grammar_lines.append(f"{rule}")
-                print(f"Grammar length: {len(grammar_lines)}")
-
-                try:
-                    log_from_validator, accepted, all_rules_used, all_nodes_covered = check_if_graph_accepted_by_hrg(
-                        grammar_lines,
-                        graph_str
-                    )
-                    if not accepted:
-                        self.not_validated.append(exact_sen_idx)
-                    if not all_rules_used:
-                        self.not_all_rules_used.append(exact_sen_idx)
-                    if not all_nodes_covered:
-                        self.not_all_nodes_covered.append(exact_sen_idx)
-                    log.writelines(log_from_validator)
-
-                    with open(f"{hrg_dir}/sen{exact_sen_idx}.hrg", "w") as f:
-                        f.writelines(grammar_lines)
-                except ParseTooLongException as e:
-                    self.parse_did_not_finish.append(exact_sen_idx)
-                    log.write(
-                        f"Parse did not finish:\n"
-                        f"- steps: {e.steps}\n"
-                        f"- queue len: {e.queue_len}\n"
-                        f"- attempted len:{e.attempted_len}\n"
-                    )
-                except CkyTooLongException as e:
-                    self.cky_did_not_finish.append(exact_sen_idx)
-                    log.write(
-                        f"Cky conversion did not finish:\n"
-                        f"- steps: {e.steps}\n"
-                    )
+            try:
+                log_from_validator, used_rules = check_membership(parser, triplet_graph_str)
+                triplet_log.writelines(log_from_validator)
+                if used_rules is None:
+                    self.not_validated.append(triplet_idx)
+                if len(used_rules.keys()) != len(grammar):
+                    triplet_log.writelines(f"\nNot all rules are used: {len(used_rules.keys())} of {len(grammar)}\n")
+                    self.not_all_rules_used.append(triplet_idx)
+                with open(f"{hrg_dir}/sen{triplet_idx}.hrg", "w") as f:
+                    f.writelines(grammar_lines)
+            except ParseTooLongException as e:
+                self.parse_did_not_finish.append(triplet_idx)
+                triplet_log.write(e.print_message())
+            except CkyTooLongException as e:
+                self.cky_did_not_finish.append(triplet_idx)
+                triplet_log.write(e.print_message())
+            except NotAllNodesCoveredException as e:
+                self.not_all_nodes_covered.append(triplet_idx)
+                triplet_log.write(e.print_message())
 
     def _after_loop(self):
         self._log(
