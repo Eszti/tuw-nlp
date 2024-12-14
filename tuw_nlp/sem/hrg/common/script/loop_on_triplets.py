@@ -7,7 +7,10 @@ from tuw_nlp.sem.hrg.common.triplet import Triplet
 
 class LoopOnTriplets(LoopOnSenDirs):
     def _do_for_sen(self, sen_idx, sen_dir):
-        graph_files = sorted([f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")])
+        graph_files = sorted(
+            [f"{sen_dir}/{fn}" for fn in os.listdir(sen_dir) if fn.endswith("_triplet.graph")],
+            key=lambda x: int(x.split("/")[-1].split("_")[0].split("sen")[-1])
+        )
         for graph_file in graph_files:
             triplet_idx = int(graph_file.split("/")[-1].split("_triplet.graph")[0].split("sen")[-1])
             print(f"\nProcessing triplet {triplet_idx}")

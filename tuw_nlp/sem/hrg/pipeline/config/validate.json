@@ -1,0 +1,5 @@
+{
+    "in_dir": "dev_preproc",
+    "grammar_file": "hrg.hrg",
+    "out_dir": "dev_validate"
+}

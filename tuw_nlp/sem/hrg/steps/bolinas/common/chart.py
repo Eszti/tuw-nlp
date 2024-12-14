@@ -102,6 +102,6 @@ class Chart(dict):
         return length
 
     def log_length(self):
-        return f"Chart START items len: {len(self['START'])}\n" \
+        return f"Chart START items len: {len(self['START']) if 'START' in self else 0}\n" \
                f"Chart keys len: {len(self)}\n" \
                f"Chart items len: {self.items_length()}\n"
