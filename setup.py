@@ -1,3 +1,7 @@
+import os
+import subprocess
+import sys
+
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 from setuptools.command.egg_info import egg_info
@@ -45,9 +49,6 @@ setup(
         "unidecode",
         "conllu",
         "tabulate",
-        "scikit-learn",
-        "matplotlib",
-        "ordered-set",
         "anyascii"
         #"ucca @ git+https://github.com/adaamko/ucca.git#egg=ucca",
     ],
