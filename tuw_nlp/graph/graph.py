@@ -53,15 +53,22 @@ class Graph:
         return s
 
     def to_bolinas(
-        self, name_attr="name", return_root=False, ext_node=None, keep_node_ids=True
-    , add_names=False):
+            self,
+            name_attr="name",
+            return_root=False,
+            ext_node=None,
+            keep_node_ids=True,
+            add_names=False,
+            add_n_prefix=True,
+    ):
         return graph_to_bolinas(
-            self.G, 
+            self.G,
             name_attr=name_attr,
             return_root=return_root,
             ext_node=ext_node,
             keep_node_ids=keep_node_ids,
-            add_names=add_names
+            add_names=add_names,
+            add_n_prefix=add_n_prefix,
         )
 
     def to_penman(self, name_attr="name"):
@@ -128,9 +135,9 @@ class Graph:
             else:
                 printname = d_node
             if (
-                "expanded" in n_data
-                and n_data["expanded"]
-                and printname in marked_nodes
+                    "expanded" in n_data
+                    and n_data["expanded"]
+                    and printname in marked_nodes
             ):
                 node_line = '\t{0} [shape = circle, label = "{1}", \
                         style=filled, fillcolor=purple];'.format(
