@@ -414,10 +414,15 @@ def graph_to_bolinas(
 
         pn_edges.append((nodes[u], f':{e["color"]}', nodes[v]))
 
-    assert len(root_nodes) == 1, f"graph has no unique root: {root_nodes}"
-    top_node = root_nodes.pop()
-    G = pn.Graph(pn_edges)
-    bolinas_str = pn.encode(G, top=nodes[top_node], indent=0).replace("\n", " ")
+    if not root_nodes:
+        assert len(graph.nodes()) == 1
+        top_node = next(iter(graph.nodes()))
+        bolinas_str = f"({top_node}.)"
+    else:
+        assert len(root_nodes) == 1, f"graph has no unique root: {root_nodes}"
+        top_node = root_nodes.pop()
+        G = pn.Graph(pn_edges)
+        bolinas_str = pn.encode(G, top=nodes[top_node], indent=0).replace("\n", " ")
     if not keep_node_ids:
         bolinas_str = re.sub(r"n[0-9]*\.", ".", bolinas_str)
     if return_root:
